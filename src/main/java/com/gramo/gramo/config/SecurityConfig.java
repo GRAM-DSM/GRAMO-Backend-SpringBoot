@@ -47,7 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
-        
     }
 
     @Override
