@@ -5,14 +5,20 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gramo.gramo.GramoApplication;
 import com.gramo.gramo.entity.plan.Plan;
 import com.gramo.gramo.entity.plan.PlanRepository;
+import com.gramo.gramo.entity.user.User;
+import com.gramo.gramo.entity.user.UserRepository;
+import com.gramo.gramo.entity.user.enums.Major;
 import com.gramo.gramo.payload.request.PlanRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -29,8 +35,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = GramoApplication.class)
+@ContextConfiguration(classes = GramoApplication.class)
 class PlanControllerTest {
 
     @Autowired
@@ -41,11 +48,34 @@ class PlanControllerTest {
     @Autowired
     private PlanRepository planRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @BeforeEach
     public void setup() {
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
+
+        userRepository.save(
+                User.builder()
+                        .emailStatus(true)
+                        .email("emailedUser@dsm.hs.kr")
+                        .name("hong!")
+                        .password("1234")
+                        .major(Major.BACKEND)
+                        .build()
+        );
+
+        userRepository.save(
+                User.builder()
+                        .emailStatus(false)
+                        .email("notUser@dsm.hs.kr")
+                        .name("nam!")
+                        .password("1234")
+                        .major(Major.BACKEND)
+                        .build()
+        );
     }
 
     @AfterEach
@@ -54,6 +84,7 @@ class PlanControllerTest {
     }
 
     @Test
+    @WithMockUser(value = "emailedUser@dsm.hs.kr", password = "1234")
     public void createPlanTest() throws Exception{
 
         LocalDate date = LocalDate.now();
@@ -79,6 +110,7 @@ class PlanControllerTest {
     }
 
     @Test
+    @WithMockUser(value = "emailedUser@dsm.hs.kr", password = "1234")
     public void getPlan() throws Exception {
 
         Long planId = createPlan("title");
@@ -89,6 +121,7 @@ class PlanControllerTest {
     }
 
     @Test
+    @WithMockUser(value = "emailedUser@dsm.hs.kr", password = "1234")
     public void deletePlanTest() throws Exception {
 
         Long planId = createPlan("title");

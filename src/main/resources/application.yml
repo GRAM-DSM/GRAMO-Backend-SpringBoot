@@ -1,0 +1,21 @@
+auth:
+  jwt:
+    exp:
+      access: ${GRAMO_ACCESS_TOKEN_EXP}
+      refresh: ${GRAMO_REFRESH_TOKEN_EXP}
+    secret: ${GRAMO_SECRET}
+    header: ${GRAMO_HEADER}
+    prefix: ${GRAMO_PREFIX}
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${GRAMO_DB_URL}
+    username: ${GRAMO_DB_ID}
+    password: ${GRAMO_DB_PASSWORD}
+  jpa:
+    generate-ddl: true      # 자동으로 DDL을 생성 할 것인가
+    database: mysql
+    hibernate:
+      ddl-auto: update
+server:
+  port: 3002

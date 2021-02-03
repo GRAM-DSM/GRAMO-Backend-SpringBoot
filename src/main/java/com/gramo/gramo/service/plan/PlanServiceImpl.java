@@ -2,8 +2,11 @@ package com.gramo.gramo.service.plan;
 
 import com.gramo.gramo.entity.plan.Plan;
 import com.gramo.gramo.entity.plan.PlanRepository;
+import com.gramo.gramo.exception.LoginException;
+import com.gramo.gramo.exception.PlanNotFoundException;
 import com.gramo.gramo.payload.request.PlanRequest;
 import com.gramo.gramo.payload.response.PlanContentResponse;
+import com.gramo.gramo.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +20,13 @@ import java.util.Optional;
 public class PlanServiceImpl implements PlanService{
 
     private final PlanRepository planRepository;
+    private final AuthenticationFacade authenticationFacade;
 
     public List<PlanContentResponse> getPlan(LocalDate date) {
+
+        if(!authenticationFacade.isLogin()) {
+            throw new LoginException();
+        }
 
         List<Plan> plans = planRepository.findAllByDate(date);
         List<PlanContentResponse> planContentResponses = new ArrayList<>();
@@ -36,6 +44,9 @@ public class PlanServiceImpl implements PlanService{
     }
 
     public void postPlan(PlanRequest planRequest) {
+        if(!authenticationFacade.isLogin()) {
+            throw new LoginException();
+        }
 
         planRepository.save(
                 Plan.builder()
@@ -48,6 +59,10 @@ public class PlanServiceImpl implements PlanService{
     }
 
     public void deletePlan(Long planId) {
+        if(!authenticationFacade.isLogin()) {
+            throw new LoginException();
+        }
+
         planRepository.deleteById(planId);
     }
 

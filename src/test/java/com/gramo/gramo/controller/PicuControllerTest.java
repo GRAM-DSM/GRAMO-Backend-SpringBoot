@@ -5,14 +5,20 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gramo.gramo.GramoApplication;
 import com.gramo.gramo.entity.picu.Picu;
 import com.gramo.gramo.entity.picu.PicuRepository;
+import com.gramo.gramo.entity.user.User;
+import com.gramo.gramo.entity.user.UserRepository;
+import com.gramo.gramo.entity.user.enums.Major;
 import com.gramo.gramo.payload.request.PicuRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -25,8 +31,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = GramoApplication.class)
+@ContextConfiguration(classes = GramoApplication.class)
 class PicuControllerTest {
 
     @Autowired
@@ -37,11 +44,35 @@ class PicuControllerTest {
     @Autowired
     private PicuRepository picuRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @BeforeEach
     public void setup() {
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
+
+        userRepository.save(
+                User.builder()
+                        .emailStatus(true)
+                        .email("emailedUser@dsm.hs.kr")
+                        .name("hong!")
+                        .password("1234")
+                        .major(Major.BACKEND)
+                        .build()
+        );
+
+        userRepository.save(
+                User.builder()
+                        .emailStatus(false)
+                        .email("notUser@dsm.hs.kr")
+                        .name("nam!")
+                        .password("1234")
+                        .major(Major.BACKEND)
+                        .build()
+        );
+
     }
 
     @AfterEach
@@ -50,10 +81,10 @@ class PicuControllerTest {
     }
 
     @Test
+    @WithMockUser(value = "emailedUser@dsm.hs.kr", password = "1234")
     public void createPicuTest() throws Exception{
 
         LocalDate date = LocalDate.now();
-
 
         PicuRequest request = PicuRequest.builder()
                 .userEmail("userEmail@dsm.hs.kr")
@@ -75,6 +106,7 @@ class PicuControllerTest {
     }
 
     @Test
+    @WithMockUser(value = "emailedUser@dsm.hs.kr", password = "1234")
     public void getPicu() throws Exception {
 
         Long picu = createPicu();
@@ -87,11 +119,12 @@ class PicuControllerTest {
     }
 
     @Test
+    @WithMockUser(value = "emailedUser@dsm.hs.kr", password = "1234")
     public void deletePicuTest() throws Exception {
 
         Long picuId = createPicu();
 
-        this.mvc.perform(delete("/calendar/picu/"+picuId))
+        this.mvc.perform(delete("/calendar/picu/"+picuId)).andDo(print())
                 .andExpect(status().isOk());
 
         assertThat(picuRepository.findById(picuId).isEmpty()).isEqualTo(true);
@@ -101,7 +134,7 @@ class PicuControllerTest {
     public Long createPicu() {
         return picuRepository.save(
                 Picu.builder()
-                        .userEmail("userEmail@dsm.hs.kr")
+                        .userEmail("emailedUser@dsm.hs.kr")
                         .description("desc")
                         .date(LocalDate.now())
                         .build()
