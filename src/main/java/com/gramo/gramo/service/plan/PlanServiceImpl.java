@@ -28,7 +28,7 @@ public class PlanServiceImpl implements PlanService{
             throw new LoginException();
         }
 
-        List<Plan> plans = planRepository.findAllByDate(date);
+        List<Plan> plans = planRepository.findAllByDateOrderByDateDesc(date);
         List<PlanContentResponse> planContentResponses = new ArrayList<>();
 
         for(Plan plan : plans) {
@@ -36,6 +36,7 @@ public class PlanServiceImpl implements PlanService{
                     PlanContentResponse.builder()
                             .title(plan.getTitle())
                             .description(plan.getDescription())
+                            .planId(plan.getId())
                             .build()
             );
         }

@@ -81,13 +81,12 @@ class PicuControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "emailedUser@dsm.hs.kr", password = "1234")
+    @WithMockUser(value = "userEmail@dsm.hs.kr", password = "1234")
     public void createPicuTest() throws Exception{
 
         LocalDate date = LocalDate.now();
 
         PicuRequest request = PicuRequest.builder()
-                .userEmail("userEmail@dsm.hs.kr")
                 .description("description")
                 .date(date)
                 .build();

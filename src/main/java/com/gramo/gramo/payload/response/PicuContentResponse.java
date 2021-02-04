@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PicuContentResponse {
 
+    private Long picuId;
+
     private String description;
 
     private String userEmail;

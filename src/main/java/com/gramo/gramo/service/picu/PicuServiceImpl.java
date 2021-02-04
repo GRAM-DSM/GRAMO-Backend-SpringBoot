@@ -31,7 +31,7 @@ public class PicuServiceImpl implements PicuService{
             throw new LoginException();
         }
 
-        List<Picu> picuList = picuRepository.findAllByDate(date);
+        List<Picu> picuList = picuRepository.findAllByDateOrderByDateDesc(date);
         List<PicuContentResponse> picuContentResponses = new ArrayList<>();
 
         for(Picu picu : picuList) {
@@ -39,6 +39,7 @@ public class PicuServiceImpl implements PicuService{
                     PicuContentResponse.builder()
                             .userEmail(picu.getUserEmail())
                             .description(picu.getDescription())
+                            .picuId(picu.getId())
                             .build()
             );
         }
@@ -55,7 +56,7 @@ public class PicuServiceImpl implements PicuService{
 
         picuRepository.save(
                 Picu.builder()
-                        .userEmail(request.getUserEmail())
+                        .userEmail(authenticationFacade.getUserEmail())
                         .description(request.getDescription())
                         .date(request.getDate())
                         .build()

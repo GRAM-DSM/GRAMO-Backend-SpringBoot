@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 public class AuthenticationFacade {
 
     public Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
+        return SecurityContextHolder.getContext().getAuthentication(); // SecurityContextHolder(토큰 값을 저장해 놓은 곳)에서 토큰을 가져온다.
     }
 
     public String getUserEmail() {
-        return this.getAuthentication().getName();
+        return this.getAuthentication().getName();      // 유저 이메일 가져오기
     }
 
     public boolean isLogin() {
-        return this.getAuthentication() != null;
+        return this.getAuthentication() != null;        // 로그인 여부
     }
 }

@@ -12,7 +12,7 @@ public class AuthDetails implements UserDetails {
 
     private User user;
 
-    public boolean getEmailStatus() {
+    public boolean getEmailStatus() {       // 이메일 인증 받은 계정인지 여부 확인
         return this.user.getEmailStatus();
     }
 

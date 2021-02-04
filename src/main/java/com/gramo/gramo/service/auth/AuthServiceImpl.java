@@ -22,16 +22,16 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AccessTokenResponse tokenRefresh(String token) {
 
-        if(!jwtTokenProvider.isRefreshToken(token)) {
+        if(!jwtTokenProvider.isRefreshToken(token)) {   // refreshToken인지 확인한 후에 아니면 Exception 발생
             throw new InvalidTokenException();
         }
 
-        RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(token)
+        RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(token)    // refreshToken 엔티티에서 찾고 없으면 Exception
                 .orElseThrow(InvalidTokenException::new);
 
-        refreshTokenRepository.save(refreshToken.update(refreshTokenExp));
+        refreshTokenRepository.save(refreshToken.update(refreshTokenExp));              // refreshToken 유효시간 초기화
 
-        return new AccessTokenResponse(jwtTokenProvider.generateAccessToken(refreshToken.getEmail()));
+        return new AccessTokenResponse(jwtTokenProvider.generateAccessToken(refreshToken.getEmail())); // refreshToken의 이메일을 통해 accessToken 재발급
     }
 
 }

@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Builder
@@ -28,6 +25,7 @@ public class User {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Major major;
 
 }

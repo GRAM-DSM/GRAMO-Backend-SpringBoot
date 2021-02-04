@@ -5,16 +5,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlanContentResponse {
+public class CalendarContentResponse {
 
-    private Long planId;
+    private LocalDate date;
 
-    private String title;
+    private Long picuCount;
 
-    private String description;
-
+    private Long planCount;
 }
