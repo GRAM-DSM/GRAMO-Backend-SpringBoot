@@ -1,17 +1,20 @@
 auth:
   jwt:
     exp:
-      access: 6000
-      refresh: 600000
-    secret: suuuuper
-    header: Authorization
-    prefix: Bearer
+      access: ${ACCESS_TOKEN_EXP}
+      refresh: ${REFRESH_TOKEN_EXP}
+    secret: ${GRAMO_SECRET}
+    header: ${JWT_HEADER}
+    prefix: ${JWT_PREFIX}
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/gramo_db?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: qlalfqjsgh1!
+    url: ${GRAMO_DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  redis:
+    port: 6379
+    host: localhost
   jpa:
     generate-ddl: true      # 자동으로 DDL을 생성 할 것인가
     database: mysql
