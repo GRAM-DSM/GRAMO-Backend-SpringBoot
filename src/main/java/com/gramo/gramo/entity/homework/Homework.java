@@ -23,24 +23,33 @@ public class Homework {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private String studentEmail;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Major major;
 
+    @Column(nullable = false)
     private String teacherEmail;
 
+    @Column(nullable = false)
     private Boolean isSubmitted;
 
+    @Column(nullable = false)
     private Boolean isRejected;
 
+    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
+    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 

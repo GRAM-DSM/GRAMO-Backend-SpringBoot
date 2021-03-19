@@ -19,12 +19,16 @@ public class User {
     @Id
     private String email;
 
+    @Column(nullable = false)
     private Boolean emailStatus;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Major major;
 

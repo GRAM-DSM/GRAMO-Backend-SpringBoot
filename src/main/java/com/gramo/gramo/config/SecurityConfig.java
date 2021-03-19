@@ -31,12 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     }
 
     @Override
-    public void configure(WebSecurity webSecurity) throws Exception {
-        webSecurity.ignoring()
-                .antMatchers(HttpMethod.POST,"/authenticationTest");
-    }
-
-    @Override
     public void configure(HttpSecurity security) throws Exception {
         security
                 .csrf().disable()
@@ -44,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .sessionManagement().disable()
                 .formLogin().disable()
                 .authorizeRequests()
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
                 .and()
                     .apply(new JwtConfigurer(jwtTokenProvider));
     }
