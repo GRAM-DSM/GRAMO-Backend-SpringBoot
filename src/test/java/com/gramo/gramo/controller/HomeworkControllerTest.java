@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -39,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = GramoApplication.class)
 @ContextConfiguration(classes = GramoApplication.class)
+@ActiveProfiles({"test"})
 class HomeworkControllerTest {
 
     @Autowired
@@ -119,7 +121,6 @@ class HomeworkControllerTest {
 
         assertThat(homework.getDescription()).isEqualTo("description");
         assertThat(homework.getTeacherEmail()).isEqualTo("teacher@dsm.hs.kr");
-        assertThat(homework.getTitle()).isEqualTo("title");
         assertThat(homework.getMajor()).isEqualTo(Major.BACKEND);
 
     }

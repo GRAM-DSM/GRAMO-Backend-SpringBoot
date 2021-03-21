@@ -1,7 +1,5 @@
 package com.gramo.gramo.config;
 
-import com.gramo.gramo.security.JwtConfigurer;
-import com.gramo.gramo.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +20,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
-    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     @Override
@@ -38,9 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .sessionManagement().disable()
                 .formLogin().disable()
                 .authorizeRequests()
-                    .anyRequest().permitAll()
-                .and()
-                    .apply(new JwtConfigurer(jwtTokenProvider));
+                    .anyRequest().authenticated();
     }
 
     @Override

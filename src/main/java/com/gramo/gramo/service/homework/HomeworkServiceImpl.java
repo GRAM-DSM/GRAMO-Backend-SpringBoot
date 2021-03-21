@@ -25,21 +25,21 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public void saveHomework(HomeworkRequest homeworkRequest) {
-//
-//        if(!authenticationFacade.isLogin()) {
-//            throw new LoginException();
-//        }
+
+        if(!authenticationFacade.isLogin()) {
+            throw new LoginException();
+        }
 
         homeworkRepository.save(
                 Homework.builder()
-                        .teacherEmail("teacher@dsm.hs.kr")
+                        .teacherEmail(authenticationFacade.getUserEmail())
                         .description(homeworkRequest.getDescription())
                         .endDate(homeworkRequest.getEndDate())
                         .isRejected(false)
                         .major(homeworkRequest.getMajor())
                         .isSubmitted(false)
                         .startDate(LocalDate.now())
-                        .studentEmail("student")
+                        .studentEmail(homeworkRequest.getStudentEmail())
                         .title(homeworkRequest.getTitle())
                         .build()
         );
@@ -48,49 +48,49 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public void deleteHomework(Long homeworkId) {
-//        if(!authenticationFacade.isLogin()) {
-//            throw new LoginException();
-//        }
+        if(!authenticationFacade.isLogin()) {
+            throw new LoginException();
+        }
 
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
 
-//        if(!authenticationFacade.getUserEmail().equals(homework.getTeacherEmail())) {
-//            throw new PermissionMismatchException();
-//        }
+        if(!authenticationFacade.getUserEmail().equals(homework.getTeacherEmail())) {
+            throw new PermissionMismatchException();
+        }
 
         homeworkRepository.delete(homework);
     }
 
     @Override
     public HomeworkResponse getHomework(Long homeworkId) {
-//        if(!authenticationFacade.isLogin()) {
-//            throw new LoginException();
-//        }
+        if(!authenticationFacade.isLogin()) {
+            throw new LoginException();
+        }
 
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
 
         return HomeworkResponse.builder()
                 .major(homework.getMajor())
-                .title(homework.getTitle())
                 .teacherName(homework.getTeacherEmail())
                 .studentName(homework.getStudentEmail())
                 .isRejected(homework.getIsRejected())
                 .startDate(homework.getStartDate())
                 .endDate(homework.getEndDate())
                 .description(homework.getDescription())
+                .title(homework.getTitle())
                 .build();
     }
 
     @Override
     public List<HomeworkResponse> getAssignedHomework() {
 
-//        if(!authenticationFacade.isLogin()) {
-//            throw new LoginException();
-//        }
+        if(!authenticationFacade.isLogin()) {
+            throw new LoginException();
+        }
 
-        List<Homework> homework = homeworkRepository.findAllByIsSubmittedFalseAndStudentEmailOrderByStartDateDesc("student@dsm.hs.kr");
+        List<Homework> homework = homeworkRepository.findAllByIsSubmittedFalseAndStudentEmailOrderByStartDateDesc(authenticationFacade.getUserEmail());
         List<HomeworkResponse> homeworkResponses = new ArrayList<>();
 
         for(Homework work : homework) {
@@ -114,11 +114,11 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public List<HomeworkResponse> getSubmittedHomework() {
-//        if(!authenticationFacade.isLogin()) {
-//            throw new LoginException();
-//        }
+        if(!authenticationFacade.isLogin()) {
+            throw new LoginException();
+        }
 
-        List<Homework> homework = homeworkRepository.findAllByIsSubmittedTrueAndStudentEmailOrderByStartDateDesc("student@dsm.hs.kr");
+        List<Homework> homework = homeworkRepository.findAllByIsSubmittedTrueAndStudentEmailOrderByStartDateDesc(authenticationFacade.getUserEmail());
         List<HomeworkResponse> homeworkResponses = new ArrayList<>();
 
         for(Homework work : homework) {
@@ -143,11 +143,11 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public List<HomeworkResponse> getOrderedHomework() {
 
-//        if(!authenticationFacade.isLogin()) {
-//            throw new LoginException();
-//        }
+        if(!authenticationFacade.isLogin()) {
+            throw new LoginException();
+        }
 
-        List<Homework> homework = homeworkRepository.findAllByTeacherEmailOrderByStartDateDesc("teacher@dsm.hs.kr");
+        List<Homework> homework = homeworkRepository.findAllByTeacherEmailOrderByStartDateDesc(authenticationFacade.getUserEmail());
         List<HomeworkResponse> homeworkResponses = new ArrayList<>();
 
         for(Homework work : homework) {
@@ -172,16 +172,16 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public void submitHomework(Long homeworkId) {
 
-//        if(!authenticationFacade.isLogin()) {
-//            throw new LoginException();
-//        }
+        if(!authenticationFacade.isLogin()) {
+            throw new LoginException();
+        }
 
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
 
-//        if(!homework.getStudentEmail().equals(authenticationFacade.getUserEmail())) {
-//            throw new PermissionMismatchException();
-//        }
+        if(!homework.getStudentEmail().equals(authenticationFacade.getUserEmail())) {
+            throw new PermissionMismatchException();
+        }
 
         homeworkRepository.save(homework.submitHomework());
 
@@ -190,16 +190,16 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public void rejectHomework(Long homeworkId) {
 
-//        if(!authenticationFacade.isLogin()) {
-//            throw new LoginException();
-//        }
+        if(!authenticationFacade.isLogin()) {
+            throw new LoginException();
+        }
 
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
         
-//        if(!homework.getTeacherEmail().equals(authenticationFacade.getUserEmail())) {
-//            throw new PermissionMismatchException();
-//        }
+        if(!homework.getTeacherEmail().equals(authenticationFacade.getUserEmail())) {
+            throw new PermissionMismatchException();
+        }
 
         homeworkRepository.save(homework.rejectHomework());
     }

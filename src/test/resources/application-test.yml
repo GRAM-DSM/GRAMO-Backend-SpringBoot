@@ -1,0 +1,25 @@
+auth:
+  jwt:
+    exp:
+      access: 1111
+      refresh: 111111111
+    secret: seeecret
+    header: Authtorization
+    prefix: Bearer
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: test
+    password: 1234
+  redis:
+    port: 6379
+    host: localhost
+  jpa:
+    generate-ddl: true      # 자동으로 DDL을 생성 할 것인가
+    database: h2
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 8082

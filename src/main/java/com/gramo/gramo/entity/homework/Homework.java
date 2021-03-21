@@ -24,13 +24,13 @@ public class Homework {
     private Long id;
 
     @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
     private String studentEmail;
+
+    @Column(nullable = false)
+    private String title;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
