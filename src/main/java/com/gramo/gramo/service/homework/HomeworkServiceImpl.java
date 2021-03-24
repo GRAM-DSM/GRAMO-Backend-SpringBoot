@@ -26,10 +26,6 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public void saveHomework(HomeworkRequest homeworkRequest) {
 
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
-
         homeworkRepository.save(
                 Homework.builder()
                         .teacherEmail(authenticationFacade.getUserEmail())
@@ -48,9 +44,6 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public void deleteHomework(Long homeworkId) {
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
 
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
@@ -64,9 +57,6 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public HomeworkResponse getHomework(Long homeworkId) {
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
 
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
@@ -85,10 +75,6 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public List<HomeworkResponse> getAssignedHomework() {
-
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
 
         List<Homework> homework = homeworkRepository.findAllByIsSubmittedFalseAndStudentEmailOrderByStartDateDesc(authenticationFacade.getUserEmail());
         List<HomeworkResponse> homeworkResponses = new ArrayList<>();
@@ -114,9 +100,6 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public List<HomeworkResponse> getSubmittedHomework() {
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
 
         List<Homework> homework = homeworkRepository.findAllByIsSubmittedTrueAndStudentEmailOrderByStartDateDesc(authenticationFacade.getUserEmail());
         List<HomeworkResponse> homeworkResponses = new ArrayList<>();
@@ -143,10 +126,6 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public List<HomeworkResponse> getOrderedHomework() {
 
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
-
         List<Homework> homework = homeworkRepository.findAllByTeacherEmailOrderByStartDateDesc(authenticationFacade.getUserEmail());
         List<HomeworkResponse> homeworkResponses = new ArrayList<>();
 
@@ -171,11 +150,6 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public void submitHomework(Long homeworkId) {
-
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
-
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
 
@@ -189,10 +163,6 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public void rejectHomework(Long homeworkId) {
-
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
 
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);

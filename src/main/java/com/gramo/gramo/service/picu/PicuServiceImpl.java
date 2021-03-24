@@ -27,10 +27,6 @@ public class PicuServiceImpl implements PicuService{
 
     @Override
     public List<PicuContentResponse> getPicu(LocalDate date) {
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
-
         List<Picu> picuList = picuRepository.findAllByDateOrderByDateDesc(date);
         List<PicuContentResponse> picuContentResponses = new ArrayList<>();
 
@@ -50,10 +46,6 @@ public class PicuServiceImpl implements PicuService{
 
     @Override
     public void createPicu(PicuRequest request) {
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
-
         picuRepository.save(
                 Picu.builder()
                         .userEmail(authenticationFacade.getUserEmail())
@@ -65,15 +57,8 @@ public class PicuServiceImpl implements PicuService{
 
     @Override
     public void deletePicu(Long picuId) {
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
-
         Picu picu = picuRepository.findById(picuId)
                 .orElseThrow(PicuNotFoundException::new);
-
-        System.out.println(picu.getUserEmail());
-        System.out.println(authenticationFacade.getUserEmail());
 
         if(!picu.getUserEmail().equals(authenticationFacade.getUserEmail())) {
             throw new PermissionMismatchException();

@@ -24,10 +24,6 @@ public class PlanServiceImpl implements PlanService{
 
     public List<PlanContentResponse> getPlan(LocalDate date) {
 
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
-
         List<Plan> plans = planRepository.findAllByDateOrderByDateDesc(date);
         List<PlanContentResponse> planContentResponses = new ArrayList<>();
 
@@ -45,10 +41,6 @@ public class PlanServiceImpl implements PlanService{
     }
 
     public void postPlan(PlanRequest planRequest) {
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
-
         planRepository.save(
                 Plan.builder()
                         .title(planRequest.getTitle())
@@ -60,9 +52,6 @@ public class PlanServiceImpl implements PlanService{
     }
 
     public void deletePlan(Long planId) {
-        if(!authenticationFacade.isLogin()) {
-            throw new LoginException();
-        }
 
         planRepository.deleteById(planId);
     }
