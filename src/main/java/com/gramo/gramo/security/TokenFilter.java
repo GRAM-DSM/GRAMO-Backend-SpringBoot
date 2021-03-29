@@ -18,7 +18,9 @@ public class TokenFilter extends GenericFilterBean {
     private final JwtTokenProvider jwtTokenProvider;
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        System.out.println("hello?");
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);     // request에서 토큰 값을 추출
+        System.out.println(jwtTokenProvider.validateToken(token));
         System.out.println(jwtTokenProvider.getEmailStatus(token));
 
         if(token != null && jwtTokenProvider.validateToken(token)
