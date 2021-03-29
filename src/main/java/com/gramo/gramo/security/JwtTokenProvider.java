@@ -56,18 +56,24 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
+        System.out.println("resolving token");
         String bearerToken = request.getHeader(header);             // request에서 header 부분을 추출
         if(bearerToken != null && bearerToken.startsWith(prefix)) {
+            System.out.println("token resolve success");
             return bearerToken.substring(7);                        // Bearer 으로 시작하기 때문에 Bearer의 뒷부분만 반환
         }
+        System.out.println("resolve error");
         return null;
     }
 
     public boolean validateToken(String token) {
         try {
+            System.out.println("validate token");
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();        // 토큰을 추출했을 때, 오류가 발생하지 않으면 true 반환
+            System.out.println("validate token success");
             return true;
         } catch (Exception e) {
+            System.out.println("validate token error");
             throw new InvalidTokenException();
         }
     }
