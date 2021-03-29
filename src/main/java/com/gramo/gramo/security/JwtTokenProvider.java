@@ -80,6 +80,7 @@ public class JwtTokenProvider {
             return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject(); // 토큰에서 email만 추출해서 가져옴
         } catch (Exception e) {
             System.out.println("email");
+            System.out.println(e);
             throw new InvalidTokenException();
         }
     }
