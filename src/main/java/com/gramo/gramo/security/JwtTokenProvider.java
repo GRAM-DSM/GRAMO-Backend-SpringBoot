@@ -73,6 +73,7 @@ public class JwtTokenProvider {
             System.out.println("validate token success");
             return true;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             System.out.println("validate token error");
             throw new InvalidTokenException();
         }
