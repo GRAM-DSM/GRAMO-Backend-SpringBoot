@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -69,7 +71,7 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         try {
             System.out.println("validate token");
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();        // 토큰을 추출했을 때, 오류가 발생하지 않으면 true 반환
+            Jwts.parser().setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8))).parseClaimsJws(token).getBody().getSubject();        // 토큰을 추출했을 때, 오류가 발생하지 않으면 true 반환
             System.out.println("validate token success");
             return true;
         } catch (Exception e) {
