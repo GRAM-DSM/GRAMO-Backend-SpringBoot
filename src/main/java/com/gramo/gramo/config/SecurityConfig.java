@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .sessionManagement().disable()
                 .formLogin().disable()
                 .authorizeRequests()
-                    .anyRequest().permitAll();
+                    .anyRequest().authenticated();
     }
 
     @Override
