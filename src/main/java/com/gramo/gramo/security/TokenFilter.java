@@ -18,17 +18,12 @@ public class TokenFilter extends GenericFilterBean {
     private final JwtTokenProvider jwtTokenProvider;
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("hello?");
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);     // request에서 토큰 값을 추출
-        System.out.println(jwtTokenProvider.validateToken(token));
-        System.out.println(jwtTokenProvider.getEmailStatus(token));
 
         if(token != null && jwtTokenProvider.validateToken(token)
                 && jwtTokenProvider.getEmailStatus(token)) {      // 만약 토큰이 null이 아니고, 유효한 토큰이고, 이메일 검증을 받은 이메일이면 실행
-            System.out.println("what?");
             Authentication authentication = jwtTokenProvider.getAuthentication(token);                              // 토큰 값을 가져옴
             SecurityContextHolder.getContext().setAuthentication(authentication);                                   // 값을 SecurityContextHolder에 넣음
-            System.out.println("what's wrong");
         }
 
         chain.doFilter(request, response);

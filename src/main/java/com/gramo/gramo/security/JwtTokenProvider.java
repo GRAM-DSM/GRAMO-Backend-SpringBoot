@@ -70,7 +70,6 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();        // 토큰을 추출했을 때, 오류가 발생하지 않으면 true 반환
             return true;
         } catch (Exception e) {
-            System.out.println("validate");
             throw new InvalidTokenException();
         }
     }
@@ -79,8 +78,6 @@ public class JwtTokenProvider {
         try {
             return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject(); // 토큰에서 email만 추출해서 가져옴
         } catch (Exception e) {
-            System.out.println("email");
-            System.out.println(e);
             throw new InvalidTokenException();
         }
     }

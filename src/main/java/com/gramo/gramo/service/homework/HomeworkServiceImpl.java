@@ -37,6 +37,7 @@ public class HomeworkServiceImpl implements HomeworkService {
                         .startDate(LocalDate.now())
                         .studentEmail(homeworkRequest.getStudentEmail())
                         .title(homeworkRequest.getTitle())
+                        .endDate(homeworkRequest.getEndDate())
                         .build()
         );
 
