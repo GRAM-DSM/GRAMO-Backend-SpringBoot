@@ -19,7 +19,7 @@ public class CalendarController {
 
     private final CalendarService calendarService;
     @GetMapping
-    public List<CalendarContentResponse> getCalendar(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
-        return calendarService.getCalendar(localDate);
+    public List<CalendarContentResponse> getCalendar(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        return calendarService.getCalendar(date);
     }
 }
