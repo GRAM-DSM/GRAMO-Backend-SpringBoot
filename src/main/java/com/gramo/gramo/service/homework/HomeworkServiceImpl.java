@@ -77,7 +77,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public List<HomeworkResponse> getAssignedHomework() {
 
-        List<Homework> homework = homeworkRepository.findAllByIsSubmittedFalseAndStudentEmailOrderByStartDateDesc(authenticationFacade.getUserEmail());
+        List<Homework> homework = homeworkRepository.findAllByIsSubmittedFalseAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail());
         List<HomeworkResponse> homeworkResponses = new ArrayList<>();
 
         for(Homework work : homework) {
@@ -102,7 +102,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public List<HomeworkResponse> getSubmittedHomework() {
 
-        List<Homework> homework = homeworkRepository.findAllByIsSubmittedTrueAndStudentEmailOrderByStartDateDesc(authenticationFacade.getUserEmail());
+        List<Homework> homework = homeworkRepository.findAllByIsSubmittedTrueAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail());
         List<HomeworkResponse> homeworkResponses = new ArrayList<>();
 
         for(Homework work : homework) {
@@ -127,7 +127,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public List<HomeworkResponse> getOrderedHomework() {
 
-        List<Homework> homework = homeworkRepository.findAllByTeacherEmailOrderByStartDateDesc(authenticationFacade.getUserEmail());
+        List<Homework> homework = homeworkRepository.findAllByTeacherEmailOrderByIdDesc(authenticationFacade.getUserEmail());
         List<HomeworkResponse> homeworkResponses = new ArrayList<>();
 
         for(Homework work : homework) {

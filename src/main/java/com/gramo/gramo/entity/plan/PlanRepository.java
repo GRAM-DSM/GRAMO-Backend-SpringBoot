@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface PlanRepository extends CrudRepository<Plan, Long> {
     List<Plan> findAllBy();
 
-    List<Plan> findAllByDateOrderByDateDesc(LocalDate date);
+    List<Plan> findAllByDateOrderByIdDesc(LocalDate date);
 
     Long countAllByDate(LocalDate date);
 }

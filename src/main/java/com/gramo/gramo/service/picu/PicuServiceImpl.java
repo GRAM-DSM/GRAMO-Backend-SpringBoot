@@ -27,7 +27,7 @@ public class PicuServiceImpl implements PicuService{
 
     @Override
     public List<PicuContentResponse> getPicu(LocalDate date) {
-        List<Picu> picuList = picuRepository.findAllByDateOrderByDateDesc(date);
+        List<Picu> picuList = picuRepository.findAllByDateOrderByIdDesc(date);
         List<PicuContentResponse> picuContentResponses = new ArrayList<>();
 
         for(Picu picu : picuList) {

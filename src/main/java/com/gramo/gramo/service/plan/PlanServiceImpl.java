@@ -24,7 +24,7 @@ public class PlanServiceImpl implements PlanService{
 
     public List<PlanContentResponse> getPlan(LocalDate date) {
 
-        List<Plan> plans = planRepository.findAllByDateOrderByDateDesc(date);
+        List<Plan> plans = planRepository.findAllByDateOrderByIdDesc(date);
         List<PlanContentResponse> planContentResponses = new ArrayList<>();
 
         for(Plan plan : plans) {

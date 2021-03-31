@@ -9,7 +9,7 @@ import java.util.List;
 public interface PicuRepository extends CrudRepository<Picu, Long> {
     List<Picu> findAllBy();
 
-    List<Picu> findAllByDateOrderByDateDesc(LocalDate date);
+    List<Picu> findAllByDateOrderByIdDesc(LocalDate date);
 
     Long countAllByDate(LocalDate date);
 }

@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface HomeworkRepository extends JpaRepository<Homework, Long> {
 
-    List<Homework> findAllByIsSubmittedFalseAndStudentEmailOrderByStartDateDesc(String studentEmail);
+    List<Homework> findAllByIsSubmittedFalseAndStudentEmailOrderByIdDesc(String studentEmail);
 
-    List<Homework> findAllByIsSubmittedTrueAndStudentEmailOrderByStartDateDesc(String studentEmail);
+    List<Homework> findAllByIsSubmittedTrueAndStudentEmailOrderByIdDesc(String studentEmail);
 
-    List<Homework> findAllByTeacherEmailOrderByStartDateDesc(String teacherEmail);
+    List<Homework> findAllByTeacherEmailOrderByIdDesc(String teacherEmail);
 
 }
