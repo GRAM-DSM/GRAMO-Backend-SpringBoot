@@ -4,6 +4,7 @@ import com.gramo.gramo.entity.picu.PicuRepository;
 import com.gramo.gramo.entity.plan.PlanRepository;
 import com.gramo.gramo.payload.response.CalendarContentResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,7 +24,8 @@ public class CalendarServiceImpl implements CalendarService {
 
         date.getDayOfMonth();
         LocalDate localDate = LocalDate.of(date.getYear(), date.getMonth(), 1);
-        while (LocalDate.of(date.getYear(),date.getMonth(),date.getDayOfMonth()).isAfter(localDate)) {
+        LocalDate currentDate = LocalDate.of(date.getYear(),date.getMonth(),date.lengthOfMonth());
+        while (currentDate.isAfter(localDate) || currentDate.isEqual(localDate)) {
             calendarContentResponses.add(
                     CalendarContentResponse.builder()
                             .date(localDate)
