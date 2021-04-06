@@ -41,7 +41,7 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(Base64.getEncoder().encode(secretKey.getBytes())).parseClaimsJws(token).getBody().getSubject();        // 토큰을 추출했을 때, 오류가 발생하지 않으면 true 반환
+            Jwts.parser().setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes())).parseClaimsJws(token).getBody().getSubject();        // 토큰을 추출했을 때, 오류가 발생하지 않으면 true 반환
             return true;
         } catch (Exception e) {
             throw new InvalidTokenException();
