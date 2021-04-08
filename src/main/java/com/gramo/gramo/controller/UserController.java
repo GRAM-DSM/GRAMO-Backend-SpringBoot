@@ -1,5 +1,6 @@
 package com.gramo.gramo.controller;
 
+import com.gramo.gramo.payload.response.UserInfoListResponse;
 import com.gramo.gramo.payload.response.UserInfoResponse;
 import com.gramo.gramo.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,10 @@ public class UserController {
     @GetMapping
     public UserInfoResponse getUserInfo() {
         return userService.getUserInfo();
+    }
+
+    @GetMapping("/list")
+    public UserInfoListResponse getUserList() {
+        return userService.getUserList();
     }
 }
