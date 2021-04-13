@@ -54,8 +54,6 @@ public class JwtTokenProvider {
             return Jwts.parser().setSigningKey(Base64.getEncoder()
                     .encodeToString(secretKey.getBytes())).parseClaimsJws(token).getBody().getSubject(); // 토큰에서 email만 추출해서 가져옴
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getCause());
             throw new InvalidTokenException();
         }
     }

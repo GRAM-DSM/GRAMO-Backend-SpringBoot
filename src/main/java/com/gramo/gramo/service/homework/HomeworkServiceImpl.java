@@ -26,7 +26,6 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public void saveHomework(HomeworkRequest homeworkRequest) {
 
-        System.out.println("end : "+homeworkRequest.getEndDate());
         homeworkRepository.save(
                 Homework.builder()
                         .teacherEmail(authenticationFacade.getUserEmail())
