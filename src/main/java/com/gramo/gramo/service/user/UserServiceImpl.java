@@ -29,9 +29,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfoListResponse getUserList() {
         List<UserInfoResponse> userInfoResponses = new ArrayList<>();
-        userRepository.findAll().forEach(
-                user -> userInfoResponses.add(
-                        new UserInfoResponse(user.getEmail(), user.getName(), user.getMajor())
+        userRepository.findAllBy()
+                .stream().filter(user -> !user.getEmail().equals(authenticationFacade.getUserEmail()))
+                .forEach(
+                    user -> userInfoResponses.add(
+                            new UserInfoResponse(user.getEmail(), user.getName(), user.getMajor())
                 )
         );
         return new UserInfoListResponse(userInfoResponses);
