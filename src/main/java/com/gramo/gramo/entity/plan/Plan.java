@@ -1,6 +1,5 @@
 package com.gramo.gramo.entity.plan;
 
-import com.gramo.gramo.entity.baseentity.BaseCalendar;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +16,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "plan_tbl")
-public class Plan extends BaseCalendar {
+public class Plan {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -25,4 +28,7 @@ public class Plan extends BaseCalendar {
     @Column(nullable = false)
     private String description;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(nullable = false)
+    private LocalDate date;
 }
