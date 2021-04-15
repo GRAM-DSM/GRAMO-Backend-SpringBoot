@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class PlanController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void postPlan(@RequestBody PlanRequest planRequest) {
+    public void postPlan(@RequestBody @Valid PlanRequest planRequest) {
         planService.postPlan(planRequest);
     }
 

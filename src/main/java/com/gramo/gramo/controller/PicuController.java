@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class PicuController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createPicu(@RequestBody PicuRequest picuRequest) {
+    public void createPicu(@RequestBody @Valid PicuRequest picuRequest) {
         picuService.createPicu(picuRequest);
     }
 

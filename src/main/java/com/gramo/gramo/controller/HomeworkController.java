@@ -5,8 +5,10 @@ import com.gramo.gramo.payload.response.HomeworkResponse;
 import com.gramo.gramo.service.homework.HomeworkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -50,7 +52,7 @@ public class HomeworkController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createHomework(@RequestBody HomeworkRequest request) {
+    public void createHomework(@RequestBody @Valid HomeworkRequest request) {
         homeworkService.saveHomework(request);
     }
 
