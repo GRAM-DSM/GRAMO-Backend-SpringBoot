@@ -1,5 +1,6 @@
 package com.gramo.gramo.entity.plan;
 
+import com.gramo.gramo.entity.baseentity.BaseId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,11 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "plan_tbl")
-public class Plan {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Plan extends BaseId {
 
     @Column(nullable = false)
     private String title;
