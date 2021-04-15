@@ -2,6 +2,7 @@ package com.gramo.gramo.service.homework;
 
 import com.gramo.gramo.entity.homework.Homework;
 import com.gramo.gramo.entity.homework.HomeworkRepository;
+import com.gramo.gramo.entity.homework.embedded.Status;
 import com.gramo.gramo.entity.homework.embedded.Term;
 import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.exception.HomeworkNotFoundException;
@@ -13,6 +14,7 @@ import com.gramo.gramo.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,16 +35,20 @@ public class HomeworkServiceImpl implements HomeworkService {
                 .startDate(LocalDate.now())
                 .build();
 
+        Status status = Status.builder()
+                .isRejected(false)
+                .isSubmitted(false)
+                .build();
+
         homeworkRepository.save(
                 Homework.builder()
                         .teacherEmail(authenticationFacade.getUserEmail())
                         .description(homeworkRequest.getDescription())
-                        .isRejected(false)
                         .major(homeworkRequest.getMajor())
-                        .isSubmitted(false)
                         .studentEmail(homeworkRequest.getStudentEmail())
                         .title(homeworkRequest.getTitle())
                         .term(term)
+                        .status(status)
                         .build()
         );
 
@@ -74,14 +80,14 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public List<HomeworkResponse> getAssignedHomework() {
 
-        return buildResponseList(homeworkRepository.findAllByIsSubmittedFalseAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
+        return buildResponseList(homeworkRepository.findAllByStatusIsSubmittedFalseAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
 
     }
 
     @Override
     public List<HomeworkResponse> getSubmittedHomework() {
 
-        return buildResponseList(homeworkRepository.findAllByIsSubmittedTrueAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
+        return buildResponseList(homeworkRepository.findAllByStatusIsSubmittedTrueAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
     }
 
     @Override
@@ -90,6 +96,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     @Override
+    @Transactional
     public void submitHomework(Long homeworkId) {
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
@@ -98,11 +105,12 @@ public class HomeworkServiceImpl implements HomeworkService {
             throw new PermissionMismatchException();
         }
 
-        homeworkRepository.save(homework.submitHomework());
+        homework.getStatus().submitHomework();
 
     }
 
     @Override
+    @Transactional
     public void rejectHomework(Long homeworkId) {
 
         Homework homework = homeworkRepository.findById(homeworkId)
@@ -112,7 +120,7 @@ public class HomeworkServiceImpl implements HomeworkService {
             throw new PermissionMismatchException();
         }
 
-        homeworkRepository.save(homework.rejectHomework());
+        homework.getStatus().rejectHomework();
     }
 
     private List<HomeworkResponse> buildResponseList(List<Homework> homeworkList) {
@@ -131,7 +139,7 @@ public class HomeworkServiceImpl implements HomeworkService {
                 .description(homework.getDescription())
                 .endDate(homework.getTerm().getEndDate())
                 .startDate(homework.getTerm().getStartDate())
-                .isRejected(homework.getIsRejected())
+                .isRejected(homework.getStatus().getIsRejected())
                 .major(homework.getMajor())
                 .studentName(homework.getStudentEmail())
                 .teacherName(homework.getTeacherEmail())
