@@ -42,6 +42,7 @@ public class UserControllerTest {
     @BeforeEach
     public void setUp() {
 
+        userRepository.deleteAll();
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
@@ -66,6 +67,10 @@ public class UserControllerTest {
 
         UserInfoListResponse userInfoListResponse = new ObjectMapper()
                 .readValue(result.getResponse().getContentAsString(), UserInfoListResponse.class);
+
+        userInfoListResponse.getUserInfoResponses()
+                .stream().map(userInfoResponse -> userInfoResponse.getEmail())
+                .forEach(System.out::println);
 
         Assertions.assertEquals(userInfoListResponse.getUserInfoResponses().size(), 3);
 
