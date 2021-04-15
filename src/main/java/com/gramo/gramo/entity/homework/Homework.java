@@ -1,6 +1,7 @@
 package com.gramo.gramo.entity.homework;
 
 import com.gramo.gramo.entity.baseentity.BaseId;
+import com.gramo.gramo.entity.homework.embedded.Term;
 import com.gramo.gramo.entity.user.enums.Major;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,13 +43,8 @@ public class Homework extends BaseId {
     @Column(nullable = false)
     private Boolean isRejected;
 
-    @Column(nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate startDate;
-
-    @Column(nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate endDate;
+    @Embedded
+    private Term term;
 
     public Homework submitHomework() {
         this.isSubmitted = true;

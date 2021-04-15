@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gramo.gramo.GramoApplication;
 import com.gramo.gramo.entity.homework.Homework;
 import com.gramo.gramo.entity.homework.HomeworkRepository;
+import com.gramo.gramo.entity.homework.embedded.Term;
 import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.entity.user.enums.Major;
@@ -284,11 +285,12 @@ class HomeworkControllerTest {
                 Homework.builder()
                         .teacherEmail("teacher@dsm.hs.kr")
                         .description("description")
-                        .endDate(LocalDate.now().plusDays(1))
+                        .term(Term.builder()
+                                .endDate(LocalDate.now().plusDays(1))
+                                .startDate(LocalDate.now()).build())
                         .isRejected(isRejected)
                         .major(Major.BACKEND)
                         .isSubmitted(isSubmitted)
-                        .startDate(LocalDate.now())
                         .studentEmail("student@dsm.hs.kr")
                         .title(title)
                         .build()
