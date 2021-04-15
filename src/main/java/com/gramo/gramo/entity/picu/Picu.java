@@ -1,6 +1,5 @@
 package com.gramo.gramo.entity.picu;
 
-import com.gramo.gramo.entity.baseentity.BaseId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +15,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "picu_tbl")
-public class Picu extends BaseId {
+public class Picu {
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     @Column(nullable = false)
     private String userEmail;

@@ -1,6 +1,5 @@
 package com.gramo.gramo.entity.homework;
 
-import com.gramo.gramo.entity.baseentity.BaseId;
 import com.gramo.gramo.entity.homework.embedded.Status;
 import com.gramo.gramo.entity.homework.embedded.Term;
 import com.gramo.gramo.entity.user.enums.Major;
@@ -20,7 +19,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "homework_tbl")
-public class Homework extends BaseId {
+public class Homework {
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     @Column(nullable = false)
     private String description;
