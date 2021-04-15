@@ -83,6 +83,7 @@ class PlanControllerTest {
     @AfterEach
     public void cleanup() {
         planRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test

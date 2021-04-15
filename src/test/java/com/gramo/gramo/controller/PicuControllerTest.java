@@ -80,6 +80,7 @@ class PicuControllerTest {
     @AfterEach
     public void cleanup() {
         picuRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test

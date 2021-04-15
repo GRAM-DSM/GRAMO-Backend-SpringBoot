@@ -6,10 +6,7 @@ import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.entity.user.enums.Major;
 import com.gramo.gramo.payload.response.UserInfoListResponse;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,8 +38,6 @@ public class UserControllerTest {
 
     @BeforeEach
     public void setUp() {
-
-        userRepository.deleteAll();
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
@@ -67,10 +62,6 @@ public class UserControllerTest {
 
         UserInfoListResponse userInfoListResponse = new ObjectMapper()
                 .readValue(result.getResponse().getContentAsString(), UserInfoListResponse.class);
-
-        userInfoListResponse.getUserInfoResponses()
-                .stream().map(userInfoResponse -> userInfoResponse.getEmail())
-                .forEach(System.out::println);
 
         Assertions.assertEquals(userInfoListResponse.getUserInfoResponses().size(), 3);
 
