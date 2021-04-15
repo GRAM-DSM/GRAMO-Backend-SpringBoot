@@ -1,5 +1,6 @@
 package com.gramo.gramo.entity.picu;
 
+import com.gramo.gramo.entity.baseentity.BaseCalendar;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,20 +16,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "picu_tbl")
-public class Picu {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Picu extends BaseCalendar {
 
     @Column(nullable = false)
     private String userEmail;
 
     @Column(nullable = false)
     private String description;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(nullable = false)
-    private LocalDate date;
 
 }
