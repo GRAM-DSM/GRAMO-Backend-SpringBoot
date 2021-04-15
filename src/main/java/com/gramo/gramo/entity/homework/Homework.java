@@ -1,6 +1,7 @@
 package com.gramo.gramo.entity.homework;
 
 import com.gramo.gramo.entity.baseentity.BaseId;
+import com.gramo.gramo.entity.homework.embedded.Status;
 import com.gramo.gramo.entity.homework.embedded.Term;
 import com.gramo.gramo.entity.user.enums.Major;
 import lombok.AllArgsConstructor;
@@ -37,24 +38,10 @@ public class Homework extends BaseId {
     @Column(nullable = false)
     private String teacherEmail;
 
-    @Column(nullable = false)
-    private Boolean isSubmitted;
-
-    @Column(nullable = false)
-    private Boolean isRejected;
+    @Embedded
+    private Status status;
 
     @Embedded
     private Term term;
-
-    public Homework submitHomework() {
-        this.isSubmitted = true;
-        return this;
-    }
-
-    public Homework rejectHomework() {
-        this.isRejected = true;
-        this.isSubmitted = false;
-        return this;
-    }
 
 }

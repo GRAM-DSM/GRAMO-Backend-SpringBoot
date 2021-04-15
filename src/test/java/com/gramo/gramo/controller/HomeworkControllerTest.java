@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gramo.gramo.GramoApplication;
 import com.gramo.gramo.entity.homework.Homework;
 import com.gramo.gramo.entity.homework.HomeworkRepository;
+import com.gramo.gramo.entity.homework.embedded.Status;
 import com.gramo.gramo.entity.homework.embedded.Term;
 import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.entity.user.UserRepository;
@@ -234,7 +235,7 @@ class HomeworkControllerTest {
         this.mvc.perform(patch("/homework/"+id)).andDo(print())
                 .andExpect(status().isCreated());
 
-        Assertions.assertEquals(homeworkRepository.findById(id).get().getIsSubmitted(),true);
+        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsSubmitted(),true);
     }
 
     @Test
@@ -248,7 +249,7 @@ class HomeworkControllerTest {
         this.mvc.perform(patch("/homework/"+id)).andDo(print())
                 .andExpect(status().isForbidden());
 
-        Assertions.assertEquals(homeworkRepository.findById(id).get().getIsSubmitted(),false);
+        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsSubmitted(),false);
 
     }
 
@@ -263,7 +264,7 @@ class HomeworkControllerTest {
         this.mvc.perform(patch("/homework/reject/"+id)).andDo(print())
                 .andExpect(status().isCreated());
 
-        Assertions.assertEquals(homeworkRepository.findById(id).get().getIsRejected(),true);
+        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsRejected(),true);
     }
 
     @Test
@@ -276,11 +277,16 @@ class HomeworkControllerTest {
         this.mvc.perform(patch("/homework/reject/"+id)).andDo(print())
                 .andExpect(status().isForbidden());
 
-        Assertions.assertEquals(homeworkRepository.findById(id).get().getIsRejected(),false);
+        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsRejected(),false);
 
     }
 
     public Long createHomework(String title, boolean isRejected, boolean isSubmitted) {
+        Status status = Status.builder()
+                .isSubmitted(isSubmitted)
+                .isRejected(isRejected)
+                .build();
+
         return homeworkRepository.save(
                 Homework.builder()
                         .teacherEmail("teacher@dsm.hs.kr")
@@ -288,11 +294,10 @@ class HomeworkControllerTest {
                         .term(Term.builder()
                                 .endDate(LocalDate.now().plusDays(1))
                                 .startDate(LocalDate.now()).build())
-                        .isRejected(isRejected)
                         .major(Major.BACKEND)
-                        .isSubmitted(isSubmitted)
                         .studentEmail("student@dsm.hs.kr")
                         .title(title)
+                        .status(status)
                         .build()
         ).getId();
     }

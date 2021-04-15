@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface HomeworkRepository extends JpaRepository<Homework, Long> {
 
-    List<Homework> findAllByIsSubmittedFalseAndStudentEmailOrderByIdDesc(String studentEmail);
+    List<Homework> findAllByStatusIsSubmittedFalseAndStudentEmailOrderByIdDesc(String studentEmail);
 
-    List<Homework> findAllByIsSubmittedTrueAndStudentEmailOrderByIdDesc(String studentEmail);
+    List<Homework> findAllByStatusIsSubmittedTrueAndStudentEmailOrderByIdDesc(String studentEmail);
 
     List<Homework> findAllByTeacherEmailOrderByIdDesc(String teacherEmail);
 
