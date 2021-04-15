@@ -136,7 +136,7 @@ class HomeworkControllerTest {
         createHomework("title3",false,false);
         createHomework("title4",false,false);
 
-        MvcResult mvcResult = this.mvc.perform(get("/homework/"+id)).andDo(print())
+        MvcResult mvcResult = this.mvc.perform(get("/homework/"+id))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -153,7 +153,7 @@ class HomeworkControllerTest {
 //        createHomework("title3",false,false);
 //        createHomework("title4",false,false);
 //
-//        this.mvc.perform(get("/homework/"+id)).andDo(print())
+//        this.mvc.perform(get("/homework/"+id))
 //                .andExpect(status().isUnauthorized());
 //    }
 
@@ -166,7 +166,7 @@ class HomeworkControllerTest {
         createHomework("title3",true,false);        // 보임(rejected 여부)
         createHomework("title4",false,false);
 
-        this.mvc.perform(get("/homework/assign")).andDo(print())
+        this.mvc.perform(get("/homework/assign"))
                 .andExpect(status().isOk());
     }
 
@@ -180,7 +180,7 @@ class HomeworkControllerTest {
         createHomework("title3",true,false);
         createHomework("title4",false,false);
 
-        this.mvc.perform(get("/homework/submit")).andDo(print())
+        this.mvc.perform(get("/homework/submit"))
                 .andExpect(status().isOk());
     }
 
@@ -194,7 +194,7 @@ class HomeworkControllerTest {
         createHomework("title3",true,false);        // 보임(rejected 여부)
         createHomework("title4",false,false);
 
-        this.mvc.perform(get("/homework/order")).andDo(print())
+        this.mvc.perform(get("/homework/order"))
                 .andExpect(status().isOk());
     }
 
@@ -204,7 +204,7 @@ class HomeworkControllerTest {
 
         Long id = createHomework("title",false,false);
 
-        this.mvc.perform(delete("/homework/"+id)).andDo(print())
+        this.mvc.perform(delete("/homework/"+id))
                 .andExpect(status().isForbidden());
 
         assertThat(homeworkRepository.findById(id).isEmpty()).isEqualTo(false);
@@ -218,7 +218,7 @@ class HomeworkControllerTest {
 
         Long id = createHomework("title",false,false);
 
-        this.mvc.perform(delete("/homework/"+id)).andDo(print())
+        this.mvc.perform(delete("/homework/"+id))
                 .andExpect(status().isOk());
 
         assertThat(homeworkRepository.findById(id).isEmpty()).isEqualTo(true);
@@ -232,7 +232,7 @@ class HomeworkControllerTest {
         Long id = createHomework("title",false,false);
         createHomework("title",false,false);
 
-        this.mvc.perform(patch("/homework/"+id)).andDo(print())
+        this.mvc.perform(patch("/homework/"+id))
                 .andExpect(status().isCreated());
 
         Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsSubmitted(),true);
@@ -246,7 +246,7 @@ class HomeworkControllerTest {
         createHomework("title",false,false);
         createHomework("title",false,false);
 
-        this.mvc.perform(patch("/homework/"+id)).andDo(print())
+        this.mvc.perform(patch("/homework/"+id))
                 .andExpect(status().isForbidden());
 
         Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsSubmitted(),false);
@@ -261,7 +261,7 @@ class HomeworkControllerTest {
         Long id = createHomework("title",false,false);
         createHomework("title2",false,false);
 
-        this.mvc.perform(patch("/homework/reject/"+id)).andDo(print())
+        this.mvc.perform(patch("/homework/reject/"+id))
                 .andExpect(status().isCreated());
 
         Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsRejected(),true);
@@ -274,7 +274,7 @@ class HomeworkControllerTest {
         Long id = createHomework("title",false,false);
         createHomework("title",false,false);
 
-        this.mvc.perform(patch("/homework/reject/"+id)).andDo(print())
+        this.mvc.perform(patch("/homework/reject/"+id))
                 .andExpect(status().isForbidden());
 
         Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsRejected(),false);

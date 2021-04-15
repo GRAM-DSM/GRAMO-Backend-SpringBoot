@@ -116,7 +116,7 @@ class PicuControllerTest {
         Long picu3 = createPicu();
         createPicu();
 
-        this.mvc.perform(get("/calendar/picu/"+LocalDate.now())).andDo(print())
+        this.mvc.perform(get("/calendar/picu/"+LocalDate.now()))
                 .andExpect(status().isOk());
     }
 
@@ -126,7 +126,7 @@ class PicuControllerTest {
 
         Long picuId = createPicu();
 
-        this.mvc.perform(delete("/calendar/picu/"+picuId)).andDo(print())
+        this.mvc.perform(delete("/calendar/picu/"+picuId))
                 .andExpect(status().isOk());
 
         assertThat(picuRepository.findById(picuId).isEmpty()).isEqualTo(true);
