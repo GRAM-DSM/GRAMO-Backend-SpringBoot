@@ -10,17 +10,21 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Embeddable
 public class Status {
 
     @Column(nullable = false)
-    protected Boolean isSubmitted;
+    private Boolean isSubmitted;
 
     @Column(nullable = false)
-    protected Boolean isRejected;
+    private Boolean isRejected;
+
+    public Status() {
+        this.isSubmitted = false;
+        this.isRejected = false;
+    }
 
     public void submitHomework() {
         this.isSubmitted = true;
