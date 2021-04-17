@@ -41,6 +41,11 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
+            Date date = Jwts.parser().setSigningKey(Base64.getEncoder()
+                    .encodeToString(secretKey.getBytes())).parseClaimsJws(token).getBody()
+                    .getExpiration();
+            System.out.println(date.after(new Date()));
+            System.out.println(date);
             return Jwts.parser().setSigningKey(Base64.getEncoder()
                     .encodeToString(secretKey.getBytes())).parseClaimsJws(token).getBody()
                     .getExpiration().after(new Date());        // 토큰을 추출했을 때, 오류가 발생하지 않고 해당 토큰의 유효일이 괜찮으면 true
