@@ -20,6 +20,7 @@ public class TokenFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);     // request에서 토큰 값을 추출
 
+        System.out.println("result of validateToken" + jwtTokenProvider.validateToken(token));
         if(token != null && jwtTokenProvider.validateToken(token)
                 && jwtTokenProvider.getEmailStatus(token)) {      // 만약 토큰이 null이 아니고, 유효한 토큰이고, 이메일 검증을 받은 이메일이면 실행
             Authentication authentication = jwtTokenProvider.getAuthentication(token);                              // 토큰 값을 가져옴
