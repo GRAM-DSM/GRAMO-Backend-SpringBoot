@@ -46,6 +46,10 @@ public class PicuServiceImpl implements PicuService{
 
     @Override
     public void createPicu(PicuRequest request) {
+        System.out.println(request.getDate());
+        System.out.println(request.getDescription());
+        System.out.println(authenticationFacade.getUserEmail());
+        
         picuRepository.save(
                 Picu.builder()
                         .userEmail(authenticationFacade.getUserEmail())
