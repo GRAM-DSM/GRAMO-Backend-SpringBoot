@@ -35,10 +35,7 @@ public class HomeworkServiceImpl implements HomeworkService {
                 .startDate(LocalDate.now())
                 .build();
 
-        Status status = Status.builder()
-                .isRejected(false)
-                .isSubmitted(false)
-                .build();
+        Status status = new Status();
 
         homeworkRepository.save(
                 Homework.builder()
