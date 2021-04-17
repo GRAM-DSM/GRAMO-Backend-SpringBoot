@@ -4,6 +4,7 @@ services:
   spring:
     image: gramo-build
     build: .
+    container_name: gramo-backend
     ports:
     - "8001:8001"
     volumes:
