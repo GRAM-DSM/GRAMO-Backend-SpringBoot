@@ -1,6 +1,7 @@
 package com.gramo.gramo.security.auth;
 
 import com.gramo.gramo.entity.user.UserRepository;
+import com.gramo.gramo.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,9 +16,8 @@ public class AuthDetailService implements UserDetailsService {
 
     @Override
     public AuthDetails loadUserByUsername(String username) throws UsernameNotFoundException {   // username(여기서는 이메일)을 통해 user를 찾아서 AuthDetails에 넘겨줌.
-        System.out.println(username);
         return userRepository.findByEmail(username)
                 .map(AuthDetails::new)
-                .orElseThrow();
+                .orElseThrow(UserNotFoundException::new);
     }
 }
