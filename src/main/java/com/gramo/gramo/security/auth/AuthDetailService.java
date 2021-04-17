@@ -15,6 +15,7 @@ public class AuthDetailService implements UserDetailsService {
 
     @Override
     public AuthDetails loadUserByUsername(String username) throws UsernameNotFoundException {   // username(여기서는 이메일)을 통해 user를 찾아서 AuthDetails에 넘겨줌.
+        System.out.println(username);
         return userRepository.findByEmail(username)
                 .map(AuthDetails::new)
                 .orElseThrow();
