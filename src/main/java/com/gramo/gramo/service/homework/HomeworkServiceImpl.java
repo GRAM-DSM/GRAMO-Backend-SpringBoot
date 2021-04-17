@@ -77,19 +77,22 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public List<HomeworkResponse> getAssignedHomework() {
 
-        return buildResponseList(homeworkRepository.findAllByStatusIsSubmittedFalseAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
+        return buildResponseList(homeworkRepository
+                .findAllByStatusIsSubmittedFalseAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
 
     }
 
     @Override
     public List<HomeworkResponse> getSubmittedHomework() {
 
-        return buildResponseList(homeworkRepository.findAllByStatusIsSubmittedTrueAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
+        return buildResponseList(homeworkRepository
+                .findAllByStatusIsSubmittedTrueAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
     }
 
     @Override
     public List<HomeworkResponse> getOrderedHomework() {
-        return buildResponseList(homeworkRepository.findAllByTeacherEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
+        return buildResponseList(homeworkRepository
+                .findAllByTeacherEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
     }
 
     @Override
@@ -122,11 +125,7 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     private List<HomeworkResponse> buildResponseList(List<Homework> homeworkList) {
         List<HomeworkResponse> homeworkResponses = new ArrayList<>();
-
-        for(Homework work : homeworkList) {
-            homeworkResponses.add(buildResponse(work));
-        }
-
+        homeworkList.forEach(homework -> homeworkResponses.add(buildResponse(homework)));
         return homeworkResponses;
     }
 
