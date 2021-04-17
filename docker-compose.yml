@@ -2,9 +2,8 @@ version: '3'
 
 services:
   spring:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    image: gramo-build
+    build: .
     ports:
     - "8001:8001"
     volumes:
