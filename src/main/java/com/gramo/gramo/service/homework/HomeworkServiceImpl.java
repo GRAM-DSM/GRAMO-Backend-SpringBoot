@@ -5,18 +5,18 @@ import com.gramo.gramo.entity.homework.HomeworkRepository;
 import com.gramo.gramo.entity.homework.embedded.Status;
 import com.gramo.gramo.entity.homework.embedded.Term;
 import com.gramo.gramo.entity.user.User;
+import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.HomeworkNotFoundException;
-import com.gramo.gramo.exception.LoginException;
 import com.gramo.gramo.exception.PermissionMismatchException;
+import com.gramo.gramo.exception.UserNotFoundException;
 import com.gramo.gramo.payload.request.HomeworkRequest;
-import com.gramo.gramo.payload.response.HomeworkResponse;
+import com.gramo.gramo.payload.response.MyHomeworkResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +26,7 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     private final AuthenticationFacade authenticationFacade;
     private final HomeworkRepository homeworkRepository;
+    private final UserRepository userRepository;
 
     @Override
     public void saveHomework(HomeworkRequest homeworkRequest) {
@@ -65,7 +66,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     @Override
-    public HomeworkResponse getHomework(Long homeworkId) {
+    public MyHomeworkResponse getHomework(Long homeworkId) {
 
         return buildResponse(
                 homeworkRepository.findById(homeworkId)
@@ -75,7 +76,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     @Override
-    public List<HomeworkResponse> getAssignedHomework() {
+    public List<MyHomeworkResponse> getAssignedHomework() {
 
         return buildResponseList(homeworkRepository
                 .findAllByStatusIsSubmittedFalseAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
@@ -83,14 +84,14 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     @Override
-    public List<HomeworkResponse> getSubmittedHomework() {
+    public List<MyHomeworkResponse> getSubmittedHomework() {
 
         return buildResponseList(homeworkRepository
                 .findAllByStatusIsSubmittedTrueAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
     }
 
     @Override
-    public List<HomeworkResponse> getOrderedHomework() {
+    public List<MyHomeworkResponse> getOrderedHomework() {
         return buildResponseList(homeworkRepository
                 .findAllByTeacherEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
     }
@@ -123,23 +124,28 @@ public class HomeworkServiceImpl implements HomeworkService {
         homework.getStatus().rejectHomework();
     }
 
-    private List<HomeworkResponse> buildResponseList(List<Homework> homeworkList) {
-        List<HomeworkResponse> homeworkResponses = new ArrayList<>();
-        homeworkList.forEach(homework -> homeworkResponses.add(buildResponse(homework)));
-        return homeworkResponses;
+    private List<MyHomeworkResponse> buildResponseList(List<Homework> homeworkList) {
+        List<MyHomeworkResponse> myHomeworkRespons = new ArrayList<>();
+        homeworkList.forEach(homework -> myHomeworkRespons.add(buildResponse(homework)));
+        return myHomeworkRespons;
     }
 
-    private HomeworkResponse buildResponse(Homework homework) {
-        return HomeworkResponse.builder()
+    private MyHomeworkResponse buildResponse(Homework homework) {
+        return MyHomeworkResponse.builder()
                 .homeworkId(homework.getId())
                 .description(homework.getDescription())
                 .endDate(homework.getTerm().getEndDate())
                 .startDate(homework.getTerm().getStartDate())
                 .isRejected(homework.getStatus().getIsRejected())
                 .major(homework.getMajor())
-                .studentName(homework.getStudentEmail())
-                .teacherName(homework.getTeacherEmail())
+                .studentName(getUser(homework.getStudentEmail()).getName())
+                .teacherName(getUser(homework.getTeacherEmail()).getName())
                 .title(homework.getTitle())
                 .build();
+    }
+
+    private User getUser(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(UserNotFoundException::new);
     }
 }

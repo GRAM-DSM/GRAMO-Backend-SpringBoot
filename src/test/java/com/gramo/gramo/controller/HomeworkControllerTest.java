@@ -11,7 +11,7 @@ import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.entity.user.enums.Major;
 import com.gramo.gramo.payload.request.HomeworkRequest;
-import com.gramo.gramo.payload.response.HomeworkResponse;
+import com.gramo.gramo.payload.response.MyHomeworkResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +30,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -140,7 +139,7 @@ class HomeworkControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        HomeworkResponse response = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(mvcResult.getResponse().getContentAsString(), HomeworkResponse.class);
+        MyHomeworkResponse response = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(mvcResult.getResponse().getContentAsString(), MyHomeworkResponse.class);
 
         Assertions.assertEquals(response.getTitle(), "title1");
     }

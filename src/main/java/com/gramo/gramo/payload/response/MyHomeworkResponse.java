@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HomeworkResponse {
+public class MyHomeworkResponse {
 
     private Long homeworkId;
 

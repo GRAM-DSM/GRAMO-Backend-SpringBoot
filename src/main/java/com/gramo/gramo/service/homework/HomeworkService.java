@@ -1,7 +1,7 @@
 package com.gramo.gramo.service.homework;
 
 import com.gramo.gramo.payload.request.HomeworkRequest;
-import com.gramo.gramo.payload.response.HomeworkResponse;
+import com.gramo.gramo.payload.response.MyHomeworkResponse;
 
 import java.util.List;
 
@@ -10,13 +10,13 @@ public interface HomeworkService {
 
     void deleteHomework(Long homeworkId);
 
-    HomeworkResponse getHomework(Long homeworkId);
+    MyHomeworkResponse getHomework(Long homeworkId);
 
-    List<HomeworkResponse> getAssignedHomework();
+    List<MyHomeworkResponse> getAssignedHomework();
 
-    List<HomeworkResponse> getSubmittedHomework();
+    List<MyHomeworkResponse> getSubmittedHomework();
 
-    List<HomeworkResponse> getOrderedHomework();
+    List<MyHomeworkResponse> getOrderedHomework();
 
     void submitHomework(Long homeworkId);
 
