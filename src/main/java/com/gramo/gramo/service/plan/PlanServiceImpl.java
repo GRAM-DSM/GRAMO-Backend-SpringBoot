@@ -2,8 +2,6 @@ package com.gramo.gramo.service.plan;
 
 import com.gramo.gramo.entity.plan.Plan;
 import com.gramo.gramo.entity.plan.PlanRepository;
-import com.gramo.gramo.exception.LoginException;
-import com.gramo.gramo.exception.PlanNotFoundException;
 import com.gramo.gramo.payload.request.PlanRequest;
 import com.gramo.gramo.payload.response.PlanContentResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
@@ -13,14 +11,12 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PlanServiceImpl implements PlanService{
 
     private final PlanRepository planRepository;
-    private final AuthenticationFacade authenticationFacade;
 
     public List<PlanContentResponse> getPlan(LocalDate date) {
 

@@ -1,6 +1,5 @@
 package com.gramo.gramo.entity.homework;
 
-import com.gramo.gramo.entity.user.enums.Major;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

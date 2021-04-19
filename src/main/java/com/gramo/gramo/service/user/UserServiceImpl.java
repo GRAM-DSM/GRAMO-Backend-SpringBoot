@@ -6,7 +6,6 @@ import com.gramo.gramo.payload.response.UserInfoListResponse;
 import com.gramo.gramo.payload.response.UserInfoResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

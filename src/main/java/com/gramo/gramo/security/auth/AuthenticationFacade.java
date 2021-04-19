@@ -1,6 +1,5 @@
 package com.gramo.gramo.security.auth;
 
-import com.gramo.gramo.security.JwtTokenProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

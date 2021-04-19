@@ -3,7 +3,6 @@ package com.gramo.gramo.security.auth;
 import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

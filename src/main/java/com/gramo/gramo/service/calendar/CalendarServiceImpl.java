@@ -1,15 +1,9 @@
 package com.gramo.gramo.service.calendar;
 
-import com.gramo.gramo.entity.BasicCalendarRepository;
-import com.gramo.gramo.entity.picu.Picu;
 import com.gramo.gramo.entity.picu.PicuRepository;
-import com.gramo.gramo.entity.plan.Plan;
 import com.gramo.gramo.entity.plan.PlanRepository;
 import com.gramo.gramo.payload.response.CalendarContentResponse;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

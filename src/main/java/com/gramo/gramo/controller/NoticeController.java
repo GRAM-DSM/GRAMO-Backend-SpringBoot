@@ -1,6 +1,5 @@
 package com.gramo.gramo.controller;
 
-import com.gramo.gramo.entity.notice.NoticeRepository;
 import com.gramo.gramo.payload.response.NoticeListResponse;
 import com.gramo.gramo.service.notice.NoticeService;
 import lombok.RequiredArgsConstructor;

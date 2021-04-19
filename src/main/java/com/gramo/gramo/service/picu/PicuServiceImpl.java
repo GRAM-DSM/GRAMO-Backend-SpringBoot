@@ -2,14 +2,10 @@ package com.gramo.gramo.service.picu;
 
 import com.gramo.gramo.entity.picu.Picu;
 import com.gramo.gramo.entity.picu.PicuRepository;
-import com.gramo.gramo.entity.plan.Plan;
-import com.gramo.gramo.exception.LoginException;
 import com.gramo.gramo.exception.PermissionMismatchException;
 import com.gramo.gramo.exception.PicuNotFoundException;
 import com.gramo.gramo.payload.request.PicuRequest;
 import com.gramo.gramo.payload.response.PicuContentResponse;
-import com.gramo.gramo.payload.response.PlanContentResponse;
-import com.gramo.gramo.security.JwtTokenProvider;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
