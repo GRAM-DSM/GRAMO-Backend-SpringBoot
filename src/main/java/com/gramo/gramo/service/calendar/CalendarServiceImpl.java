@@ -25,12 +25,12 @@ public class CalendarServiceImpl implements CalendarService {
 
         Map<String, LocalDate> dateMap = getDate(date);
 
-        picuRepository.findAllByDateBetween(dateMap.get("startDate"), dateMap.get("endDate"))
-                .forEach(picu -> picuDates.add(picu.getDate()));
-        planRepository.findAllByDateBetween(dateMap.get("startDate"), dateMap.get("endDate"))
-                .forEach(plan -> planDates.add(plan.getDate()));
+        picuRepository.findAllByDateBetween(dateMap.get("startDate"), dateMap.get("endDate"))   // get the picu list
+                .forEach(picu -> picuDates.add(picu.getDate()));                                // extract picu's date
+        planRepository.findAllByDateBetween(dateMap.get("startDate"), dateMap.get("endDate"))   // get the plan list
+                .forEach(plan -> planDates.add(plan.getDate()));                                // extract plan's date
 
-        picuMap = getCalendarMap(picuDates, picuMap);
+        picuMap = getCalendarMap(picuDates, picuMap);                                           // get map with date
         planMap = getCalendarMap(planDates, planMap);
 
         return buildResponse(picuMap, planMap, dateMap);
@@ -63,11 +63,8 @@ public class CalendarServiceImpl implements CalendarService {
                                                            HashMap<LocalDate, Integer> map) {
 
         for(LocalDate date : dates) {
-            if(map.get(date) == null) {
-                map.put(date, 1);
-            } else {
-                map.put(date, map.get(date) + 1);
-            }
+            if(map.get(date) == null) map.put(date, 1);
+            else map.put(date, map.get(date) + 1);
         }
         return map;
     }

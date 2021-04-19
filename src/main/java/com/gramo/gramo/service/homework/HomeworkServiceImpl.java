@@ -125,9 +125,9 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     private List<MyHomeworkResponse> buildResponseList(List<Homework> homeworkList) {
-        List<MyHomeworkResponse> myHomeworkRespons = new ArrayList<>();
-        homeworkList.forEach(homework -> myHomeworkRespons.add(buildResponse(homework)));
-        return myHomeworkRespons;
+        List<MyHomeworkResponse> myHomeworkResponse = new ArrayList<>();
+        homeworkList.forEach(homework -> myHomeworkResponse.add(buildResponse(homework)));
+        return myHomeworkResponse;
     }
 
     private MyHomeworkResponse buildResponse(Homework homework) {
