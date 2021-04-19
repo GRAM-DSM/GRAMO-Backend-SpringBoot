@@ -26,14 +26,18 @@ public class CalendarServiceImpl implements CalendarService {
     public List<CalendarContentResponse> getCalendar(LocalDate date) {
         HashMap<LocalDate, Integer> picuMap = new HashMap<>();
         HashMap<LocalDate, Integer> planMap = new HashMap<>();
+        List<LocalDate> picuDates = new ArrayList<>();
+        List<LocalDate> planDates = new ArrayList<>();
 
         Map<String, LocalDate> dateMap = getDate(date);
 
-        List<Picu> picus = picuRepository.findAllByDateBetween(dateMap.get("startDate"), dateMap.get("endDate"));
-        List<Plan> plans = planRepository.findAllByDateBetween(dateMap.get("startDate"), dateMap.get("endDate"));
+        picuRepository.findAllByDateBetween(dateMap.get("startDate"), dateMap.get("endDate"))
+                .forEach(picu -> picuDates.add(picu.getDate()));
+        planRepository.findAllByDateBetween(dateMap.get("startDate"), dateMap.get("endDate"))
+                .forEach(plan -> planDates.add(plan.getDate()));
 
-        picuMap = getPicuMap(picus, picuMap);
-        planMap = getPlanMap(plans, planMap);
+        picuMap = getCalendarMap(picuDates, picuMap);
+        planMap = getCalendarMap(planDates, planMap);
 
         return buildResponse(picuMap, planMap, dateMap);
     }
@@ -61,29 +65,17 @@ public class CalendarServiceImpl implements CalendarService {
 
     }
 
-    private HashMap<LocalDate, Integer> getPicuMap(List<Picu> picus,
-                                                           HashMap<LocalDate, Integer> picuMap) {
+    private HashMap<LocalDate, Integer> getCalendarMap(List<LocalDate> dates,
+                                                           HashMap<LocalDate, Integer> map) {
 
-        for(Picu picu : picus) {
-            if(picuMap.get(picu.getDate()) == null) {
-                picuMap.put(picu.getDate(), 1);
+        for(LocalDate date : dates) {
+            if(map.get(date) == null) {
+                map.put(date, 1);
             } else {
-                picuMap.put(picu.getDate(), picuMap.get(picu.getDate()) + 1);
+                map.put(date, map.get(date) + 1);
             }
         }
-        return picuMap;
-    }
-
-    private HashMap<LocalDate, Integer> getPlanMap(List<Plan> plans,
-                                                   HashMap<LocalDate, Integer> planMap) {
-        for (Plan plan : plans) {
-            if (planMap.get(plan.getDate()) == null) {
-                planMap.put(plan.getDate(), 1);
-            } else {
-                planMap.put(plan.getDate(), planMap.get(plan.getDate()) + 1);
-            }
-        }
-        return planMap;
+        return map;
     }
 
     private Map<String, LocalDate> getDate(LocalDate date) {
