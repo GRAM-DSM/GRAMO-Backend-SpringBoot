@@ -15,8 +15,4 @@ public class AuthenticationFacade {
     public String getUserEmail() {
         return this.getAuthentication().getName();      // 유저 이메일 가져오기
     }
-
-    public boolean isLogin() {
-        return this.getAuthentication() != null;        // 로그인 여부
-    }
 }
