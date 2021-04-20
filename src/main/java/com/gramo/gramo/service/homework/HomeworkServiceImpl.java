@@ -91,7 +91,11 @@ public class HomeworkServiceImpl implements HomeworkService {
     public void submitHomework(Long homeworkId) {
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
-        checkPermission(homework);
+
+        if(!homework.getStudentEmail().equals(authenticationFacade.getUserEmail())) {
+            throw new PermissionMismatchException();
+        }
+
         homework.getStatus().submitHomework();
 
     }
@@ -102,14 +106,14 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
-        checkPermission(homework);
+
+        if(!homework.getTeacherEmail().equals(authenticationFacade.getUserEmail())) {
+            throw new PermissionMismatchException();
+        }
+
         homework.getStatus().rejectHomework();
     }
-
-    private void checkPermission(Homework homework) {
-        if(homework.getTeacherEmail().equals(authenticationFacade.getUserEmail()))
-            throw new PermissionMismatchException();
-    }
+    
     private List<MyHomeworkResponse> buildResponseList(List<Homework> homeworkList) {
         List<MyHomeworkResponse> myHomeworkResponse = new ArrayList<>();
         homeworkList.forEach(homework -> myHomeworkResponse.add(buildResponse(homework)));
