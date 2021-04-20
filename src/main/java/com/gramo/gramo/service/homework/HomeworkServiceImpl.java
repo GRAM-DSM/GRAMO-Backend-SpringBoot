@@ -36,8 +36,6 @@ public class HomeworkServiceImpl implements HomeworkService {
                 .startDate(LocalDate.now())
                 .build();
 
-        Status status = new Status();
-
         homeworkRepository.save(
                 Homework.builder()
                         .teacherEmail(authenticationFacade.getUserEmail())
@@ -46,7 +44,7 @@ public class HomeworkServiceImpl implements HomeworkService {
                         .studentEmail(homeworkRequest.getStudentEmail())
                         .title(homeworkRequest.getTitle())
                         .term(term)
-                        .status(status)
+                        .status(new Status())
                         .build()
         );
 
@@ -57,35 +55,27 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
-
         if(!authenticationFacade.getUserEmail().equals(homework.getTeacherEmail())) {
             throw new PermissionMismatchException();
         }
-
         homeworkRepository.delete(homework);
     }
 
     @Override
     public MyHomeworkResponse getHomework(Long homeworkId) {
-
-        return buildResponse(
-                homeworkRepository.findById(homeworkId)
-                        .orElseThrow(HomeworkNotFoundException::new)
-        );
+        return buildResponse(homeworkRepository.findById(homeworkId)
+                        .orElseThrow(HomeworkNotFoundException::new));
 
     }
 
     @Override
     public List<MyHomeworkResponse> getAssignedHomework() {
-
         return buildResponseList(homeworkRepository
                 .findAllByStatusIsSubmittedFalseAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
-
     }
 
     @Override
     public List<MyHomeworkResponse> getSubmittedHomework() {
-
         return buildResponseList(homeworkRepository
                 .findAllByStatusIsSubmittedTrueAndStudentEmailOrderByIdDesc(authenticationFacade.getUserEmail()));
     }
@@ -101,11 +91,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     public void submitHomework(Long homeworkId) {
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
-
-        if(!homework.getStudentEmail().equals(authenticationFacade.getUserEmail())) {
-            throw new PermissionMismatchException();
-        }
-
+        checkPermission(homework);
         homework.getStatus().submitHomework();
 
     }
@@ -116,14 +102,14 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         Homework homework = homeworkRepository.findById(homeworkId)
                 .orElseThrow(HomeworkNotFoundException::new);
-        
-        if(!homework.getTeacherEmail().equals(authenticationFacade.getUserEmail())) {
-            throw new PermissionMismatchException();
-        }
-
+        checkPermission(homework);
         homework.getStatus().rejectHomework();
     }
 
+    private void checkPermission(Homework homework) {
+        if(homework.getTeacherEmail().equals(authenticationFacade.getUserEmail()))
+            throw new PermissionMismatchException();
+    }
     private List<MyHomeworkResponse> buildResponseList(List<Homework> homeworkList) {
         List<MyHomeworkResponse> myHomeworkResponse = new ArrayList<>();
         homeworkList.forEach(homework -> myHomeworkResponse.add(buildResponse(homework)));

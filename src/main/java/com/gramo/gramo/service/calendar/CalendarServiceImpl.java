@@ -18,27 +18,27 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public List<CalendarContentResponse> getCalendar(LocalDate date) {
-        HashMap<LocalDate, Integer> picuMap = new HashMap<>();
+        HashMap<LocalDate, Integer> picuMap = new HashMap<>();  // hash 알고리즘을 통해 그냥 map보다 빠름
         HashMap<LocalDate, Integer> planMap = new HashMap<>();
         List<LocalDate> picuDates = new ArrayList<>();
         List<LocalDate> planDates = new ArrayList<>();
 
-        Map<String, LocalDate> dateMap = getDate(date);
+        HashMap<String, LocalDate> dateMap = getDate(date);
 
         picuRepository.findAllByDateBetween(dateMap.get("startDate"), dateMap.get("endDate"))   // get the picu list
                 .forEach(picu -> picuDates.add(picu.getDate()));                                // extract picu's date
         planRepository.findAllByDateBetween(dateMap.get("startDate"), dateMap.get("endDate"))   // get the plan list
                 .forEach(plan -> planDates.add(plan.getDate()));                                // extract plan's date
 
-        picuMap = getCalendarMap(picuDates, picuMap);                                           // get map with date
-        planMap = getCalendarMap(planDates, planMap);
+        getCalendarMap(picuDates, picuMap);// get map with date
+        getCalendarMap(planDates, planMap);
 
         return buildResponse(picuMap, planMap, dateMap);
     }
 
     private List<CalendarContentResponse> buildResponse(HashMap<LocalDate, Integer> picuMap,
                                                         HashMap<LocalDate, Integer> planMap,
-                                                        Map<String, LocalDate> dateMap) {
+                                                        HashMap<String, LocalDate> dateMap) {
 
         LocalDate current = dateMap.get("startDate");
 
@@ -59,18 +59,15 @@ public class CalendarServiceImpl implements CalendarService {
 
     }
 
-    private HashMap<LocalDate, Integer> getCalendarMap(List<LocalDate> dates,
-                                                           HashMap<LocalDate, Integer> map) {
-
+    private void getCalendarMap(List<LocalDate> dates,
+                                HashMap<LocalDate, Integer> map) {      // 굳이 반환하지 않고 void로 해도, 여기서의 hashMap 수정사항이 적용 됨
         for(LocalDate date : dates) {
-            if(map.get(date) == null) map.put(date, 1);
-            else map.put(date, map.get(date) + 1);
+            map.merge(date, 1, Integer::sum);   // map에서 get을 하고, 있으면 1을 더해서 넣고 없으면 1을 넣음
         }
-        return map;
     }
 
-    private Map<String, LocalDate> getDate(LocalDate date) {
-        Map<String, LocalDate> dateMap = new HashMap<>();
+    private HashMap<String, LocalDate> getDate(LocalDate date) {
+        HashMap<String, LocalDate> dateMap = new HashMap<>();
 
         LocalDate startDate = LocalDate.of(date.getYear(), date.getMonth(), 1);
         LocalDate endDate = LocalDate.of(date.getYear(), date.getMonth(), date.lengthOfMonth());
