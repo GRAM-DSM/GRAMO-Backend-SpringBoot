@@ -2,8 +2,10 @@ package com.gramo.gramo.service.picu;
 
 import com.gramo.gramo.entity.picu.Picu;
 import com.gramo.gramo.entity.picu.PicuRepository;
+import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.PermissionMismatchException;
 import com.gramo.gramo.exception.PicuNotFoundException;
+import com.gramo.gramo.exception.UserNotFoundException;
 import com.gramo.gramo.payload.request.PicuRequest;
 import com.gramo.gramo.payload.response.PicuContentResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
@@ -20,6 +22,7 @@ public class PicuServiceImpl implements PicuService{
 
     private final PicuRepository picuRepository;
     private final AuthenticationFacade authenticationFacade;
+    private final UserRepository userRepository;
 
     @Override
     public List<PicuContentResponse> getPicu(LocalDate date) {
@@ -29,7 +32,8 @@ public class PicuServiceImpl implements PicuService{
         for(Picu picu : picuList) {
             picuContentResponses.add(
                     PicuContentResponse.builder()
-                            .userEmail(picu.getUserEmail())
+                            .userName(userRepository.findById(authenticationFacade.getUserEmail())
+                                    .orElseThrow(UserNotFoundException::new).getName())
                             .description(picu.getDescription())
                             .picuId(picu.getId())
                             .build()

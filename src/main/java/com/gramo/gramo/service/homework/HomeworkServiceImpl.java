@@ -113,7 +113,7 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         homework.getStatus().rejectHomework();
     }
-    
+
     private List<MyHomeworkResponse> buildResponseList(List<Homework> homeworkList) {
         List<MyHomeworkResponse> myHomeworkResponse = new ArrayList<>();
         homeworkList.forEach(homework -> myHomeworkResponse.add(buildResponse(homework)));

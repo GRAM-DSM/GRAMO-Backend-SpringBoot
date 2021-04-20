@@ -15,6 +15,6 @@ public class PicuContentResponse {
 
     private String description;
 
-    private String userEmail;
+    private String userName;
 
 }
