@@ -6,6 +6,7 @@ import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.PermissionMismatchException;
 import com.gramo.gramo.exception.PicuNotFoundException;
 import com.gramo.gramo.exception.UserNotFoundException;
+import com.gramo.gramo.mapper.PicuMapper;
 import com.gramo.gramo.payload.request.PicuRequest;
 import com.gramo.gramo.payload.response.PicuContentResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
@@ -23,6 +24,7 @@ public class PicuServiceImpl implements PicuService{
     private final PicuRepository picuRepository;
     private final AuthenticationFacade authenticationFacade;
     private final UserRepository userRepository;
+    private final PicuMapper picuMapper;
 
     @Override
     public List<PicuContentResponse> getPicu(LocalDate date) {
@@ -31,12 +33,9 @@ public class PicuServiceImpl implements PicuService{
 
         for(Picu picu : picuList) {
             picuContentResponses.add(
-                    PicuContentResponse.builder()
-                            .userName(userRepository.findById(authenticationFacade.getUserEmail())
+                    picuMapper.toResponse(picu,
+                            userRepository.findByEmail(authenticationFacade.getUserEmail())
                                     .orElseThrow(UserNotFoundException::new).getName())
-                            .description(picu.getDescription())
-                            .picuId(picu.getId())
-                            .build()
             );
         }
 
@@ -46,13 +45,7 @@ public class PicuServiceImpl implements PicuService{
 
     @Override
     public void createPicu(PicuRequest request) {
-        picuRepository.save(
-                Picu.builder()
-                        .userEmail(authenticationFacade.getUserEmail())
-                        .description(request.getDescription())
-                        .date(request.getDate())
-                        .build()
-        );
+        picuRepository.save(picuMapper.toPicu(request, authenticationFacade.getUserEmail()));
     }
 
     @Override

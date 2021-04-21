@@ -9,6 +9,7 @@ import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.HomeworkNotFoundException;
 import com.gramo.gramo.exception.PermissionMismatchException;
 import com.gramo.gramo.exception.UserNotFoundException;
+import com.gramo.gramo.mapper.HomeworkMapper;
 import com.gramo.gramo.payload.request.HomeworkRequest;
 import com.gramo.gramo.payload.response.MyHomeworkResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
@@ -28,26 +29,13 @@ public class HomeworkServiceImpl implements HomeworkService {
     private final HomeworkRepository homeworkRepository;
     private final UserRepository userRepository;
 
+    private final HomeworkMapper homeworkMapper;
+
     @Override
     public void saveHomework(HomeworkRequest homeworkRequest) {
-
-        Term term = Term.builder()
-                .endDate(homeworkRequest.getEndDate())
-                .startDate(LocalDate.now())
-                .build();
-
         homeworkRepository.save(
-                Homework.builder()
-                        .teacherEmail(authenticationFacade.getUserEmail())
-                        .description(homeworkRequest.getDescription())
-                        .major(homeworkRequest.getMajor())
-                        .studentEmail(homeworkRequest.getStudentEmail())
-                        .title(homeworkRequest.getTitle())
-                        .term(term)
-                        .status(new Status())
-                        .build()
+                homeworkMapper.toHomework(homeworkRequest, authenticationFacade.getUserEmail())
         );
-
     }
 
     @Override
@@ -121,17 +109,8 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     private MyHomeworkResponse buildResponse(Homework homework) {
-        return MyHomeworkResponse.builder()
-                .homeworkId(homework.getId())
-                .description(homework.getDescription())
-                .endDate(homework.getTerm().getEndDate())
-                .startDate(homework.getTerm().getStartDate())
-                .isRejected(homework.getStatus().getIsRejected())
-                .major(homework.getMajor())
-                .studentName(getUser(homework.getStudentEmail()).getName())
-                .teacherName(getUser(homework.getTeacherEmail()).getName())
-                .title(homework.getTitle())
-                .build();
+        return homeworkMapper.toHomeworkResponse(homework,
+                getUser(homework.getStudentEmail()).getName(), getUser(homework.getTeacherEmail()).getName());
     }
 
     private User getUser(String email) {
