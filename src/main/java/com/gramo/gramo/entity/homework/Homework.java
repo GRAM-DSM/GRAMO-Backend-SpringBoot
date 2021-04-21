@@ -39,7 +39,8 @@ public class Homework {
     private String teacherEmail;
 
     @Embedded
-    private Status status;
+    @Builder.Default
+    private Status status = new Status();
 
     @Embedded
     private Term term;
