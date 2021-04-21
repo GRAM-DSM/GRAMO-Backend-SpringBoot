@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -19,7 +20,8 @@ public class Term {
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate startDate;
+    @Builder.Default                                // builder는 기본값이 null인데, 다른 기본 값 설정
+    private LocalDate startDate = LocalDate.now();
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
