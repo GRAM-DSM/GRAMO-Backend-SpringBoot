@@ -2,6 +2,7 @@ package com.gramo.gramo.service.plan;
 
 import com.gramo.gramo.entity.plan.Plan;
 import com.gramo.gramo.entity.plan.PlanRepository;
+import com.gramo.gramo.mapper.PlanMapper;
 import com.gramo.gramo.payload.request.PlanRequest;
 import com.gramo.gramo.payload.response.PlanContentResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
@@ -17,6 +18,7 @@ import java.util.List;
 public class PlanServiceImpl implements PlanService{
 
     private final PlanRepository planRepository;
+    private final PlanMapper planMapper;
 
     public List<PlanContentResponse> getPlan(LocalDate date) {
 
@@ -24,31 +26,18 @@ public class PlanServiceImpl implements PlanService{
         List<PlanContentResponse> planContentResponses = new ArrayList<>();
 
         for(Plan plan : plans) {
-            planContentResponses.add(
-                    PlanContentResponse.builder()
-                            .title(plan.getTitle())
-                            .description(plan.getDescription())
-                            .planId(plan.getId())
-                            .build()
-            );
+            planContentResponses.add(planMapper.planToResponse(plan));
         }
 
         return planContentResponses;
     }
 
     public void postPlan(PlanRequest planRequest) {
-        planRepository.save(
-                Plan.builder()
-                        .title(planRequest.getTitle())
-                        .description(planRequest.getDescription())
-                        .date(planRequest.getDate())
-                        .build()
-        );
+        planRepository.save(planMapper.requestToPlan(planRequest));
 
     }
 
     public void deletePlan(Long planId) {
-
         planRepository.deleteById(planId);
     }
 
