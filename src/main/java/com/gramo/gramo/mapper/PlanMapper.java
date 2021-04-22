@@ -12,5 +12,6 @@ public interface PlanMapper {
     @Mapping(source = "plan.id", target = "planId")
     PlanContentResponse planToResponse(Plan plan);
 
+    @Mapping(target = "id", ignore = true)
     Plan requestToPlan(PlanRequest request);
 }

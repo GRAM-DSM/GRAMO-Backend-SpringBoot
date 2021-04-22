@@ -5,7 +5,7 @@ import com.gramo.gramo.payload.request.HomeworkRequest;
 import com.gramo.gramo.payload.response.MyHomeworkResponse;
 import org.mapstruct.*;
 
-@PlanMapper(config = BasicMapperConfig.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(config = BasicMapperConfig.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface HomeworkMapper {
 //
 //    HomeworkMapper INSTANCE = Mappers.getMapper(HomeworkMapper.class);      // 이 정보로 클래스를 생성

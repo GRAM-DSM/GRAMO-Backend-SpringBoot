@@ -12,5 +12,7 @@ public interface PicuMapper {
     @Mapping(source = "picu.id", target = "picuId")
     PicuContentResponse toResponse(Picu picu, String userName);
 
+    @Mapping(target = "id", ignore = true)
     Picu toPicu(PicuRequest request, String userEmail);
+
 }
