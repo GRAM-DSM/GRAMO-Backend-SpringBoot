@@ -1,17 +1,11 @@
 package com.gramo.gramo.mapper;
 
 import com.gramo.gramo.entity.homework.Homework;
-import com.gramo.gramo.entity.user.User;
-import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.payload.request.HomeworkRequest;
 import com.gramo.gramo.payload.response.MyHomeworkResponse;
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
 
-import java.time.LocalDateTime;
-
-@Mapper(config = BasicMapperConfig.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@PlanMapper(config = BasicMapperConfig.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface HomeworkMapper {
 //
 //    HomeworkMapper INSTANCE = Mappers.getMapper(HomeworkMapper.class);      // 이 정보로 클래스를 생성
