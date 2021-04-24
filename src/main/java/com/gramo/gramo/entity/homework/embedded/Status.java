@@ -28,6 +28,7 @@ public class Status {
 
     public void submitHomework() {
         this.isSubmitted = true;
+        this.isRejected = false;
     }
 
     public void rejectHomework() {

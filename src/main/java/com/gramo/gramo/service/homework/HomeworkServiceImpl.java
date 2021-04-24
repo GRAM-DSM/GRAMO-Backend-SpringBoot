@@ -7,6 +7,7 @@ import com.gramo.gramo.entity.homework.embedded.Term;
 import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.HomeworkNotFoundException;
+import com.gramo.gramo.exception.NotAssignedException;
 import com.gramo.gramo.exception.PermissionMismatchException;
 import com.gramo.gramo.exception.UserNotFoundException;
 import com.gramo.gramo.mapper.HomeworkMapper;
@@ -84,6 +85,9 @@ public class HomeworkServiceImpl implements HomeworkService {
             throw new PermissionMismatchException();
         }
 
+        if(homework.getStatus().getIsSubmitted() == true)
+            throw new NotAssignedException();
+
         homework.getStatus().submitHomework();
 
     }
@@ -97,6 +101,10 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         if(!homework.getTeacherEmail().equals(authenticationFacade.getUserEmail())) {
             throw new PermissionMismatchException();
+        }
+
+        if(homework.getStatus().getIsSubmitted() == false) {
+            throw new NotAssignedException();
         }
 
         homework.getStatus().rejectHomework();
