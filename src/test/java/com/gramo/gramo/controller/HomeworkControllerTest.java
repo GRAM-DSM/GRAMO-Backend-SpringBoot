@@ -257,7 +257,7 @@ class HomeworkControllerTest {
     @WithMockUser(value = "teacher@dsm.hs.kr", password = "1234")
     public void rejectHomeworkTest() throws Exception {
 
-        Long id = createHomework("title",false,false);
+        Long id = createHomework("title",false,true);
         createHomework("title2",false,false);
 
         this.mvc.perform(patch("/homework/reject/"+id))
