@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class HomeworkController {
 
     @PatchMapping("/{homeworkId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void submitHomework(@PathVariable Long homeworkId) {
+    public void submitHomework(@PathVariable Long homeworkId) throws ExecutionException, InterruptedException {
         homeworkService.submitHomework(homeworkId);
     }
 
@@ -51,12 +52,12 @@ public class HomeworkController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createHomework(@RequestBody @Valid HomeworkRequest request) {
+    public void createHomework(@RequestBody @Valid HomeworkRequest request) throws ExecutionException, InterruptedException {
         homeworkService.saveHomework(request);
     }
 
     @DeleteMapping("/{homeworkId}")
-    public void deleteHomework(@PathVariable Long homeworkId) {
+    public void deleteHomework(@PathVariable Long homeworkId) throws ExecutionException, InterruptedException {
         homeworkService.deleteHomework(homeworkId);
     }
 

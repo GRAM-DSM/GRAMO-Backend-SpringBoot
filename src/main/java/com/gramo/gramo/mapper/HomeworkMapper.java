@@ -15,7 +15,8 @@ public interface HomeworkMapper {
     @Mapping(source = "homework.term.endDate", target = "endDate")
     @Mapping(source = "homework.status.isRejected", target = "isRejected")  // embedded 타입인데, 모두 소문자를 사용해야 한다.
     @Mapping(source = "homework.description", target = "description")
-    MyHomeworkResponse toHomeworkResponse(Homework homework, String studentName, String teacherName);  // 이런 식으로 여러 파라미터를 사용할 수 있다.
+    @Mapping(source = "isMine", target = "isMine")
+    MyHomeworkResponse toHomeworkResponse(Homework homework, String studentName, String teacherName, Boolean isMine);  // 이런 식으로 여러 파라미터를 사용할 수 있다.
     // 만약 이미 존재하는 인스턴스를 매핑시켜 주고 싶다면, @MappingTarget을 사용하면 된다.
 
     @Mapping(source = "request.endDate", target = "term.endDate")

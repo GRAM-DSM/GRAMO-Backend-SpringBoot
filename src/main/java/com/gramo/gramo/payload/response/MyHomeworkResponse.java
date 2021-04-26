@@ -33,6 +33,8 @@ public class MyHomeworkResponse {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
+    private Boolean isMine;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 

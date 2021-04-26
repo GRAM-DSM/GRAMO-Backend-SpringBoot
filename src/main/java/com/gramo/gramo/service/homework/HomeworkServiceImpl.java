@@ -1,5 +1,8 @@
 package com.gramo.gramo.service.homework;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import com.gramo.gramo.entity.homework.Homework;
 import com.gramo.gramo.entity.homework.HomeworkRepository;
 import com.gramo.gramo.entity.user.User;
@@ -14,7 +17,6 @@ import com.gramo.gramo.payload.request.HomeworkRequest;
 import com.gramo.gramo.payload.request.NotificationRequest;
 import com.gramo.gramo.payload.response.MyHomeworkResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
-import com.gramo.gramo.service.notification.NotificationServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,6 @@ import java.util.concurrent.ExecutionException;
 public class HomeworkServiceImpl implements HomeworkService {
 
     private final AuthenticationFacade authenticationFacade;
-    private final NotificationServiceImpl notificationServiceImpl;
     private final HomeworkRepository homeworkRepository;
     private final UserRepository userRepository;
 
@@ -37,9 +38,9 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public void saveHomework(HomeworkRequest homeworkRequest) {
-        sendNotification(buildRequest(userFactory.getAuthUser() + "님이 " +
-                userFactory.getUser(homeworkRequest.getStudentEmail()).getName() +
-                "님에게 숙제를 냈습니다.", userFactory.getUser(homeworkRequest.getStudentEmail())));
+//        sendNotification(buildRequest(userFactory.getAuthUser() + "님이 " +
+//                userFactory.getUser(homeworkRequest.getStudentEmail()).getName() +
+//                "님에게 숙제를 냈습니다.", userFactory.getUser(homeworkRequest.getStudentEmail())));
 
         homeworkRepository.save(
                 homeworkMapper.toHomework(homeworkRequest, authenticationFacade.getUserEmail())
@@ -53,8 +54,8 @@ public class HomeworkServiceImpl implements HomeworkService {
         if(!authenticationFacade.getUserEmail().equals(homework.getTeacherEmail())) {
             throw new PermissionMismatchException();
         }
-        sendNotification(buildRequest(userFactory.getAuthUser() + "님이 " + homework.getTitle() + " 숙제를 삭제했습니다.",
-                userFactory.getUser(homework.getStudentEmail())));
+//        sendNotification(buildRequest(userFactory.getAuthUser() + "님이 " + homework.getTitle() + " 숙제를 삭제했습니다.",
+//                userFactory.getUser(homework.getStudentEmail())));
         homeworkRepository.delete(homework);
     }
 
@@ -98,8 +99,8 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         homework.getStatus().submitHomework();
 
-        sendNotification(buildRequest(userFactory.getAuthUser() + "님이 숙제를 제출했습니다.",
-                userFactory.getUser(homework.getStudentEmail())));
+//        sendNotification(buildRequest(userFactory.getAuthUser() + "님이 숙제를 제출했습니다.",
+//                userFactory.getUser(homework.getStudentEmail())));
 
     }
 
@@ -120,8 +121,8 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         homework.getStatus().rejectHomework();
 
-        sendNotification(buildRequest(userFactory.getAuthUser() + "님이 숙제를 제출했습니다.",
-                userFactory.getUser(homework.getStudentEmail())));
+//        sendNotification(buildRequest(userFactory.getAuthUser() + "님이 숙제를 제출했습니다.",
+//                userFactory.getUser(homework.getStudentEmail())));
     }
 
     private List<MyHomeworkResponse> buildResponseList(List<Homework> homeworkList) {
@@ -131,8 +132,8 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     private MyHomeworkResponse buildResponse(Homework homework) {
-        return homeworkMapper.toHomeworkResponse(homework,
-                getUser(homework.getStudentEmail()).getName(), getUser(homework.getTeacherEmail()).getName());
+        return homeworkMapper.toHomeworkResponse(homework, getUser(homework.getStudentEmail()).getName(),
+                getUser(homework.getTeacherEmail()).getName(), homework.getTeacherEmail().equals(authenticationFacade.getUserEmail()));
     }
 
     private User getUser(String email) {
@@ -140,14 +141,27 @@ public class HomeworkServiceImpl implements HomeworkService {
                 .orElseThrow(UserNotFoundException::new);
     }
 
-    private void sendNotification(NotificationRequest request) {
-        notificationServiceImpl.sendNotification(request);
-    }
+
     private NotificationRequest buildRequest(String content, User user) {
         return NotificationRequest.builder()
                 .body(content)
                 .title("GRAMO HOMEWORK")
                 .token(user.getToken())
                 .build();
+    }
+
+    private void sendNotification(NotificationRequest request) {
+        try {
+            Message message = Message.builder()
+                    .setToken(request.getToken())
+                    .setNotification(Notification.builder()
+                            .setBody(request.getBody())
+                            .setTitle(request.getTitle())
+                            .build())
+                    .build();
+            FirebaseMessaging.getInstance().sendAsync(message).get();
+        } catch (Exception e) {
+            throw new UserNotFoundException();
+        }
     }
 }
