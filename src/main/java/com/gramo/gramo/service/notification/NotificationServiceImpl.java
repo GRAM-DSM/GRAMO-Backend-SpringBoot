@@ -22,15 +22,15 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 @RequiredArgsConstructor
-public class SendNotification {
+public class NotificationServiceImpl implements NotificationService {
 
     private final FirebaseMessaging firebaseMessaging;
 
     @Async
-    public void sendNotification(NotificationRequest request, String token) throws ExecutionException, InterruptedException {
+    public void sendNotification(NotificationRequest request) {
         try {
             Message message = Message.builder()
-                    .setToken(token)
+                    .setToken(request.getToken())
                     .setNotification(Notification.builder()
                             .setBody(request.getBody())
                             .setTitle(request.getTitle())
@@ -40,6 +40,5 @@ public class SendNotification {
         } catch (Exception e) {
             throw new UserNotFoundException();
         }
-        
     }
 }
