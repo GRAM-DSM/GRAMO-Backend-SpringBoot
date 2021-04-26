@@ -32,4 +32,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Major major;
 
+    private String token;
+
 }
