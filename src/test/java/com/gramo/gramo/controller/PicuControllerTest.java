@@ -84,7 +84,7 @@ class PicuControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "userEmail@dsm.hs.kr", password = "1234")
+    @WithMockUser(value = "emailedUser@dsm.hs.kr", password = "1234")
     public void createPicuTest() throws Exception{
 
         LocalDate date = LocalDate.now();
@@ -102,7 +102,7 @@ class PicuControllerTest {
         Picu picu = picuRepository.findAllBy().get(0);
 
         assertThat(picu.getDescription()).isEqualTo("description");
-        assertThat(picu.getUserEmail()).isEqualTo("userEmail@dsm.hs.kr");
+        assertThat(picu.getUserEmail()).isEqualTo("emailedUser@dsm.hs.kr");
         assertThat(picu.getDate()).isEqualTo(date);
 
     }
