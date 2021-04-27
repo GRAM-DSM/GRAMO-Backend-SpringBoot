@@ -202,7 +202,7 @@ class HomeworkControllerTest {
         Long id = createHomework("title",false,false);
 
         this.mvc.perform(delete("/homework/"+id))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
 
         assertThat(homeworkRepository.findById(id).isEmpty()).isEqualTo(false);
 
@@ -244,7 +244,7 @@ class HomeworkControllerTest {
         createHomework("title",false,false);
 
         this.mvc.perform(patch("/homework/"+id))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
 
         Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsSubmitted(),false);
 
@@ -272,7 +272,7 @@ class HomeworkControllerTest {
         createHomework("title",false,false);
 
         this.mvc.perform(patch("/homework/reject/"+id))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized()    );
 
         Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsRejected(),false);
 
