@@ -84,8 +84,7 @@ public class CalendarControllerTest {
     @Test
     @WithMockUser(value = "email", password = "pwd")
     public void calendar_list_test() throws Exception {
-        MvcResult result = mvc.perform(get("/calendar")
-                .param("date", "2021-04-19"))
+        MvcResult result = mvc.perform(get("/calendar/2021-04-19"))
                 .andExpect(status().isOk())
                 .andReturn();
 
