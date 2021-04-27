@@ -34,7 +34,7 @@ public class PicuServiceImpl implements PicuService{
 
         for(Picu picu : picuList) {
             picuContentResponses.add(
-                    picuMapper.toResponse(picu, userFactory.getAuthUser().getName())
+                    picuMapper.toResponse(picu, userFactory.getUser(picu.getUserEmail()).getName()  )
             );
         }
 
