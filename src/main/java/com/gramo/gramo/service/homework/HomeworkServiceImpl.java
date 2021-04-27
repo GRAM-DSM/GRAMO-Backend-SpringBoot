@@ -1,5 +1,8 @@
 package com.gramo.gramo.service.homework;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
@@ -7,10 +10,7 @@ import com.gramo.gramo.entity.homework.Homework;
 import com.gramo.gramo.entity.homework.HomeworkRepository;
 import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.entity.user.UserRepository;
-import com.gramo.gramo.exception.HomeworkNotFoundException;
-import com.gramo.gramo.exception.NotAssignedException;
-import com.gramo.gramo.exception.PermissionMismatchException;
-import com.gramo.gramo.exception.UserNotFoundException;
+import com.gramo.gramo.exception.*;
 import com.gramo.gramo.factory.UserFactory;
 import com.gramo.gramo.mapper.HomeworkMapper;
 import com.gramo.gramo.payload.request.HomeworkRequest;
@@ -18,20 +18,24 @@ import com.gramo.gramo.payload.request.NotificationRequest;
 import com.gramo.gramo.payload.response.MyHomeworkResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @Service
 @RequiredArgsConstructor
 public class HomeworkServiceImpl implements HomeworkService {
 
+    private String path = "gramo-d19da-firebase-adminsdk-tka95-218dd64be4";
+
     private final AuthenticationFacade authenticationFacade;
     private final HomeworkRepository homeworkRepository;
-    private final UserRepository userRepository;
 
     private final HomeworkMapper homeworkMapper;
     private final UserFactory userFactory;
@@ -132,15 +136,9 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     private MyHomeworkResponse buildResponse(Homework homework) {
-        return homeworkMapper.toHomeworkResponse(homework, getUser(homework.getStudentEmail()).getName(),
-                getUser(homework.getTeacherEmail()).getName(), homework.getTeacherEmail().equals(authenticationFacade.getUserEmail()));
+        return homeworkMapper.toHomeworkResponse(homework, userFactory.getUser(homework.getStudentEmail()).getName(),
+                userFactory.getUser(homework.getTeacherEmail()).getName(), homework.getTeacherEmail().equals(authenticationFacade.getUserEmail()));
     }
-
-    private User getUser(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(UserNotFoundException::new);
-    }
-
 
     private NotificationRequest buildRequest(String content, User user) {
         return NotificationRequest.builder()
@@ -148,6 +146,24 @@ public class HomeworkServiceImpl implements HomeworkService {
                 .title("GRAMO HOMEWORK")
                 .token(user.getToken())
                 .build();
+    }
+
+    @PostConstruct
+    public void init() {
+        try {
+            GoogleCredentials googleCredentials = GoogleCredentials
+                    .fromStream(new ClassPathResource(path).getInputStream());
+            FirebaseOptions firebaseOptions = FirebaseOptions.builder()
+                    .setCredentials(googleCredentials)
+                    .build();
+
+            if(FirebaseApp.getApps().isEmpty()) {
+                FirebaseApp.initializeApp(firebaseOptions);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendNotification(NotificationRequest request) {
@@ -161,7 +177,7 @@ public class HomeworkServiceImpl implements HomeworkService {
                     .build();
             FirebaseMessaging.getInstance().sendAsync(message).get();
         } catch (Exception e) {
-            throw new UserNotFoundException();
+            throw new SendNotificationFailed();
         }
     }
 }

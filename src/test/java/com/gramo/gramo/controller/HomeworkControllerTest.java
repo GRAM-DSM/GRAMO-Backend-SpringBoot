@@ -103,8 +103,6 @@ class HomeworkControllerTest {
     @WithMockUser(value = "teacher@dsm.hs.kr", password = "1234")
     public void createHomeworkTest() throws Exception{
 
-        LocalDate date = LocalDate.now();
-
         HomeworkRequest request = HomeworkRequest.builder()
                 .description("description")
                 .endDate(LocalDate.now().plusDays(1))
@@ -260,7 +258,7 @@ class HomeworkControllerTest {
         Long id = createHomework("title",false,true);
         createHomework("title2",false,false);
 
-        this.mvc.perform(patch("/homework/reject/"+id))
+        this.mvc.perform(patch("/homework/reject/"+id)).andDo(print())
                 .andExpect(status().isCreated());
 
         Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsRejected(),true);
