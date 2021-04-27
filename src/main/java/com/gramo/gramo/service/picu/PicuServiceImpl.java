@@ -6,6 +6,7 @@ import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.PermissionMismatchException;
 import com.gramo.gramo.exception.PicuNotFoundException;
 import com.gramo.gramo.exception.UserNotFoundException;
+import com.gramo.gramo.factory.UserFactory;
 import com.gramo.gramo.mapper.PicuMapper;
 import com.gramo.gramo.payload.request.PicuRequest;
 import com.gramo.gramo.payload.response.PicuContentResponse;
@@ -23,7 +24,7 @@ public class PicuServiceImpl implements PicuService{
 
     private final PicuRepository picuRepository;
     private final AuthenticationFacade authenticationFacade;
-    private final UserRepository userRepository;
+    private final UserFactory userFactory;
     private final PicuMapper picuMapper;
 
     @Override
@@ -33,9 +34,7 @@ public class PicuServiceImpl implements PicuService{
 
         for(Picu picu : picuList) {
             picuContentResponses.add(
-                    picuMapper.toResponse(picu,
-                            userRepository.findByEmail(authenticationFacade.getUserEmail())
-                                    .orElseThrow(UserNotFoundException::new).getName())
+                    picuMapper.toResponse(picu, userFactory.getAuthUser().getName())
             );
         }
 

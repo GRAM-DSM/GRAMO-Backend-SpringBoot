@@ -25,12 +25,8 @@ public class UserFactory {
     }
 
     private User findUser(String email) {
-        System.out.println("전체 유저");
-        userRepository.findAllBy()
-                .forEach(user -> System.out.println(user.getEmail()));
-        System.out.println("여까지");
-
         System.out.println(userRepository.existsById(email));
+        System.out.println(email);
         return userRepository.findByEmail(email)
                 .orElseThrow(UserNotFoundException::new);
     }
