@@ -44,7 +44,7 @@ public class PicuServiceImpl implements PicuService{
 
     @Override
     public void createPicu(PicuRequest request) {
-        picuRepository.save(picuMapper.toPicu(request, authenticationFacade.getUserEmail()));
+        picuRepository.save(picuMapper.toPicu(request, userFactory.getAuthUser().getEmail()));
     }
 
     @Override

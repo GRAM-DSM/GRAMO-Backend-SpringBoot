@@ -46,9 +46,7 @@ public class HomeworkServiceImpl implements HomeworkService {
 //                userFactory.getUser(homeworkRequest.getStudentEmail()).getName() +
 //                "님에게 숙제를 냈습니다.", userFactory.getUser(homeworkRequest.getStudentEmail())));
 
-        homeworkRepository.save(
-                homeworkMapper.toHomework(homeworkRequest, authenticationFacade.getUserEmail())
-        );
+        homeworkRepository.save(homeworkMapper.toHomework(homeworkRequest, userFactory.getAuthUser().getEmail()));
     }
 
     @Override
