@@ -4,6 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+src/main/resources/gramo-d19da-firebase-adminsdk-tka95-218dd64be4.json
 
 ### STS ###
 .apt_generated

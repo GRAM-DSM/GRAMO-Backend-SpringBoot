@@ -1,8 +1,12 @@
 package com.gramo.gramo.exception;
 
+import com.gramo.gramo.exception.config.ErrorCode;
+import com.gramo.gramo.exception.config.GlobalException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Plan Not Found")
-public class PlanNotFoundException extends RuntimeException{
+public class PlanNotFoundException extends GlobalException {
+    public PlanNotFoundException() {
+        super(ErrorCode.PLAN_NOT_FOUND);
+    }
 }
