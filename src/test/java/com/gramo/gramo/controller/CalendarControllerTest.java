@@ -12,6 +12,7 @@ import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.entity.user.enums.Major;
 import com.gramo.gramo.payload.response.CalendarContentResponse;
+import com.gramo.gramo.payload.response.CalendarListResponse;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,12 +90,12 @@ public class CalendarControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        List<CalendarContentResponse> responses = new ObjectMapper().registerModule(new JavaTimeModule())
-                .readValue(result.getResponse().getContentAsString(), new TypeReference<List<CalendarContentResponse>>() {});
+        CalendarListResponse responses = new ObjectMapper().registerModule(new JavaTimeModule())
+                .readValue(result.getResponse().getContentAsString(), CalendarListResponse.class);
 
-        Assertions.assertEquals(responses.get(0).getDate(), LocalDate.of(2021, 04, 01));
-        Assertions.assertEquals(responses.get(0).getPicuCount(), 3);
-        Assertions.assertEquals(responses.get(0).getPlanCount(), 4);
+        Assertions.assertEquals(responses.getCalendarContentResponses().get(0).getDate(), LocalDate.of(2021, 04, 01));
+        Assertions.assertEquals(responses.getCalendarContentResponses().get(0).getPicuCount(), 3);
+        Assertions.assertEquals(responses.getCalendarContentResponses().get(0).getPlanCount(), 4);
 
 
     }
