@@ -1,6 +1,7 @@
 package com.gramo.gramo.controller;
 
 import com.gramo.gramo.payload.response.CalendarContentResponse;
+import com.gramo.gramo.payload.response.CalendarListResponse;
 import com.gramo.gramo.service.calendar.CalendarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,7 +18,7 @@ public class CalendarController {
 
     private final CalendarService calendarService;
     @GetMapping("/{date}")
-    public List<CalendarContentResponse> getCalendar(@PathVariable @DateTimeFormat(pattern = "yyyy-MM") YearMonth date) {
+    public CalendarListResponse getCalendar(@PathVariable @DateTimeFormat(pattern = "yyyy-MM") YearMonth date) {
         return calendarService.getCalendar(date);
     }
 }

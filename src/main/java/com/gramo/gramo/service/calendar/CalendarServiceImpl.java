@@ -3,6 +3,7 @@ package com.gramo.gramo.service.calendar;
 import com.gramo.gramo.entity.picu.PicuRepository;
 import com.gramo.gramo.entity.plan.PlanRepository;
 import com.gramo.gramo.payload.response.CalendarContentResponse;
+import com.gramo.gramo.payload.response.CalendarListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class CalendarServiceImpl implements CalendarService {
     private final PlanRepository planRepository;
 
     @Override
-    public List<CalendarContentResponse> getCalendar(YearMonth date) {
+    public CalendarListResponse getCalendar(YearMonth date) {
         HashMap<LocalDate, Integer> picuMap = new HashMap<>();  // hash 알고리즘을 통해 그냥 map보다 빠름
         HashMap<LocalDate, Integer> planMap = new HashMap<>();
         List<LocalDate> picuDates = new ArrayList<>();
@@ -34,7 +35,7 @@ public class CalendarServiceImpl implements CalendarService {
         getCalendarMap(picuDates, picuMap);// get map with date
         getCalendarMap(planDates, planMap);
 
-        return buildResponse(picuMap, planMap, dateMap);
+        return new CalendarListResponse(buildResponse(picuMap, planMap, dateMap));
     }
 
     private List<CalendarContentResponse> buildResponse(HashMap<LocalDate, Integer> picuMap,
