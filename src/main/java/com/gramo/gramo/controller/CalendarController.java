@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 @RestController
@@ -16,7 +17,7 @@ public class CalendarController {
 
     private final CalendarService calendarService;
     @GetMapping("/{date}")
-    public List<CalendarContentResponse> getCalendar(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public List<CalendarContentResponse> getCalendar(@PathVariable @DateTimeFormat(pattern = "yyyy-MM") YearMonth date) {
         return calendarService.getCalendar(date);
     }
 }

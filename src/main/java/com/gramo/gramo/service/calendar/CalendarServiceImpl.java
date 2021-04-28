@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.*;
 
 @Service
@@ -17,7 +18,7 @@ public class CalendarServiceImpl implements CalendarService {
     private final PlanRepository planRepository;
 
     @Override
-    public List<CalendarContentResponse> getCalendar(LocalDate date) {
+    public List<CalendarContentResponse> getCalendar(YearMonth date) {
         HashMap<LocalDate, Integer> picuMap = new HashMap<>();  // hash 알고리즘을 통해 그냥 map보다 빠름
         HashMap<LocalDate, Integer> planMap = new HashMap<>();
         List<LocalDate> picuDates = new ArrayList<>();
@@ -67,7 +68,7 @@ public class CalendarServiceImpl implements CalendarService {
         }
     }
 
-    private HashMap<String, LocalDate> getDate(LocalDate date) {
+    private HashMap<String, LocalDate> getDate(YearMonth date) {
         HashMap<String, LocalDate> dateMap = new HashMap<>();
 
         LocalDate startDate = LocalDate.of(date.getYear(), date.getMonth(), 1);

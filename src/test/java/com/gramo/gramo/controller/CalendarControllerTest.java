@@ -85,8 +85,8 @@ public class CalendarControllerTest {
     @Test
     @WithMockUser(value = "email", password = "pwd")
     public void calendar_list_test() throws Exception {
-        MvcResult result = mvc.perform(get("/calendar/2021-04-19"))
-                .andExpect(status().isOk()).andDo(print())
+        MvcResult result = mvc.perform(get("/calendar/2021-04"))
+                .andExpect(status().isOk())
                 .andReturn();
 
         List<CalendarContentResponse> responses = new ObjectMapper().registerModule(new JavaTimeModule())
