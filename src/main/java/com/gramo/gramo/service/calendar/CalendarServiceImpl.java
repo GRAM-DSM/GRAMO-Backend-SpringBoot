@@ -49,6 +49,7 @@ public class CalendarServiceImpl implements CalendarService {
                     CalendarContentResponse.builder()
                             .picuCount(picuMap.get(current) != null ? picuMap.get(current).longValue(): 0)
                             .planCount(planMap.get(current) != null ? planMap.get(current).longValue(): 0)
+                            .id(current.getDayOfMonth())
                             .date(current)
                             .build()
             );

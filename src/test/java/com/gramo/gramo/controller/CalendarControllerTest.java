@@ -16,6 +16,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -85,7 +86,7 @@ public class CalendarControllerTest {
     @WithMockUser(value = "email", password = "pwd")
     public void calendar_list_test() throws Exception {
         MvcResult result = mvc.perform(get("/calendar/2021-04-19"))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk()).andDo(print())
                 .andReturn();
 
         List<CalendarContentResponse> responses = new ObjectMapper().registerModule(new JavaTimeModule())

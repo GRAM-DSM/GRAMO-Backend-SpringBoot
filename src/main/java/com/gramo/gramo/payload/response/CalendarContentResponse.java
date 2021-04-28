@@ -13,6 +13,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class CalendarContentResponse {
 
+    private Integer id;
+
     private LocalDate date;
 
     private Long picuCount;

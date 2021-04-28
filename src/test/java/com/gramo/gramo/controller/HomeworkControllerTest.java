@@ -272,7 +272,7 @@ class HomeworkControllerTest {
         createHomework("title",false,false);
 
         this.mvc.perform(patch("/homework/reject/"+id))
-                .andExpect(status().isUnauthorized()    );
+                .andExpect(status().isUnauthorized());
 
         Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsRejected(),false);
 
