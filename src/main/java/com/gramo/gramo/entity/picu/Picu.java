@@ -13,8 +13,8 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "picu_tbl")
+@Entity
 public class Picu {
 
     @Id

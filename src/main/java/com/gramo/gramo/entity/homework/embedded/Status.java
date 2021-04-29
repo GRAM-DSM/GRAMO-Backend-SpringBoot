@@ -1,17 +1,15 @@
 package com.gramo.gramo.entity.homework.embedded;
 
-import com.gramo.gramo.entity.homework.Homework;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Getter
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @Embeddable
 public class Status {
 
@@ -35,4 +33,5 @@ public class Status {
         this.isRejected = true;
         this.isSubmitted = false;
     }
+
 }
