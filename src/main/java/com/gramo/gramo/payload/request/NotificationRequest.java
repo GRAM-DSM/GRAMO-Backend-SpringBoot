@@ -6,13 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class NotificationRequest {
+
     private String title;
 
     private String token;
 
     private String body;
+
 }

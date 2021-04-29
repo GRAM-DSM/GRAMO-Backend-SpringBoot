@@ -13,8 +13,8 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "plan_tbl")
+@Entity
 public class Plan {
 
     @Id
@@ -30,4 +30,5 @@ public class Plan {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
     private LocalDate date;
+
 }

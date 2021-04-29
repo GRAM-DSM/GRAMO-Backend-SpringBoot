@@ -1,6 +1,5 @@
 package com.gramo.gramo.exception.config;
 
-import com.gramo.gramo.entity.homework.embedded.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,4 +12,5 @@ public class ErrorResponse {
     private String reason;
 
     private Integer status;
+
 }

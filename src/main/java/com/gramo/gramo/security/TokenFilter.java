@@ -16,6 +16,7 @@ import java.io.IOException;
 public class TokenFilter extends GenericFilterBean {
 
     private final JwtTokenProvider jwtTokenProvider;
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);     // request에서 토큰 값을 추출
@@ -29,4 +30,5 @@ public class TokenFilter extends GenericFilterBean {
         chain.doFilter(request, response);
 
     }
+
 }

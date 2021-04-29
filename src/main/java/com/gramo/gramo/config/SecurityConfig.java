@@ -47,12 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .allowedMethods("*");
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 }
 

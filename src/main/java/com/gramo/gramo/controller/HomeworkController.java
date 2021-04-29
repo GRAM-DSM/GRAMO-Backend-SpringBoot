@@ -11,9 +11,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-@RestController
 @RequiredArgsConstructor
 @RequestMapping("/homework")
+@RestController
 public class HomeworkController {
 
     private final HomeworkService homeworkService;

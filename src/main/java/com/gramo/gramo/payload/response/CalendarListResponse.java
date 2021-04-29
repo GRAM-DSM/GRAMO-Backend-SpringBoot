@@ -10,6 +10,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CalendarListResponse {
-
     private List<CalendarContentResponse> calendarContentResponses;
 }

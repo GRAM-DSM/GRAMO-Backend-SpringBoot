@@ -9,12 +9,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Embeddable
 public class Term {
 

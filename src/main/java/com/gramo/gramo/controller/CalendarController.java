@@ -11,14 +11,16 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 
-@RestController
 @RequiredArgsConstructor
 @RequestMapping("/calendar")
+@RestController
 public class CalendarController {
 
     private final CalendarService calendarService;
+
     @GetMapping("/{date}")
     public CalendarListResponse getCalendar(@PathVariable @DateTimeFormat(pattern = "yyyy-MM") YearMonth date) {
         return calendarService.getCalendar(date);
     }
+
 }

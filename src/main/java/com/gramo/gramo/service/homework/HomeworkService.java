@@ -22,5 +22,4 @@ public interface HomeworkService {
     void submitHomework(Long homeworkId) throws ExecutionException, InterruptedException;
 
     void rejectHomework(Long homeworkId);
-
 }

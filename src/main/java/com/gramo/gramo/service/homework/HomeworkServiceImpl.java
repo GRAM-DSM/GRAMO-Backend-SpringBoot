@@ -9,7 +9,6 @@ import com.google.firebase.messaging.Notification;
 import com.gramo.gramo.entity.homework.Homework;
 import com.gramo.gramo.entity.homework.HomeworkRepository;
 import com.gramo.gramo.entity.user.User;
-import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.*;
 import com.gramo.gramo.factory.UserFactory;
 import com.gramo.gramo.mapper.HomeworkMapper;
@@ -18,7 +17,6 @@ import com.gramo.gramo.payload.request.NotificationRequest;
 import com.gramo.gramo.payload.response.MyHomeworkResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -178,4 +176,5 @@ public class HomeworkServiceImpl implements HomeworkService {
             throw new SendNotificationFailed();
         }
     }
+
 }

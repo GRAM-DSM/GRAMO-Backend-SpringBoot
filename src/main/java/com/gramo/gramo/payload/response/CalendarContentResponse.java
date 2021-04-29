@@ -20,4 +20,5 @@ public class CalendarContentResponse {
     private Long picuCount;
 
     private Long planCount;
+
 }

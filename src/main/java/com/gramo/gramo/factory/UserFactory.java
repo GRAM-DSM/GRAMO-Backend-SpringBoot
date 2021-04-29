@@ -7,8 +7,6 @@ import com.gramo.gramo.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.ExecutionException;
-
 @Component
 @RequiredArgsConstructor
 public class UserFactory {
@@ -30,4 +28,5 @@ public class UserFactory {
         return userRepository.findByEmail(email)
                 .orElseThrow(UserNotFoundException::new);
     }
+
 }
