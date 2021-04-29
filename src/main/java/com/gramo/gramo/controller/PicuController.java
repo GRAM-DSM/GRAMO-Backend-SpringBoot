@@ -12,9 +12,9 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
 @RequiredArgsConstructor
 @RequestMapping("/calendar/picu")
+@RestController
 public class PicuController {
 
     private final PicuService picuService;

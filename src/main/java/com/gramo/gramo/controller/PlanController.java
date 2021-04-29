@@ -12,9 +12,9 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
 @RequiredArgsConstructor
 @RequestMapping("/calendar/plan")
+@RestController
 public class PlanController {
 
     private final PlanService planService;

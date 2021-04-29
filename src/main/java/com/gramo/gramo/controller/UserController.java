@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
+@RestController
 public class UserController {
 
     private final UserService userService;
@@ -24,4 +24,5 @@ public class UserController {
     public UserInfoListResponse getUserList() {
         return userService.getUserList();
     }
+
 }
