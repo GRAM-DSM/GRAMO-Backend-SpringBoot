@@ -1,6 +1,5 @@
 package com.gramo.gramo.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gramo.gramo.GramoApplication;
@@ -11,13 +10,11 @@ import com.gramo.gramo.entity.plan.PlanRepository;
 import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.entity.user.enums.Major;
-import com.gramo.gramo.payload.response.CalendarContentResponse;
 import com.gramo.gramo.payload.response.CalendarListResponse;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -29,10 +26,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -132,4 +127,5 @@ public class CalendarControllerTest {
                         .build()
         );
     }
+
 }
