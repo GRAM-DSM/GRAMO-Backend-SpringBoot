@@ -7,11 +7,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface PicuService {
-
     List<PicuContentResponse> getPicu(LocalDate date);
 
     void createPicu(PicuRequest request);
 
     void deletePicu(Long picuId);
-
 }

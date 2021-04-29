@@ -7,11 +7,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface PlanService {
-
     List<PlanContentResponse> getPlan(LocalDate date);
 
     void postPlan(PlanRequest planRequest);
 
     void deletePlan(Long planId);
-
 }
