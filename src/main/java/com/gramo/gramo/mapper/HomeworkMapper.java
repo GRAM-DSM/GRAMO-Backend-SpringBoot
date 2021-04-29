@@ -7,7 +7,6 @@ import org.mapstruct.*;
 
 @Mapper(config = BasicMapperConfig.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface HomeworkMapper {
-//
 //    HomeworkMapper INSTANCE = Mappers.getMapper(HomeworkMapper.class);      // 이 정보로 클래스를 생성
 
     @Mapping(source = "homework.id", target = "homeworkId")      // entity의 id와 response의 homeworkId와 매핑
