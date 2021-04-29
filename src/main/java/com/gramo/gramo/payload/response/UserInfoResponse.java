@@ -15,4 +15,5 @@ public class UserInfoResponse {
     private String name;
 
     private Major major;
+
 }
