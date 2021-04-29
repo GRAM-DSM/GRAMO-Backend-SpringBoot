@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class JwtTokenProvider {
 
     @Value("${auth.jwt.secret}")

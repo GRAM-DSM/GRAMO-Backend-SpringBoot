@@ -11,8 +11,8 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class CalendarServiceImpl implements CalendarService {
 
     private final PicuRepository picuRepository;
@@ -80,4 +80,5 @@ public class CalendarServiceImpl implements CalendarService {
 
         return dateMap;
     }
+
 }

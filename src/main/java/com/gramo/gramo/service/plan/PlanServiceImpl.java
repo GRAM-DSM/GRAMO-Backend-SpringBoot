@@ -5,7 +5,6 @@ import com.gramo.gramo.entity.plan.PlanRepository;
 import com.gramo.gramo.mapper.PlanMapper;
 import com.gramo.gramo.payload.request.PlanRequest;
 import com.gramo.gramo.payload.response.PlanContentResponse;
-import com.gramo.gramo.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +12,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class PlanServiceImpl implements PlanService{
 
     private final PlanRepository planRepository;

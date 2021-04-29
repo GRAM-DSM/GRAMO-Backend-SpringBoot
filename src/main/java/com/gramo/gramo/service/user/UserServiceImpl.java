@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -37,4 +37,5 @@ public class UserServiceImpl implements UserService {
         );
         return new UserInfoListResponse(userInfoResponses);
     }
+
 }
