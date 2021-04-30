@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -27,17 +28,9 @@ public class PicuServiceImpl implements PicuService{
 
     @Override
     public List<PicuContentResponse> getPicu(LocalDate date) {
-        List<Picu> picuList = picuRepository.findAllByDateOrderByIdDesc(date);
-        List<PicuContentResponse> picuContentResponses = new ArrayList<>();
-
-        for(Picu picu : picuList) {
-            picuContentResponses.add(
-                    picuMapper.toResponse(picu, userFactory.getUser(picu.getUserEmail()).getName()  )
-            );
-        }
-
-        return picuContentResponses;
-
+        return picuRepository.findAllByDateOrderByIdDesc(date)
+                .stream().map(picu -> picuMapper.toResponse(picu, userFactory.getAuthUser().getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -47,14 +40,10 @@ public class PicuServiceImpl implements PicuService{
 
     @Override
     public void deletePicu(Long picuId) {
-        Picu picu = picuRepository.findById(picuId)
-                .orElseThrow(PicuNotFoundException::new);
-
-        if(!picu.getUserEmail().equals(authenticationFacade.getUserEmail())) {
-            throw new PermissionMismatchException();
-        }
-
-        picuRepository.delete(picu);
+        picuRepository.findById(picuId)
+                .filter(picu -> picu.getUserEmail().equals(authenticationFacade.getUserEmail()))
+                .ifPresentOrElse(picuRepository::delete,
+                        PicuNotFoundException::new);
     }
 
 }
