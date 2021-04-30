@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -20,15 +21,9 @@ public class PlanServiceImpl implements PlanService{
     private final PlanMapper planMapper;
 
     public List<PlanContentResponse> getPlan(LocalDate date) {
-
-        List<Plan> plans = planRepository.findAllByDateOrderByIdDesc(date);
-        List<PlanContentResponse> planContentResponses = new ArrayList<>();
-
-        for(Plan plan : plans) {
-            planContentResponses.add(planMapper.planToResponse(plan));
-        }
-
-        return planContentResponses;
+        return planRepository.findAllByDateOrderByIdDesc(date)
+                .stream().map(planMapper::planToResponse)
+                .collect(Collectors.toList());
     }
 
     public void postPlan(PlanRequest planRequest) {
