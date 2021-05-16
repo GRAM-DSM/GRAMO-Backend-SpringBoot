@@ -1,8 +1,6 @@
 package com.gramo.gramo.service.picu;
 
-import com.gramo.gramo.entity.picu.Picu;
 import com.gramo.gramo.entity.picu.PicuRepository;
-import com.gramo.gramo.exception.PermissionMismatchException;
 import com.gramo.gramo.exception.PicuNotFoundException;
 import com.gramo.gramo.factory.UserFactory;
 import com.gramo.gramo.mapper.PicuMapper;
@@ -13,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,9 +38,8 @@ public class PicuServiceImpl implements PicuService{
     @Override
     public void deletePicu(Long picuId) {
         picuRepository.findById(picuId)
-                .filter(picu -> picu.getUserEmail().equals(authenticationFacade.getUserEmail()))
-                .ifPresentOrElse(picuRepository::delete,
-                        PicuNotFoundException::new);
+                .filter((var picu) -> picu.getUserEmail().equals(authenticationFacade.getUserEmail()))
+                .ifPresentOrElse(picuRepository::delete, PicuNotFoundException::new);
     }
 
 }

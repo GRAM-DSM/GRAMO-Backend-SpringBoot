@@ -25,7 +25,7 @@ public class CalendarServiceImpl implements CalendarService {
         List<LocalDate> picuDates = new ArrayList<>();
         List<LocalDate> planDates = new ArrayList<>();
 
-        HashMap<String, LocalDate> dateMap = getDate(date);
+        var dateMap = getDate(date);
 
         picuRepository.findAllByDateBetween(dateMap.get("startDate"), dateMap.get("endDate"))   // get the picu list
                 .forEach(picu -> picuDates.add(picu.getDate()));                                // extract picu's date
@@ -64,7 +64,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     private void getCalendarMap(List<LocalDate> dates,
                                 HashMap<LocalDate, Integer> map) {      // 굳이 반환하지 않고 void로 해도, 여기서의 hashMap 수정사항이 적용 됨
-        for(LocalDate date : dates) {
+        for(var date : dates) {
             map.merge(date, 1, Integer::sum);   // map에서 get을 하고, 있으면 1을 더해서 넣고 없으면 1을 넣음
         }
     }

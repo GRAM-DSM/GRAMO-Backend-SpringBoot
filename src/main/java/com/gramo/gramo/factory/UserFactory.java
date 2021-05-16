@@ -23,8 +23,6 @@ public class UserFactory {
     }
 
     private User findUser(String email) {
-        System.out.println(userRepository.existsById(email));
-        System.out.println(email);
         return userRepository.findByEmail(email)
                 .orElseThrow(UserNotFoundException::new);
     }
