@@ -64,9 +64,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     private void getCalendarMap(List<LocalDate> dates,
                                 HashMap<LocalDate, Integer> map) {      // 굳이 반환하지 않고 void로 해도, 여기서의 hashMap 수정사항이 적용 됨
-        for(var date : dates) {
-            map.merge(date, 1, Integer::sum);   // map에서 get을 하고, 있으면 1을 더해서 넣고 없으면 1을 넣음
-        }
+        dates.forEach(date -> map.merge(date,1,Integer::sum));
     }
 
     private HashMap<String, LocalDate> getDate(YearMonth date) {
