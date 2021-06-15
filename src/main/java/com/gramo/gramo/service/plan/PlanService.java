@@ -2,12 +2,13 @@ package com.gramo.gramo.service.plan;
 
 import com.gramo.gramo.payload.request.PlanRequest;
 import com.gramo.gramo.payload.response.PlanContentResponse;
+import com.gramo.gramo.payload.response.PlanListResponse;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface PlanService {
-    List<PlanContentResponse> getPlan(LocalDate date);
+    PlanListResponse getPlan(LocalDate date);
 
     void postPlan(PlanRequest planRequest);
 

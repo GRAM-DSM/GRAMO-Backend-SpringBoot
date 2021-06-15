@@ -2,6 +2,7 @@ package com.gramo.gramo.controller;
 
 import com.gramo.gramo.payload.request.PlanRequest;
 import com.gramo.gramo.payload.response.PlanContentResponse;
+import com.gramo.gramo.payload.response.PlanListResponse;
 import com.gramo.gramo.service.plan.PlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,7 +21,7 @@ public class PlanController {
     private final PlanService planService;
 
     @GetMapping("/{planDate}")
-    public List<PlanContentResponse> getPlan(@DateTimeFormat(pattern = "yyyy-MM-dd")
+    public PlanListResponse getPlan(@DateTimeFormat(pattern = "yyyy-MM-dd")
                                              @PathVariable LocalDate planDate) {
         return planService.getPlan(planDate);
     }
