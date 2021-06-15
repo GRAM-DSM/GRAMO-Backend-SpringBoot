@@ -30,7 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeworkServiceImpl implements HomeworkService {
 
-    private String path = "gramo-d19da-firebase-adminsdk-tka95-218dd64be4";
+    private static final String path = "gramo-d19da-firebase-adminsdk-tka95-218dd64be4";
 
     private final AuthenticationFacade authenticationFacade;
     private final HomeworkRepository homeworkRepository;
@@ -132,8 +132,8 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     private MyHomeworkResponse buildResponse(Homework homework) {
-        return homeworkMapper.toHomeworkResponse(homework, userFactory.getUser(homework.getStudentEmail()).getName(),
-                userFactory.getUser(homework.getTeacherEmail()).getName(), homework.getTeacherEmail().equals(authenticationFacade.getUserEmail()));
+        return homeworkMapper.toHomeworkResponse(homework, getUserName(homework.getStudentEmail()),
+                getUserName(homework.getTeacherEmail()), homework.getTeacherEmail().equals(authenticationFacade.getUserEmail()));
     }
 
     private NotificationRequest buildRequest(String content, User user) {
@@ -175,6 +175,10 @@ public class HomeworkServiceImpl implements HomeworkService {
         } catch (Exception e) {
             throw new SendNotificationFailed();
         }
+    }
+
+    private String getUserName(String email) {
+        return userFactory.getUser(email) == null ? null : userFactory.getUser(email).getName();
     }
 
 }

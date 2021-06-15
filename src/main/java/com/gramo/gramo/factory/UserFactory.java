@@ -15,15 +15,12 @@ public class UserFactory {
     private final AuthenticationFacade authenticationFacade;
 
     public User getUser(String email) {
-        return findUser(email);
+        return userRepository.findByEmail(email)
+                .orElse(null);
     }
 
     public User getAuthUser() {
-        return findUser(authenticationFacade.getUserEmail());
-    }
-
-    private User findUser(String email) {
-        return userRepository.findByEmail(email)
+        return userRepository.findByEmail(authenticationFacade.getUserEmail())
                 .orElseThrow(UserNotFoundException::new);
     }
 
