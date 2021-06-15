@@ -2,6 +2,7 @@ package com.gramo.gramo.controller;
 
 import com.gramo.gramo.payload.request.PicuRequest;
 import com.gramo.gramo.payload.response.PicuContentResponse;
+import com.gramo.gramo.payload.response.PicuListResponse;
 import com.gramo.gramo.service.picu.PicuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,7 +21,7 @@ public class PicuController {
     private final PicuService picuService;
 
     @GetMapping("/{picuDate}")
-    public List<PicuContentResponse> getPicu(@DateTimeFormat(pattern = "yyyy-MM-dd")
+    public PicuListResponse getPicu(@DateTimeFormat(pattern = "yyyy-MM-dd")
                                              @PathVariable LocalDate picuDate) {
         return picuService.getPicu(picuDate);
     }

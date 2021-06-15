@@ -6,6 +6,7 @@ import com.gramo.gramo.factory.UserFactory;
 import com.gramo.gramo.mapper.PicuMapper;
 import com.gramo.gramo.payload.request.PicuRequest;
 import com.gramo.gramo.payload.response.PicuContentResponse;
+import com.gramo.gramo.payload.response.PicuListResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,11 @@ public class PicuServiceImpl implements PicuService{
     private final PicuMapper picuMapper;
 
     @Override
-    public List<PicuContentResponse> getPicu(LocalDate date) {
-        return picuRepository.findAllByDateOrderByIdDesc(date)
+    public PicuListResponse getPicu(LocalDate date) {
+        List<PicuContentResponse>  picuList = picuRepository.findAllByDateOrderByIdDesc(date)
                 .stream().map(picu -> picuMapper.toResponse(picu, userFactory.getAuthUser().getName()))
                 .collect(Collectors.toList());
+        return new PicuListResponse(picuList);
     }
 
     @Override
