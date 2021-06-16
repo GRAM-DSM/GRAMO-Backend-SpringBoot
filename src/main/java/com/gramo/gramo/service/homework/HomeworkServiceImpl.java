@@ -132,8 +132,8 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     private MyHomeworkResponse buildResponse(Homework homework) {
-        return homeworkMapper.toHomeworkResponse(homework, getUserName(homework.getStudentEmail()),
-                getUserName(homework.getTeacherEmail()), homework.getTeacherEmail().equals(authenticationFacade.getUserEmail()));
+        return homeworkMapper.toHomeworkResponse(homework, userFactory.getUserName(homework.getStudentEmail()),
+                userFactory.getUserName(homework.getTeacherEmail()), homework.getTeacherEmail().equals(authenticationFacade.getUserEmail()));
     }
 
     private NotificationRequest buildRequest(String content, User user) {
@@ -175,10 +175,6 @@ public class HomeworkServiceImpl implements HomeworkService {
         } catch (Exception e) {
             throw new SendNotificationFailed();
         }
-    }
-
-    private String getUserName(String email) {
-        return userFactory.getUser(email) == null ? null : userFactory.getUser(email).getName();
     }
 
 }

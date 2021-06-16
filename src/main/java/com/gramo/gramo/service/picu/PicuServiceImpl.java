@@ -27,7 +27,7 @@ public class PicuServiceImpl implements PicuService{
     @Override
     public PicuListResponse getPicu(LocalDate date) {
         List<PicuContentResponse>  picuList = picuRepository.findAllByDateOrderByIdDesc(date)
-                .stream().map(picu -> picuMapper.toResponse(picu, userFactory.getAuthUser().getName()))
+                .stream().map(picu -> picuMapper.toResponse(picu, userFactory.getUserName(picu.getUserEmail())))
                 .collect(Collectors.toList());
         return new PicuListResponse(picuList);
     }

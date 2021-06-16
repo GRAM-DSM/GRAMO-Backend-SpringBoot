@@ -24,4 +24,8 @@ public class UserFactory {
                 .orElseThrow(UserNotFoundException::new);
     }
 
+    public String getUserName(String email) {
+        return getUser(email) == null ? null : getUser(email).getName();
+    }
+
 }
