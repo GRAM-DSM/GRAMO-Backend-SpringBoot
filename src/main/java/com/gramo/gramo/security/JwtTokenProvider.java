@@ -32,7 +32,7 @@ public class JwtTokenProvider {
     @Value("${auth.jwt.exp.access}")
     private long accessExp;
 
-    @Value("${auth.jwt.prefix}")
+    @Value("${auth.jwt.exp.refresh}")
     private long refreshExp;
 
     private final AuthDetailService authDetailService;
@@ -48,6 +48,7 @@ public class JwtTokenProvider {
 
     private String generateToken(String email, long exp, String type) {
         return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
                 .signWith(SignatureAlgorithm.HS256, Base64.getEncoder()
                         .encodeToString(secretKey.getBytes()))
                 .setSubject(email)
