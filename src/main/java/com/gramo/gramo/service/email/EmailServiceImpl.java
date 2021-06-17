@@ -42,6 +42,7 @@ public class EmailServiceImpl implements EmailService {
             );
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new MailSendError();
         }
     }
