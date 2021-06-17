@@ -5,6 +5,7 @@ import com.gramo.gramo.security.auth.AuthDetailService;
 import com.gramo.gramo.security.auth.AuthDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +29,33 @@ public class JwtTokenProvider {
     @Value("${auth.jwt.prefix}")
     private String prefix;
 
+    @Value("${auth.jwt.exp.access}")
+    private long accessExp;
+
+    @Value("${auth.jwt.prefix}")
+    private long refreshExp;
+
     private final AuthDetailService authDetailService;
+
+
+    public String generateAccessToken(String email) {
+        return generateToken(email, accessExp, "access");
+    }
+
+    public String generateRefreshToken(String email) {
+        return generateToken(email, refreshExp, "refresh");
+    }
+
+    private String generateToken(String email, long exp, String type) {
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS256, Base64.getEncoder()
+                        .encodeToString(secretKey.getBytes()))
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
+                .claim("type", type)
+                .compact();
+    }
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(header);             // request에서 header 부분을 추출
