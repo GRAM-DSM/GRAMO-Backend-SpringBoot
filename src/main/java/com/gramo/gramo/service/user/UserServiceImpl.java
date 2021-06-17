@@ -3,10 +3,13 @@ package com.gramo.gramo.service.user;
 import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.entity.verifynumber.VerifyNumberRepository;
+import com.gramo.gramo.entity.verifyuser.VerifyUser;
+import com.gramo.gramo.entity.verifyuser.VerifyUserRepository;
 import com.gramo.gramo.exception.UserAlreadyExistException;
 import com.gramo.gramo.exception.UserNotFoundException;
 import com.gramo.gramo.exception.VerifyNumNotFoundException;
 import com.gramo.gramo.payload.request.SignUpRequest;
+import com.gramo.gramo.payload.request.VerifyRequest;
 import com.gramo.gramo.payload.response.UserInfoListResponse;
 import com.gramo.gramo.payload.response.UserInfoResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
@@ -25,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationFacade authenticationFacade;
     private final PasswordEncoder passwordEncoder;
     private final VerifyNumberRepository verifyNumberRepository;
+    private final VerifyUserRepository verifyUserRepository;
 
     @Override
     public UserInfoResponse getUserInfo() {
@@ -65,6 +69,14 @@ public class UserServiceImpl implements UserService {
                         ),
                         () -> {throw new VerifyNumNotFoundException();}
                 );
+    }
+
+    @Override
+    public void verify(VerifyRequest request) {
+        verifyNumberRepository.findByEmail(request.getEmail())
+                .filter(verifyNumber -> request.getCode().equals(verifyNumber.getVerifyNumber()))
+                .map(verifyNumber -> verifyUserRepository.save(new VerifyUser(request.getEmail())))
+                .orElseThrow(VerifyNumNotFoundException::new);
     }
 
 }
