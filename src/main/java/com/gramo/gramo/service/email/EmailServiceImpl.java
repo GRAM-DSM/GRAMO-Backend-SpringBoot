@@ -30,6 +30,7 @@ public class EmailServiceImpl implements EmailService {
                 helper.setFrom("gramo@gmail.com");
                 helper.setTo(request.getEmail());
                 helper.setSubject("인증번호는 " + generateVerifyNumber() + " 입니다");
+                helper.setText("Gramo");
             };
 
             javaMailSender.send(preparator);
