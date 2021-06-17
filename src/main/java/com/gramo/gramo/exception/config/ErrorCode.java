@@ -14,6 +14,8 @@ public enum ErrorCode {
     INVALID_ACCESS("Invalid Access", 401),
     NOT_ASSIGNED("Not Assigned Homework", 409),
     USER_ALREADY_EXIST("User Already Exist", 409),
+    MAIL_SEND_ERROR("Mail Send Error", 500),
+    EMAIL_CODE_NOT_FOUND("Email Code Not Found", 404),
     PLAN_NOT_FOUND("Plan Not Found", 404),
     PICU_NOT_FOUND("Picu Not Found", 404),
     USER_NOT_FOUND("User Not Found", 404),

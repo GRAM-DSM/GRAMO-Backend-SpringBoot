@@ -9,3 +9,15 @@ services:
     - "8001:8001"
     volumes:
     - /home/hong/projects/GRAMO-Backend-SpringBoot/log:/logs/*.log
+redis:
+  image: redis
+  container_name: redis-server
+  ports:
+    - "6380:6379"
+  volumes:
+    - /home/hong/projects/user_backend_v2/data
+  networks:
+    - redis-network
+
+networks:
+  redis-network:

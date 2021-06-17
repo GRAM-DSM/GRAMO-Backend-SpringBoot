@@ -2,8 +2,10 @@ package com.gramo.gramo.service.user;
 
 import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.entity.user.UserRepository;
+import com.gramo.gramo.entity.verifynumber.VerifyNumberRepository;
 import com.gramo.gramo.exception.UserAlreadyExistException;
 import com.gramo.gramo.exception.UserNotFoundException;
+import com.gramo.gramo.exception.VerifyNumNotFoundException;
 import com.gramo.gramo.payload.request.SignUpRequest;
 import com.gramo.gramo.payload.response.UserInfoListResponse;
 import com.gramo.gramo.payload.response.UserInfoResponse;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AuthenticationFacade authenticationFacade;
     private final PasswordEncoder passwordEncoder;
+    private final VerifyNumberRepository verifyNumberRepository;
 
     @Override
     public UserInfoResponse getUserInfo() {
@@ -49,15 +52,19 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistException();
         }
 
-        userRepository.save(
-                User.builder()
-                        .email(request.getEmail())
-                        .emailStatus(true)
-                        .major(request.getMajor())
-                        .name(request.getEmail())
-                        .password(passwordEncoder.encode(request.getPassword()))
-                        .build()
-        );
+        verifyNumberRepository.findByEmail(request.getEmail())
+                .ifPresentOrElse(
+                        verifyNumber -> userRepository.save(
+                                User.builder()
+                                        .email(request.getEmail())
+                                        .emailStatus(true)
+                                        .major(request.getMajor())
+                                        .name(request.getEmail())
+                                        .password(passwordEncoder.encode(request.getPassword()))
+                                        .build()
+                        ),
+                        () -> {throw new VerifyNumNotFoundException();}
+                );
     }
 
 }
