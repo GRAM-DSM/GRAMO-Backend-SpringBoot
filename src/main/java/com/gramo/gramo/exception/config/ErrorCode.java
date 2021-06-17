@@ -12,7 +12,7 @@ public enum ErrorCode {
     HOMEWORK_NOT_FOUND("Homework Not Found", 404),
     INVALID_TOKEN("Invalid Token", 401),
     INVALID_ACCESS("Invalid Access", 401),
-    INVALID_CALENDAR_ACCESS("Invalid Access", 403),
+    INVALID_CALENDAR_ACCESS("Invalid Calendar Access", 403),
     NOT_ASSIGNED("Not Assigned Homework", 409),
     USER_ALREADY_EXIST("User Already Exist", 409),
     MAIL_SEND_ERROR("Mail Send Error", 500),
