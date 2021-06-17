@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
                                         .email(request.getEmail())
                                         .emailStatus(true)
                                         .major(request.getMajor())
-                                        .name(request.getEmail())
+                                        .name(request.getName())
                                         .password(passwordEncoder.encode(request.getPassword()))
                                         .build()
                         ),
