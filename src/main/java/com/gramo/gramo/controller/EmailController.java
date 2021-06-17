@@ -4,6 +4,7 @@ import com.gramo.gramo.payload.request.EmailRequest;
 import com.gramo.gramo.service.email.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -13,7 +14,7 @@ public class EmailController {
     private final EmailService emailService;
 
     @PostMapping("/sendemail")
-    public void sendEmail(EmailRequest emailRequest) {
+    public void sendEmail(@RequestBody EmailRequest emailRequest) {
         emailService.sendAuthNumEmail(emailRequest);
     }
 
