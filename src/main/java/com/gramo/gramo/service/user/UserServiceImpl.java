@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistException();
         }
 
-        verifyNumberRepository.findByEmail(request.getEmail())
+        verifyUserRepository.findByEmail(request.getEmail())
                 .ifPresentOrElse(
                         verifyNumber -> userRepository.save(
                                 User.builder()
