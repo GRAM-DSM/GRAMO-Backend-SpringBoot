@@ -2,6 +2,7 @@ package com.gramo.gramo.service.picu;
 
 import com.gramo.gramo.entity.picu.Picu;
 import com.gramo.gramo.entity.picu.PicuRepository;
+import com.gramo.gramo.exception.InvalidCalendarAccessException;
 import com.gramo.gramo.exception.PermissionMismatchException;
 import com.gramo.gramo.exception.PicuNotFoundException;
 import com.gramo.gramo.factory.UserFactory;
@@ -42,7 +43,7 @@ public class PicuServiceImpl implements PicuService{
     @Override
     public void deletePicu(Long picuId) {
         Picu picu = picuRepository.findById(picuId)
-                .orElseThrow(PicuNotFoundException::new);
+                .orElseThrow(InvalidCalendarAccessException::new);
         if(!picu.getUserEmail().equals(authenticationFacade.getUserEmail())) {
             throw new PermissionMismatchException();
         }
