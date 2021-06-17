@@ -28,5 +28,4 @@ public class UserController {
     public void signUp(@RequestBody SignUpRequest request) {
         userService.signUp(request);
     }
-
 }
