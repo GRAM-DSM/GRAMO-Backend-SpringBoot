@@ -19,7 +19,6 @@ public class EmailServiceImpl implements EmailService {
 
     private static final Random RANDOM = new Random();
     private final JavaMailSender javaMailSender;
-    private final PasswordEncoder passwordEncoder;
     private final VerifyNumberRepository verifyNumberRepository;
 
     @Override
