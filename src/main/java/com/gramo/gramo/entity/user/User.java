@@ -1,5 +1,6 @@
 package com.gramo.gramo.entity.user;
 
+import com.gramo.gramo.entity.notice.Notice;
 import com.gramo.gramo.entity.user.enums.Major;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Builder
@@ -33,5 +35,8 @@ public class User {
     private Major major;
 
     private String token;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Notice> notices;
 
 }

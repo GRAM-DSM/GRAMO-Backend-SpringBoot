@@ -1,5 +1,6 @@
 package com.gramo.gramo.payload.request;
 
+import com.gramo.gramo.entity.user.enums.Major;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,10 +8,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateNoticeRequest {
+public class SignUpRequest {
 
-    private String title;
+    private Major major;
 
-    private String content;
+    private String email;
 
+    private String password;
+
+    private String name;
 }
