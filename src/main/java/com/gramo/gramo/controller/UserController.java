@@ -26,7 +26,7 @@ public class UserController {
 
     @PostMapping
     public void signUp(@RequestBody SignUpRequest request) {
-
+        userService.signUp(request);
     }
 
 }
