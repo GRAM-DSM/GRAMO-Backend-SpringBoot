@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void verify(VerifyRequest request) {
         verifyNumberRepository.findByEmail(request.getEmail())
-                .filter(verifyNumber -> request.getCode().equals(verifyNumber.getVerifyNumber()))
+                .filter(verifyNumber -> verifyNumber.verifyNumber(request.getCode()))
                 .map(verifyNumber -> verifyUserRepository.save(new VerifyUser(request.getEmail())))
                 .orElseThrow(VerifyNumNotFoundException::new);
     }

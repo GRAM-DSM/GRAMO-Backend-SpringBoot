@@ -25,4 +25,8 @@ public class VerifyNumber {
 
     private String verifyNumber;
 
+    public boolean verifyNumber(String number) {
+        return this.verifyNumber.equals(number);
+    }
+
 }

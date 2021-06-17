@@ -24,7 +24,6 @@ public class EmailController {
     }
 
     @PostMapping("/checkcode")
-    @Async
     public void verify(@RequestBody VerifyRequest request) {
         userService.verify(request);
     }
