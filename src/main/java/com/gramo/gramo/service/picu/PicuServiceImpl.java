@@ -43,9 +43,9 @@ public class PicuServiceImpl implements PicuService{
     @Override
     public void deletePicu(Long picuId) {
         Picu picu = picuRepository.findById(picuId)
-                .orElseThrow(InvalidCalendarAccessException::new);
+                .orElseThrow(PicuNotFoundException::new);
         if(!picu.getUserEmail().equals(authenticationFacade.getUserEmail())) {
-            throw new PermissionMismatchException();
+            throw new InvalidCalendarAccessException();
         }
 
         picuRepository.delete(picu);
