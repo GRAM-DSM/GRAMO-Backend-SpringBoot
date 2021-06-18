@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Random;
 
@@ -20,6 +21,7 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender javaMailSender;
     private final VerifyNumberRepository verifyNumberRepository;
 
+    @Transactional
     @Override
     public void sendAuthNumEmail(EmailRequest request) {
         String authNum = generateVerifyNumber();
@@ -35,13 +37,14 @@ public class EmailServiceImpl implements EmailService {
 
             javaMailSender.send(preparator);
 
-            verifyNumberRepository.save(
+            VerifyNumber number = verifyNumberRepository.save(
                     VerifyNumber.builder()
                             .email(request.getEmail())
                             .verifyNumber(authNum)
                             .build()
             );
 
+            System.out.println(number.getId());
         } catch (Exception e) {
             e.printStackTrace();
             throw new MailSendError();
