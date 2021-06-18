@@ -7,10 +7,14 @@ import com.gramo.gramo.factory.UserFactory;
 import com.gramo.gramo.payload.request.CreateNoticeRequest;
 import com.gramo.gramo.payload.response.NoticeDetailResponse;
 import com.gramo.gramo.payload.response.NoticeListResponse;
+import com.gramo.gramo.payload.response.NoticeResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,11 +36,18 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public NoticeListResponse getNoticeList(int offset, int limitNum) {
-//        int size = limitNum;
-//        int page = offset /
-//        return noticeRepository.
-        return null;
+    public NoticeListResponse getNoticeList(Pageable pageable) {
+        Page<Notice> notices = noticeRepository.findAllByOrDerByCreatedAtDesc(pageable);
+        return new NoticeListResponse(
+                notices.getContent()
+                        .stream().map(notice -> NoticeResponse.builder()
+                        .content(notice.getContent())
+                        .createdAt(notice.getCreatedAt())
+                        .title(notice.getTitle())
+                        .id(notice.getId())
+                        .userName(userFactory.getUserName(notice.getUser().getEmail()))
+                        .build()).collect(Collectors.toList()),
+                notices.getTotalPages() > pageable.getPageNumber());
     }
 
     @Override
