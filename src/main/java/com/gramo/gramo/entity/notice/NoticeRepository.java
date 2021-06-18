@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface NoticeRepository extends CrudRepository<Notice, Long> {
 
-    Page<Notice> findAllByOrDerByCreatedAtDesc(Pageable pageable);
+    Page<Notice> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
 }

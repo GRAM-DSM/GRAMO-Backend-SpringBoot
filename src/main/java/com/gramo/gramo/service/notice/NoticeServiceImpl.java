@@ -37,7 +37,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public NoticeListResponse getNoticeList(Pageable pageable) {
-        Page<Notice> notices = noticeRepository.findAllByOrDerByCreatedAtDesc(pageable);
+        Page<Notice> notices = noticeRepository.findAllByOrderByCreatedAtDesc(pageable);
         return new NoticeListResponse(
                 notices.getContent()
                         .stream().map(notice -> NoticeResponse.builder()
