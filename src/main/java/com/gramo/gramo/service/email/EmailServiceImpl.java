@@ -25,6 +25,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendAuthNumEmail(EmailRequest request) {
         String authNum = generateVerifyNumber();
+        System.out.println(authNum);
 
         try {
             final MimeMessagePreparator preparator = mimeMessage -> {
@@ -37,6 +38,7 @@ public class EmailServiceImpl implements EmailService {
 
             javaMailSender.send(preparator);
 
+            System.out.println(authNum);
             VerifyNumber number = verifyNumberRepository.save(
                     VerifyNumber.builder()
                             .email(request.getEmail())
@@ -44,6 +46,7 @@ public class EmailServiceImpl implements EmailService {
                             .build()
             );
 
+            System.out.println(authNum);
             System.out.println(number.getVerifyNumber());
             System.out.println(number.getEmail());
             System.out.println(number.getId());
