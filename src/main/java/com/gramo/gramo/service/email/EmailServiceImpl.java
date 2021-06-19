@@ -25,31 +25,24 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendAuthNumEmail(EmailRequest request) {
         String authNum = generateVerifyNumber();
-        System.out.println(authNum);
 
         try {
             final MimeMessagePreparator preparator = mimeMessage -> {
                 final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
                 helper.setFrom("gramo@gmail.com");
                 helper.setTo(request.getEmail());
-                helper.setSubject("인증번호는 " + generateVerifyNumber() + " 입니다");
+                helper.setSubject("인증번호는 " + authNum + " 입니다");
                 helper.setText("Gramo");
             };
 
             javaMailSender.send(preparator);
 
-            System.out.println(authNum);
-            VerifyNumber number = verifyNumberRepository.save(
+            verifyNumberRepository.save(
                     VerifyNumber.builder()
                             .email(request.getEmail())
                             .verifyNumber(authNum)
                             .build()
             );
-
-            System.out.println(authNum);
-            System.out.println(number.getVerifyNumber());
-            System.out.println(number.getEmail());
-            System.out.println(number.getId());
         } catch (Exception e) {
             e.printStackTrace();
             throw new MailSendError();
