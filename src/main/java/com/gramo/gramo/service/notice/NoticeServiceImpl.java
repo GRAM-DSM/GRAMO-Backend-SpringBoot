@@ -61,4 +61,5 @@ public class NoticeServiceImpl implements NoticeService {
                         .build())
                 .orElseThrow(NoticeNotFoundException::new);
     }
+
 }

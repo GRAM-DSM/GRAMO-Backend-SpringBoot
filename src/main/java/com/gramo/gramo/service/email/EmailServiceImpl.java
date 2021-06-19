@@ -44,6 +44,8 @@ public class EmailServiceImpl implements EmailService {
                             .build()
             );
 
+            System.out.println(number.getVerifyNumber());
+            System.out.println(number.getEmail());
             System.out.println(number.getId());
         } catch (Exception e) {
             e.printStackTrace();

@@ -56,9 +56,10 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistException();
         }
 
+        System.out.println(verifyUserRepository.findByEmail(request.getEmail()).isEmpty());
         verifyUserRepository.findByEmail(request.getEmail())
                 .ifPresentOrElse(
-                        verifyNumber -> userRepository.save(
+                        verifyUser -> userRepository.save(
                                 User.builder()
                                         .email(request.getEmail())
                                         .emailStatus(true)
@@ -73,8 +74,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void verify(VerifyRequest request) {
-        verifyNumberRepository.findAll()
-                .forEach(verifyNumber -> System.out.println(verifyNumber.getEmail()));
+        System.out.println(verifyNumberRepository.findByEmail(request.getEmail()).isEmpty());
+        System.out.println(verifyNumberRepository.findByEmail(request.getEmail()).get().getEmail());
+        System.out.println(verifyNumberRepository.findByEmail(request.getEmail()).get().getVerifyNumber());
         verifyNumberRepository.findByEmail(request.getEmail())
                 .filter(verifyNumber -> verifyNumber.verifyNumber(request.getCode()))
                 .map(verifyNumber -> verifyUserRepository.save(new VerifyUser(request.getEmail())))
