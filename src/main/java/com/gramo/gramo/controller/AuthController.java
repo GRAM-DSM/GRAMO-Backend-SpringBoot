@@ -20,6 +20,7 @@ public class AuthController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TokenResponse signIn(@RequestBody AuthRequest request) {
+        System.out.println(request.getToken());
         return authService.signIn(request);
     }
 
