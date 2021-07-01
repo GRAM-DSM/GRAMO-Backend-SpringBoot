@@ -5,6 +5,7 @@ import com.gramo.gramo.payload.response.UserInfoListResponse;
 import com.gramo.gramo.payload.response.UserInfoResponse;
 import com.gramo.gramo.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -25,7 +26,9 @@ public class UserController {
     }
 
     @PostMapping("/signup")
+    @ResponseStatus(HttpStatus.CREATED)
     public void signUp(@RequestBody SignUpRequest request) {
         userService.signUp(request);
     }
+
 }
