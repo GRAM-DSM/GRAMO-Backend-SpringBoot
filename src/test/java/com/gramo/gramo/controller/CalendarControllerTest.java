@@ -103,6 +103,7 @@ public class CalendarControllerTest {
                         .major(Major.BACKEND)
                         .emailStatus(true)
                         .email("email")
+                        .token("token")
                         .build()
         );
 

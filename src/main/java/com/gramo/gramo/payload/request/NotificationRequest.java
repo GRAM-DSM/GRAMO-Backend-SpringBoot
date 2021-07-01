@@ -13,8 +13,6 @@ public class NotificationRequest {
 
     private String title;
 
-    private String token;
-
     private String body;
 
 }

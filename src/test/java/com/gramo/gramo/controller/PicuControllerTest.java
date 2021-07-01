@@ -59,6 +59,7 @@ class PicuControllerTest {
                         .email("emailedUser@dsm.hs.kr")
                         .name("hong!")
                         .password("1234")
+                        .token("token")
                         .major(Major.BACKEND)
                         .build()
         );
@@ -69,6 +70,7 @@ class PicuControllerTest {
                         .email("notUser@dsm.hs.kr")
                         .name("nam!")
                         .password("1234")
+                        .token("token")
                         .major(Major.BACKEND)
                         .build()
         );

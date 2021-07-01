@@ -60,6 +60,7 @@ class PlanControllerTest {
                         .name("hong!")
                         .password("1234")
                         .major(Major.BACKEND)
+                        .token("token")
                         .build()
         );
 
@@ -70,6 +71,7 @@ class PlanControllerTest {
                         .name("nam!")
                         .password("1234")
                         .major(Major.BACKEND)
+                        .token("token")
                         .build()
         );
     }

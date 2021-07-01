@@ -8,11 +8,13 @@ import com.gramo.gramo.payload.request.CreateNoticeRequest;
 import com.gramo.gramo.payload.response.NoticeDetailResponse;
 import com.gramo.gramo.payload.response.NoticeListResponse;
 import com.gramo.gramo.payload.response.NoticeResponse;
+import com.gramo.gramo.service.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
@@ -21,10 +23,17 @@ import java.util.stream.Collectors;
 public class NoticeServiceImpl implements NoticeService {
 
     private final NoticeRepository noticeRepository;
+    private final NotificationService notificationService;
     private final UserFactory userFactory;
 
     @Override
+    @Transactional
     public void createNotice(CreateNoticeRequest request) {
+
+        notificationService.sendNotification(userFactory.getAuthUser(),
+                userFactory.getAuthUser().getName() +
+                        "님이 공지사항을 올렸습니다");
+
         noticeRepository.save(
                 Notice.builder()
                         .title(request.getTitle())

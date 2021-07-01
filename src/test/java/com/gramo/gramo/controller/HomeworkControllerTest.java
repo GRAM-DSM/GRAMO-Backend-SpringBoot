@@ -66,6 +66,7 @@ class HomeworkControllerTest {
                         .name("hong!")
                         .password("1234")
                         .major(Major.BACKEND)
+                        .token("token")
                         .build()
         );
 
@@ -74,6 +75,7 @@ class HomeworkControllerTest {
                         .emailStatus(true)
                         .email("teacher@dsm.hs.kr")
                         .name("hong!")
+                        .token("token")
                         .password("1234")
                         .major(Major.BACKEND)
                         .build()
@@ -83,6 +85,7 @@ class HomeworkControllerTest {
                 User.builder()
                         .emailStatus(false)
                         .email("notUser@dsm.hs.kr")
+                        .token("token")
                         .name("nam!")
                         .password("1234")
                         .major(Major.BACKEND)

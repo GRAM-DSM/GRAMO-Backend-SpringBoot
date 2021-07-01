@@ -72,6 +72,7 @@ public class UserControllerTest {
                 .emailStatus(true)
                 .major(Major.BACKEND)
                 .name("hong!")
+                .token("token")
                 .password("aaa")
                 .build();
     }

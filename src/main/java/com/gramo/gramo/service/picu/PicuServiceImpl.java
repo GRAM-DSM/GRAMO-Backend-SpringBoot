@@ -2,6 +2,7 @@ package com.gramo.gramo.service.picu;
 
 import com.gramo.gramo.entity.picu.Picu;
 import com.gramo.gramo.entity.picu.PicuRepository;
+import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.InvalidCalendarAccessException;
 import com.gramo.gramo.exception.PermissionMismatchException;
 import com.gramo.gramo.exception.PicuNotFoundException;
@@ -11,9 +12,11 @@ import com.gramo.gramo.payload.request.PicuRequest;
 import com.gramo.gramo.payload.response.PicuContentResponse;
 import com.gramo.gramo.payload.response.PicuListResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
+import com.gramo.gramo.service.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +29,8 @@ public class PicuServiceImpl implements PicuService{
     private final AuthenticationFacade authenticationFacade;
     private final UserFactory userFactory;
     private final PicuMapper picuMapper;
+    private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Override
     public PicuListResponse getPicu(LocalDate date) {
@@ -36,7 +41,9 @@ public class PicuServiceImpl implements PicuService{
     }
 
     @Override
+    @Transactional
     public void createPicu(PicuRequest request) {
+        notificationService.sendMultipleUser(userRepository.findAllBy(), userFactory.getAuthUser().getName() + "님이 동아리시간에 없습니다 ㅠㅠ");
         picuRepository.save(picuMapper.toPicu(request, userFactory.getAuthUser().getEmail()));
     }
 
