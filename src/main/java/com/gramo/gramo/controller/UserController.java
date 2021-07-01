@@ -8,23 +8,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping
 @RestController
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
+    @GetMapping("/user")
     public UserInfoResponse getUserInfo() {
         return userService.getUserInfo();
     }
 
-    @GetMapping("/list")
+    @GetMapping("/user/list")
     public UserInfoListResponse getUserList() {
         return userService.getUserList();
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     public void signUp(@RequestBody SignUpRequest request) {
         userService.signUp(request);
     }

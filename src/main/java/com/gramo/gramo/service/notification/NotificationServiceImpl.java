@@ -5,6 +5,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.Notification;
 import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.exception.SendNotificationFailed;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -43,9 +45,14 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendMultipleUser(List<User> users, String message) {
-        for (User user : users) {
-            this.sendNotification(user, message);
-        }
+        var fcm = MulticastMessage.builder()
+                .setNotification(Notification.builder()
+                    .setBody(message)
+                    .setTitle("Gramo Notification")
+                    .build())
+                .addAllTokens(users.stream().map(User::getToken).collect(Collectors.toList()))
+                .build();
+        FirebaseMessaging.getInstance().sendMulticastAsync(fcm);
     }
 
     @Override
