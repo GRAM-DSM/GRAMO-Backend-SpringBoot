@@ -57,20 +57,15 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendNotification(User user, String msg) {
-        System.out.println(msg);
-        System.out.println(user.getToken());
-
         try {
             Message message = Message.builder()
                     .setToken(user.getToken())
-                    .putData("hey", "hey")
                     .setNotification(Notification.builder()
                             .setBody(msg)
                             .setTitle("Gramo Notification")
                             .build())
                     .build();
             String response = FirebaseMessaging.getInstance().sendAsync(message).get();
-            System.out.println(response);
         } catch (Exception e) {
             e.printStackTrace();
             throw new SendNotificationFailed();
