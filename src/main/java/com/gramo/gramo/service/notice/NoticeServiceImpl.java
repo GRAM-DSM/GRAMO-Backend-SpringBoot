@@ -2,6 +2,7 @@ package com.gramo.gramo.service.notice;
 
 import com.gramo.gramo.entity.notice.Notice;
 import com.gramo.gramo.entity.notice.NoticeRepository;
+import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.NoticeNotFoundException;
 import com.gramo.gramo.factory.UserFactory;
 import com.gramo.gramo.payload.request.CreateNoticeRequest;
@@ -25,12 +26,13 @@ public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
     private final NotificationService notificationService;
     private final UserFactory userFactory;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
     public void createNotice(CreateNoticeRequest request) {
 
-        notificationService.sendNotification(userFactory.getAuthUser(),
+        notificationService.sendMultipleUser(userRepository.findAllBy(),
                 userFactory.getAuthUser().getName() +
                         "님이 공지사항을 올렸습니다");
 
