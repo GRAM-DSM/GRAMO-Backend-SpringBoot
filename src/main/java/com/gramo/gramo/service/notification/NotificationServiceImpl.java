@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
-    private static final String path = "gramo-d19da-firebase-adminsdk-tka95-218dd64be4";
+    private static final String path = "gramo-d19da-firebase-adminsdk-tka95-218dd64be4.json";
 
     @PostConstruct
     public void init() {
