@@ -44,6 +44,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendMultipleUser(List<User> users, String message) {
+        System.out.println(message);
         var fcm = MulticastMessage.builder()
                 .setNotification(Notification.builder()
                         .setBody(message)
