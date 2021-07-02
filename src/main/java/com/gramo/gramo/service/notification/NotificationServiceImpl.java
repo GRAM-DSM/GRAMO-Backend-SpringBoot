@@ -35,6 +35,7 @@ public class NotificationServiceImpl implements NotificationService {
 
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(firebaseOptions);
+                System.out.println("Initialized!");
             }
 
         } catch (IOException e) {
@@ -44,7 +45,6 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendMultipleUser(List<User> users, String message) {
-        System.out.println(message);
         var fcm = MulticastMessage.builder()
                 .setNotification(Notification.builder()
                         .setBody(message)
@@ -57,6 +57,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendNotification(User user, String msg) {
+        System.out.println(msg);
+        System.out.println(user.getToken());
+
         try {
             Message message = Message.builder()
                     .setToken(user.getToken())
@@ -65,7 +68,7 @@ public class NotificationServiceImpl implements NotificationService {
                             .setTitle("Gramo Notification")
                             .build())
                     .build();
-            FirebaseMessaging.getInstance().sendAsync(message).get();
+            FirebaseMessaging.getInstance().sendAsync(message);
         } catch (Exception e) {
             e.printStackTrace();
             throw new SendNotificationFailed();
