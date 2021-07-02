@@ -68,7 +68,8 @@ public class NotificationServiceImpl implements NotificationService {
                             .setTitle("Gramo Notification")
                             .build())
                     .build();
-            FirebaseMessaging.getInstance().sendAsync(message);
+            String response = FirebaseMessaging.getInstance().sendAsync(message).get();
+            System.out.println(response);
         } catch (Exception e) {
             e.printStackTrace();
             throw new SendNotificationFailed();
