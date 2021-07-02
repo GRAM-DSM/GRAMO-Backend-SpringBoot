@@ -63,6 +63,7 @@ public class NotificationServiceImpl implements NotificationService {
         try {
             Message message = Message.builder()
                     .setToken(user.getToken())
+                    .putData("hey", "hey")
                     .setNotification(Notification.builder()
                             .setBody(msg)
                             .setTitle("Gramo Notification")
