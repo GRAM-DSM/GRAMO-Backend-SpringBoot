@@ -112,7 +112,7 @@ public class CalendarControllerTest {
     private Picu createPicu(User user) {
         return picuRepository.save(
                 Picu.builder()
-                        .date(LocalDate.of(2021,04,1))
+                        .date(LocalDate.of(2021, 04, 1))
                         .description("desc")
                         .userEmail(user.getEmail())
                         .build()
@@ -122,7 +122,7 @@ public class CalendarControllerTest {
     private Plan createPlan(User user) {
         return planRepository.save(
                 Plan.builder()
-                        .date(LocalDate.of(2021,04,1))
+                        .date(LocalDate.of(2021, 04, 1))
                         .description("desc")
                         .title("title")
                         .build()

@@ -22,7 +22,7 @@ public class PicuController {
 
     @GetMapping("/{picuDate}")
     public PicuListResponse getPicu(@DateTimeFormat(pattern = "yyyy-MM-dd")
-                                             @PathVariable LocalDate picuDate) {
+                                    @PathVariable LocalDate picuDate) {
         return picuService.getPicu(picuDate);
     }
 

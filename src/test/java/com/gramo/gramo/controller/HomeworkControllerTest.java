@@ -102,7 +102,7 @@ class HomeworkControllerTest {
 
     @Test
     @WithMockUser(value = "teacher@dsm.hs.kr", password = "1234")
-    public void createHomeworkTest() throws Exception{
+    public void createHomeworkTest() throws Exception {
 
         HomeworkRequest request = HomeworkRequest.builder()
                 .description("description")
@@ -129,12 +129,12 @@ class HomeworkControllerTest {
     @WithMockUser(value = "teacher@dsm.hs.kr", password = "1234")
     public void getHomeworkTest() throws Exception {
 
-        Long id = createHomework("title1",false,false);
-        createHomework("title2",false,false);
-        createHomework("title3",false,false);
-        createHomework("title4",false,false);
+        Long id = createHomework("title1", false, false);
+        createHomework("title2", false, false);
+        createHomework("title3", false, false);
+        createHomework("title4", false, false);
 
-        MvcResult mvcResult = this.mvc.perform(get("/homework/"+id))
+        MvcResult mvcResult = this.mvc.perform(get("/homework/" + id))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -159,10 +159,10 @@ class HomeworkControllerTest {
     @WithMockUser(value = "student@dsm.hs.kr", password = "1234")
     public void getAssignedHomeworkTest() throws Exception {
 
-        Long id = createHomework("title1",false,false);
-        createHomework("title2",false,true);        // 안보임
-        createHomework("title3",true,false);        // 보임(rejected 여부)
-        createHomework("title4",false,false);
+        Long id = createHomework("title1", false, false);
+        createHomework("title2", false, true);        // 안보임
+        createHomework("title3", true, false);        // 보임(rejected 여부)
+        createHomework("title4", false, false);
 
         this.mvc.perform(get("/homework/assign"))
                 .andExpect(status().isOk());
@@ -173,10 +173,10 @@ class HomeworkControllerTest {
     @WithMockUser(value = "student@dsm.hs.kr", password = "1234")
     public void getSubmittedHomeworkTest() throws Exception {
 
-        Long id = createHomework("title1",false,false);
-        createHomework("title2",false,true);        // 얘만 보임
-        createHomework("title3",true,false);
-        createHomework("title4",false,false);
+        Long id = createHomework("title1", false, false);
+        createHomework("title2", false, true);        // 얘만 보임
+        createHomework("title3", true, false);
+        createHomework("title4", false, false);
 
         this.mvc.perform(get("/homework/submit"))
                 .andExpect(status().isOk());
@@ -187,10 +187,10 @@ class HomeworkControllerTest {
     @WithMockUser(value = "teacher@dsm.hs.kr", password = "1234")
     public void getOrderedHomeworkTest() throws Exception {
 
-        Long id = createHomework("title1",false,false);
-        createHomework("title2",false,true);        // 안보임
-        createHomework("title3",true,false);        // 보임(rejected 여부)
-        createHomework("title4",false,false);
+        Long id = createHomework("title1", false, false);
+        createHomework("title2", false, true);        // 안보임
+        createHomework("title3", true, false);        // 보임(rejected 여부)
+        createHomework("title4", false, false);
 
         this.mvc.perform(get("/homework/order"))
                 .andExpect(status().isOk());
@@ -200,9 +200,9 @@ class HomeworkControllerTest {
     @WithMockUser(value = "student@dsm.hs.kr", password = "1234")
     public void deleteHomeworkTest_student() throws Exception {
 
-        Long id = createHomework("title",false,false);
+        Long id = createHomework("title", false, false);
 
-        this.mvc.perform(delete("/homework/"+id))
+        this.mvc.perform(delete("/homework/" + id))
                 .andExpect(status().isUnauthorized());
 
         assertThat(homeworkRepository.findById(id).isEmpty()).isEqualTo(false);
@@ -214,9 +214,9 @@ class HomeworkControllerTest {
     @WithMockUser(value = "teacher@dsm.hs.kr", password = "1234")
     public void deleteHomeworkTest_teacher() throws Exception {
 
-        Long id = createHomework("title",false,false);
+        Long id = createHomework("title", false, false);
 
-        this.mvc.perform(delete("/homework/"+id))
+        this.mvc.perform(delete("/homework/" + id))
                 .andExpect(status().isOk());
 
         assertThat(homeworkRepository.findById(id).isEmpty()).isEqualTo(true);
@@ -227,27 +227,27 @@ class HomeworkControllerTest {
     @WithMockUser(value = "student@dsm.hs.kr", password = "1234")
     public void submitHomeworkTest() throws Exception {
 
-        Long id = createHomework("title",false,false);
-        createHomework("title",false,false);
+        Long id = createHomework("title", false, false);
+        createHomework("title", false, false);
 
-        this.mvc.perform(patch("/homework/"+id))
+        this.mvc.perform(patch("/homework/" + id))
                 .andExpect(status().isCreated());
 
-        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsSubmitted(),true);
+        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsSubmitted(), true);
     }
 
     @Test
     @WithMockUser(value = "teacher@dsm.hs.kr", password = "1234")
     public void submitHomeworkTest_not_student() throws Exception {
 
-        Long id = createHomework("title",false,false);
-        createHomework("title",false,false);
-        createHomework("title",false,false);
+        Long id = createHomework("title", false, false);
+        createHomework("title", false, false);
+        createHomework("title", false, false);
 
-        this.mvc.perform(patch("/homework/"+id))
+        this.mvc.perform(patch("/homework/" + id))
                 .andExpect(status().isUnauthorized());
 
-        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsSubmitted(),false);
+        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsSubmitted(), false);
 
     }
 
@@ -256,26 +256,26 @@ class HomeworkControllerTest {
     @WithMockUser(value = "teacher@dsm.hs.kr", password = "1234")
     public void rejectHomeworkTest() throws Exception {
 
-        Long id = createHomework("title",false,true);
-        createHomework("title2",false,false);
+        Long id = createHomework("title", false, true);
+        createHomework("title2", false, false);
 
-        this.mvc.perform(patch("/homework/reject/"+id)).andDo(print())
+        this.mvc.perform(patch("/homework/reject/" + id)).andDo(print())
                 .andExpect(status().isCreated());
 
-        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsRejected(),true);
+        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsRejected(), true);
     }
 
     @Test
     @WithMockUser(value = "student@dsm.hs.kr", password = "1234")
     public void rejectHomeworkTest_not_teacher() throws Exception {
 
-        Long id = createHomework("title",false,false);
-        createHomework("title",false,false);
+        Long id = createHomework("title", false, false);
+        createHomework("title", false, false);
 
-        this.mvc.perform(patch("/homework/reject/"+id))
+        this.mvc.perform(patch("/homework/reject/" + id))
                 .andExpect(status().isUnauthorized());
 
-        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsRejected(),false);
+        Assertions.assertEquals(homeworkRepository.findById(id).get().getStatus().getIsRejected(), false);
 
     }
 

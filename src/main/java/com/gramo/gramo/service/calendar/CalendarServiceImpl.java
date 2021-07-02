@@ -46,11 +46,11 @@ public class CalendarServiceImpl implements CalendarService {
 
         List<CalendarContentResponse> calendarContentResponses = new ArrayList<>();
 
-        while(!current.isAfter(dateMap.get("endDate"))) {
+        while (!current.isAfter(dateMap.get("endDate"))) {
             calendarContentResponses.add(
                     CalendarContentResponse.builder()
-                            .picuCount(picuMap.get(current) != null ? picuMap.get(current).longValue(): 0)
-                            .planCount(planMap.get(current) != null ? planMap.get(current).longValue(): 0)
+                            .picuCount(picuMap.get(current) != null ? picuMap.get(current).longValue() : 0)
+                            .planCount(planMap.get(current) != null ? planMap.get(current).longValue() : 0)
                             .id(current.getDayOfMonth())
                             .date(current)
                             .build()
@@ -64,7 +64,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     private void getCalendarMap(List<LocalDate> dates,
                                 HashMap<LocalDate, Integer> map) {      // 굳이 반환하지 않고 void로 해도, 여기서의 hashMap 수정사항이 적용 됨
-        dates.forEach(date -> map.merge(date,1,Integer::sum));
+        dates.forEach(date -> map.merge(date, 1, Integer::sum));
     }
 
     private HashMap<String, LocalDate> getDate(YearMonth date) {

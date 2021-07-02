@@ -19,7 +19,8 @@ import javax.persistence.GenerationType;
 @RedisHash(timeToLive = 60 * 3)
 public class VerifyUser {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer UUID;
 
     @Indexed

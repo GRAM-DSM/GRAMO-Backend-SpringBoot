@@ -84,7 +84,7 @@ class PlanControllerTest {
 
     @Test
     @WithMockUser(value = "emailedUser@dsm.hs.kr", password = "1234")
-    public void createPlanTest() throws Exception{
+    public void createPlanTest() throws Exception {
 
         LocalDate date = LocalDate.now();
 
@@ -115,7 +115,7 @@ class PlanControllerTest {
         Long planId = createPlan("title");
         createPlan("title3");
 
-        this.mvc.perform(get("/calendar/plan/"+LocalDate.now()))
+        this.mvc.perform(get("/calendar/plan/" + LocalDate.now()))
                 .andExpect(status().isOk());
     }
 
@@ -125,7 +125,7 @@ class PlanControllerTest {
 
         Long planId = createPlan("title");
 
-        this.mvc.perform(delete("/calendar/plan/"+planId))
+        this.mvc.perform(delete("/calendar/plan/" + planId))
                 .andExpect(status().isOk());
 
         assertThat(planRepository.findById(planId).isEmpty()).isEqualTo(true);

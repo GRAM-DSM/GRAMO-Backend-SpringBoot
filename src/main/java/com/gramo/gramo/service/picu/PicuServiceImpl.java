@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class PicuServiceImpl implements PicuService{
+public class PicuServiceImpl implements PicuService {
 
     private final PicuRepository picuRepository;
     private final AuthenticationFacade authenticationFacade;
@@ -34,7 +34,7 @@ public class PicuServiceImpl implements PicuService{
 
     @Override
     public PicuListResponse getPicu(LocalDate date) {
-        List<PicuContentResponse>  picuList = picuRepository.findAllByDateOrderByIdDesc(date)
+        List<PicuContentResponse> picuList = picuRepository.findAllByDateOrderByIdDesc(date)
                 .stream().map(picu -> picuMapper.toResponse(picu, userFactory.getUserName(picu.getUserEmail())))
                 .collect(Collectors.toList());
         return new PicuListResponse(picuList);
@@ -51,7 +51,7 @@ public class PicuServiceImpl implements PicuService{
     public void deletePicu(Long picuId) {
         Picu picu = picuRepository.findById(picuId)
                 .orElseThrow(PicuNotFoundException::new);
-        if(!picu.getUserEmail().equals(authenticationFacade.getUserEmail())) {
+        if (!picu.getUserEmail().equals(authenticationFacade.getUserEmail())) {
             throw new InvalidCalendarAccessException();
         }
 

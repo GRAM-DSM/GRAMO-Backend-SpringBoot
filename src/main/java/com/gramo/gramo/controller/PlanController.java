@@ -22,7 +22,7 @@ public class PlanController {
 
     @GetMapping("/{planDate}")
     public PlanListResponse getPlan(@DateTimeFormat(pattern = "yyyy-MM-dd")
-                                             @PathVariable LocalDate planDate) {
+                                    @PathVariable LocalDate planDate) {
         return planService.getPlan(planDate);
     }
 

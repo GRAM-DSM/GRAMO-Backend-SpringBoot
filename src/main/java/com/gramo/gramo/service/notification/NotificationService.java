@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface NotificationService {
     void sendNotification(User user, String msg);
+
     void sendMultipleUser(List<User> users, String message);
 }

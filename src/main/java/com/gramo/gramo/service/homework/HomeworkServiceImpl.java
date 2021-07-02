@@ -33,7 +33,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Transactional
     public void saveHomework(HomeworkRequest homeworkRequest) {
         notificationService.sendNotification(
-                userFactory.getUser(homeworkRequest.getStudentEmail()),userFactory.getAuthUser() + "님이 " +
+                userFactory.getUser(homeworkRequest.getStudentEmail()), userFactory.getAuthUser() + "님이 " +
                         userFactory.getUser(homeworkRequest.getStudentEmail()).getName() +
                         "님에게 숙제를 냈습니다.");
 

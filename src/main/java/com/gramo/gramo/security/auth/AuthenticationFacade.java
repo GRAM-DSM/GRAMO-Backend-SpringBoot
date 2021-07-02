@@ -12,7 +12,7 @@ public class AuthenticationFacade {
     }
 
     public String getUserEmail() {
-        return this.getAuthentication().getName() == null ? "": this.getAuthentication().getName();      // 유저 이메일 가져오기
+        return this.getAuthentication().getName() == null ? "" : this.getAuthentication().getName();      // 유저 이메일 가져오기
     }
 
 }

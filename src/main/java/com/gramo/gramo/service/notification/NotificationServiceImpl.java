@@ -9,7 +9,6 @@ import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.Notification;
 import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.exception.SendNotificationFailed;
-import com.gramo.gramo.payload.request.NotificationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,7 @@ public class NotificationServiceImpl implements NotificationService {
                     .setCredentials(googleCredentials)
                     .build();
 
-            if(FirebaseApp.getApps().isEmpty()) {
+            if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(firebaseOptions);
             }
 
@@ -47,9 +46,9 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendMultipleUser(List<User> users, String message) {
         var fcm = MulticastMessage.builder()
                 .setNotification(Notification.builder()
-                    .setBody(message)
-                    .setTitle("Gramo Notification")
-                    .build())
+                        .setBody(message)
+                        .setTitle("Gramo Notification")
+                        .build())
                 .addAllTokens(users.stream().map(User::getToken).collect(Collectors.toList()))
                 .build();
         FirebaseMessaging.getInstance().sendMulticastAsync(fcm);

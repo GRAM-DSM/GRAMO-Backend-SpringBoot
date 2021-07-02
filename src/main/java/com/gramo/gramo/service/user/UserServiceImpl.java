@@ -44,13 +44,13 @@ public class UserServiceImpl implements UserService {
                 .stream().filter(user -> !user.getEmail().equals(authenticationFacade.getUserEmail()))
                 .forEach(user -> userInfoResponses.add(
                         new UserInfoResponse(user.getEmail(), user.getName(), user.getMajor()))
-        );
+                );
         return new UserInfoListResponse(userInfoResponses);
     }
 
     @Override
     public void signUp(SignUpRequest request) {
-        if(userRepository.existsById(request.getEmail())) {
+        if (userRepository.existsById(request.getEmail())) {
             throw new UserAlreadyExistException();
         }
 
@@ -65,7 +65,9 @@ public class UserServiceImpl implements UserService {
                                         .password(passwordEncoder.encode(request.getPassword()))
                                         .build()
                         ),
-                        () -> {throw new VerifyNumNotFoundException();}
+                        () -> {
+                            throw new VerifyNumNotFoundException();
+                        }
                 );
     }
 

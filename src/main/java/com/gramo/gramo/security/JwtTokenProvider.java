@@ -60,7 +60,7 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(header);             // request에서 header 부분을 추출
-        if(bearerToken != null && bearerToken.startsWith(prefix)) {
+        if (bearerToken != null && bearerToken.startsWith(prefix)) {
             return bearerToken.substring(7);                        // Bearer 으로 시작하기 때문에 Bearer의 뒷부분만 반환
         }
         return null;

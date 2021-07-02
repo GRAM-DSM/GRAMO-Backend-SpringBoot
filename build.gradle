@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.2'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
 group = 'com.gramo'
@@ -9,71 +9,71 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-ext {		// 변수같은 개념
-	mapstructVersion = "1.4.0.Beta2"
-	lombokVersion = "1.18.12"
+ext {        // 변수같은 개념
+    mapstructVersion = "1.4.0.Beta2"
+    lombokVersion = "1.18.12"
 }
 
 dependencies {
-	// starter web
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter'
+    // starter web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
 
-	// lombok and mapstruct
-	compileOnly "org.mapstruct:mapstruct:${mapstructVersion}", "org.projectlombok:lombok:${lombokVersion}"
-	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}", "org.projectlombok:lombok:${lombokVersion}"
-	// 다른 방법으로 받으면 작동하지 않아서 조심해야 한다.
+    // lombok and mapstruct
+    compileOnly "org.mapstruct:mapstruct:${mapstructVersion}", "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}", "org.projectlombok:lombok:${lombokVersion}"
+    // 다른 방법으로 받으면 작동하지 않아서 조심해야 한다.
 
-	// test
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 
-	// database
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	runtimeOnly 'mysql:mysql-connector-java'
-	testImplementation 'com.h2database:h2'
+    // database
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'mysql:mysql-connector-java'
+    testImplementation 'com.h2database:h2'
 
-	// validate
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // validate
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	// spring mail
-	implementation "org.springframework.boot:spring-boot-starter-mail"
+    // spring mail
+    implementation "org.springframework.boot:spring-boot-starter-mail"
 
-	// jackson
-	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.2'
+    // jackson
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.2'
 
-	// security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
+    // security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
 
-	// redis
-	compile('org.springframework.boot:spring-boot-starter-data-redis')
-	compile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
+    // redis
+    compile('org.springframework.boot:spring-boot-starter-data-redis')
+    compile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
 
-	// firebase
-	implementation 'com.google.firebase:firebase-admin:7.1.1'
+    // firebase
+    implementation 'com.google.firebase:firebase-admin:7.1.1'
 
-	// redis
-	compile('org.springframework.boot:spring-boot-starter-data-redis')
-	compile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
+    // redis
+    compile('org.springframework.boot:spring-boot-starter-data-redis')
+    compile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
 
 }
 
 compileJava {
-	options.compilerArgs = [
-			'-Amapstruct.defaultComponentModel=spring'		// 이걸 붙여주면 Mapper에서 옵션 설정을 하지 않아도 된다.
-	]
+    options.compilerArgs = [
+            '-Amapstruct.defaultComponentModel=spring'        // 이걸 붙여주면 Mapper에서 옵션 설정을 하지 않아도 된다.
+    ]
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

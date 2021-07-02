@@ -18,7 +18,8 @@ import java.time.LocalDateTime;
 @Table(name = "notice_tbl")
 public class Notice {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
