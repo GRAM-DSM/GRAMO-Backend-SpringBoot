@@ -35,7 +35,7 @@ public class PlanServiceImpl implements PlanService {
     @Override
     @Transactional
     public void postPlan(PlanRequest planRequest) {
-        notificationService.sendMultipleUser(userRepository.findAllBy(), "새로운 계획이 추가되었습니다!");
+        notificationService.sendMultipleUser(userRepository.findAllByTokenNotNull(), "새로운 계획이 추가되었습니다!");
         planRepository.save(planMapper.requestToPlan(planRequest));
 
     }

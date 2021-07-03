@@ -32,7 +32,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Transactional
     public void createNotice(CreateNoticeRequest request) {
 
-        notificationService.sendMultipleUser(userRepository.findAllBy(),
+        notificationService.sendMultipleUser(userRepository.findAllByTokenNotNull(),
                 userFactory.getAuthUser().getName() +
                         "님이 공지사항을 올렸습니다");
 

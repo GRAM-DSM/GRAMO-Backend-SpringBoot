@@ -43,7 +43,7 @@ public class PicuServiceImpl implements PicuService {
     @Override
     @Transactional
     public void createPicu(PicuRequest request) {
-        notificationService.sendMultipleUser(userRepository.findAllBy(), userFactory.getAuthUser().getName() + "님이 동아리시간에 없습니다 ㅠㅠ");
+        notificationService.sendMultipleUser(userRepository.findAllByTokenNotNull(), userFactory.getAuthUser().getName() + "님이 동아리시간에 없습니다 ㅠㅠ");
         picuRepository.save(picuMapper.toPicu(request, userFactory.getAuthUser().getEmail()));
     }
 
