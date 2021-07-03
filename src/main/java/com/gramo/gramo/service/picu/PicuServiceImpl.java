@@ -13,6 +13,7 @@ import com.gramo.gramo.payload.response.PicuContentResponse;
 import com.gramo.gramo.payload.response.PicuListResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
 import com.gramo.gramo.service.notification.NotificationService;
+import com.gramo.gramo.service.notification.enums.NotificationData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,7 @@ public class PicuServiceImpl implements PicuService {
     @Override
     @Transactional
     public void createPicu(PicuRequest request) {
-        notificationService.sendMultipleUser(userRepository.findAllByTokenNotNull(), userFactory.getAuthUser().getName() + "님이 동아리시간에 없습니다 ㅠㅠ");
+        notificationService.sendMultipleUser(userRepository.findAllByTokenNotNull(), NotificationData.CREATE_PICU);
         picuRepository.save(picuMapper.toPicu(request, userFactory.getAuthUser().getEmail()));
     }
 

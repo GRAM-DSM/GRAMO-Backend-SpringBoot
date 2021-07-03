@@ -7,6 +7,7 @@ import com.gramo.gramo.payload.request.PlanRequest;
 import com.gramo.gramo.payload.response.PlanContentResponse;
 import com.gramo.gramo.payload.response.PlanListResponse;
 import com.gramo.gramo.service.notification.NotificationService;
+import com.gramo.gramo.service.notification.enums.NotificationData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class PlanServiceImpl implements PlanService {
     @Override
     @Transactional
     public void postPlan(PlanRequest planRequest) {
-        notificationService.sendMultipleUser(userRepository.findAllByTokenNotNull(), "새로운 계획이 추가되었습니다!");
+        notificationService.sendMultipleUser(userRepository.findAllByTokenNotNull(), NotificationData.CREATE_PLAN);
         planRepository.save(planMapper.requestToPlan(planRequest));
 
     }

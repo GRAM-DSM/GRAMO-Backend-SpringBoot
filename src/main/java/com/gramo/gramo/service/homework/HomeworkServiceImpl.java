@@ -11,6 +11,7 @@ import com.gramo.gramo.payload.request.HomeworkRequest;
 import com.gramo.gramo.payload.response.MyHomeworkResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
 import com.gramo.gramo.service.notification.NotificationService;
+import com.gramo.gramo.service.notification.enums.NotificationData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,10 +33,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     @Transactional
     public void saveHomework(HomeworkRequest homeworkRequest) {
-        notificationService.sendNotification(
-                userFactory.getUser(homeworkRequest.getStudentEmail()), userFactory.getAuthUser() + "님이 " +
-                        userFactory.getUser(homeworkRequest.getStudentEmail()).getName() +
-                        "님에게 숙제를 냈습니다.");
+        notificationService.sendNotification(userFactory.getUser(homeworkRequest.getStudentEmail()), NotificationData.CREATE_HOMEWORK);
 
         homeworkRepository.save(homeworkMapper.toHomework(homeworkRequest, userFactory.getAuthUser().getEmail()));
     }
@@ -48,8 +46,7 @@ public class HomeworkServiceImpl implements HomeworkService {
             throw new PermissionMismatchException();
         }
 
-        notificationService.sendNotification(userFactory.getUser(homework.getStudentEmail()),
-                userFactory.getAuthUser() + "님이 " + homework.getTitle() + " 숙제를 삭제했습니다.");
+        notificationService.sendNotification(userFactory.getUser(homework.getStudentEmail()), NotificationData.CREATE_HOMEWORK);
 
         homeworkRepository.delete(homework);
     }
@@ -94,8 +91,7 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         homework.getStatus().submitHomework();
 
-        notificationService.sendNotification(userFactory.getUser(homework.getStudentEmail()),
-                userFactory.getAuthUser().getName() + "님이 숙제를 제출했습니다.");
+        notificationService.sendNotification(userFactory.getUser(homework.getTeacherEmail()), NotificationData.SUBMIT_HOMEWORK);
 
     }
 
@@ -116,8 +112,7 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         homework.getStatus().rejectHomework();
 
-        notificationService.sendNotification(userFactory.getUser(homework.getStudentEmail()),
-                userFactory.getAuthUser().getName() + "님이 숙제를 반환했습니다.");
+        notificationService.sendNotification(userFactory.getUser(homework.getStudentEmail()), NotificationData.REJECT_HOMEWORK);
     }
 
     private List<MyHomeworkResponse> buildResponseList(List<Homework> homeworkList) {
