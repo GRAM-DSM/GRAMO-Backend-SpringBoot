@@ -38,7 +38,6 @@ public class PlanServiceImpl implements PlanService {
     public void postPlan(PlanRequest planRequest) {
         notificationService.sendMultipleUser(userRepository.findAllByTokenNotNull(), NotificationData.CREATE_PLAN);
         planRepository.save(planMapper.requestToPlan(planRequest));
-
     }
 
     @Override
