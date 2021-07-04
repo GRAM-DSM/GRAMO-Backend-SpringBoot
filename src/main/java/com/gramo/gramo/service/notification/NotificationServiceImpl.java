@@ -3,10 +3,7 @@ package com.gramo.gramo.service.notification;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.MulticastMessage;
-import com.google.firebase.messaging.Notification;
+import com.google.firebase.messaging.*;
 import com.gramo.gramo.entity.user.User;
 import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.SendNotificationFailed;
@@ -69,6 +66,13 @@ public class NotificationServiceImpl implements NotificationService {
                     .setNotification(Notification.builder()
                             .setBody(data.getMessage())
                             .setTitle("Gramo Notification")
+                            .build())
+                    .setAndroidConfig(AndroidConfig.builder()
+                            .setNotification(AndroidNotification.builder()
+                                    .setClickAction(data.getType())
+                                    .setTitle("Gramo Notification")
+                                    .setBody(data.getMessage())
+                                    .build())
                             .build())
                     .putData("type", data.getType())
                     .build();
