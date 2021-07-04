@@ -70,7 +70,7 @@ public class NotificationServiceImpl implements NotificationService {
                     .setAndroidConfig(AndroidConfig.builder()
                             .setNotification(AndroidNotification.builder()
                                     .setClickAction(data.getType())
-                                    .setTitle("Gramo Notification")
+                                    .setTitle("Android Gramo Notification")
                                     .setBody(data.getMessage())
                                     .build())
                             .build())
