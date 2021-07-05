@@ -52,7 +52,13 @@ public class NotificationServiceImpl implements NotificationService {
                         .setBody(data.getMessage())
                         .setTitle("Gramo Notification")
                         .build())
-                .putData("type", data.getType())
+                .setAndroidConfig(AndroidConfig.builder()
+                        .setNotification(AndroidNotification.builder()
+                                .setClickAction(data.getType())
+                                .setTitle("Android Gramo Notification")
+                                .setBody(data.getMessage())
+                                .build())
+                        .build())
                 .addAllTokens(users.stream().filter(user -> !userFactory.getAuthUser().equals(user)).map(User::getToken).collect(Collectors.toList()))
                 .build();
         FirebaseMessaging.getInstance().sendMulticastAsync(fcm);
@@ -76,8 +82,7 @@ public class NotificationServiceImpl implements NotificationService {
                             .build())
                     .build();
 
-            String m = FirebaseMessaging.getInstance().send(message).get();
-            System.out.println(m);
+            FirebaseMessaging.getInstance().sendAsync(message).get();
         } catch (Exception e) {
             throw new SendNotificationFailed();
         }
