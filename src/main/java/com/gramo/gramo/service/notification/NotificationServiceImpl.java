@@ -76,7 +76,7 @@ public class NotificationServiceImpl implements NotificationService {
                             .build())
                     .build();
 
-            String m = FirebaseMessaging.getInstance().sendAsync(message).get();
+            String m = FirebaseMessaging.getInstance().send(message).get();
             System.out.println(m);
         } catch (Exception e) {
             throw new SendNotificationFailed();
