@@ -76,13 +76,13 @@ public class NotificationServiceImpl implements NotificationService {
                     .setAndroidConfig(AndroidConfig.builder()
                             .setNotification(AndroidNotification.builder()
                                     .setClickAction(data.getType())
-                                    .setTitle("Android Gramo Notification")
-                                    .setBody(data.getMessage())
                                     .build())
                             .build())
+                    .putData("title", "Gramo Notification")
+                    .putData("content", data.getMessage())
                     .build();
 
-            FirebaseMessaging.getInstance().sendAsync(message).get();
+            FirebaseMessaging.getInstance().sendAsync(message);
         } catch (Exception e) {
             throw new SendNotificationFailed();
         }
