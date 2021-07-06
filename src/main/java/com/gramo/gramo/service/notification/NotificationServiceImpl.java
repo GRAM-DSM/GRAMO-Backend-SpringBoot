@@ -58,6 +58,8 @@ public class NotificationServiceImpl implements NotificationService {
                                 .setTitle("Android Gramo Notification")
                                 .setBody(data.getMessage())
                                 .build())
+                        .putData("title", "Gramo Notification")
+                        .putData("content", data.getMessage())
                         .build())
                 .addAllTokens(users.stream().filter(user -> !userFactory.getAuthUser().equals(user)).map(User::getToken).collect(Collectors.toList()))
                 .build();
