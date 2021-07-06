@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 public class PicuRequest {
 
     @NotBlank
+    @Size(max = 50)
     private String description;
 
     @FutureOrPresent

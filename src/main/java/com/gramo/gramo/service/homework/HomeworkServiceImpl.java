@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -115,9 +116,9 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     private List<MyHomeworkResponse> buildResponseList(List<Homework> homeworkList) {
-        List<MyHomeworkResponse> myHomeworkResponse = new ArrayList<>();
-        homeworkList.forEach(homework -> myHomeworkResponse.add(buildResponse(homework)));
-        return myHomeworkResponse;
+        return homeworkList.stream()
+                .map(this::buildResponse)
+                .collect(Collectors.toList());
     }
 
     private MyHomeworkResponse buildResponse(Homework homework) {

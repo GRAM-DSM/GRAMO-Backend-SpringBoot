@@ -3,9 +3,7 @@ package com.gramo.gramo.payload.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Getter
@@ -15,9 +13,11 @@ import java.time.LocalDate;
 public class PlanRequest {
 
     @NotBlank
+    @Size(max = 50)
     private String title;
 
     @NotBlank
+    @Size(max = 50)
     private String description;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
