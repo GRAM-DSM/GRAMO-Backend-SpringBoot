@@ -77,9 +77,9 @@ public class NotificationServiceImpl implements NotificationService {
                             .setNotification(AndroidNotification.builder()
                                     .setClickAction(data.getType())
                                     .build())
+                            .putData("title", "Gramo Notification")
+                            .putData("content", data.getMessage())
                             .build())
-                    .putData("title", "Gramo Notification")
-                    .putData("content", data.getMessage())
                     .build();
 
             FirebaseMessaging.getInstance().sendAsync(message);
