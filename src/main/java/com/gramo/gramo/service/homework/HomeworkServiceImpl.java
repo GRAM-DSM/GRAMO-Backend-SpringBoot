@@ -11,7 +11,7 @@ import com.gramo.gramo.payload.request.HomeworkRequest;
 import com.gramo.gramo.payload.response.MyHomeworkResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
 import com.gramo.gramo.service.notification.NotificationService;
-import com.gramo.gramo.service.notification.enums.NotificationData;
+import com.gramo.gramo.service.notification.enums.NotificationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,8 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     @Transactional
     public void saveHomework(HomeworkRequest homeworkRequest) {
-        notificationService.sendNotification(userFactory.getUser(homeworkRequest.getStudentEmail()), NotificationData.CREATE_HOMEWORK);
+        notificationService.sendNotification(userFactory.getUser(homeworkRequest.getStudentEmail()), NotificationType.CREATE_HOMEWORK,
+                homeworkRequest.getTitle());
 
         homeworkRepository.save(homeworkMapper.toHomework(homeworkRequest, userFactory.getAuthUser().getEmail()));
     }
@@ -45,8 +46,6 @@ public class HomeworkServiceImpl implements HomeworkService {
         if (!authenticationFacade.getUserEmail().equals(homework.getTeacherEmail())) {
             throw new PermissionMismatchException();
         }
-
-        notificationService.sendNotification(userFactory.getUser(homework.getStudentEmail()), NotificationData.CREATE_HOMEWORK);
 
         homeworkRepository.delete(homework);
     }
@@ -91,7 +90,7 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         homework.getStatus().submitHomework();
 
-        notificationService.sendNotification(userFactory.getUser(homework.getTeacherEmail()), NotificationData.SUBMIT_HOMEWORK);
+        notificationService.sendNotification(userFactory.getUser(homework.getTeacherEmail()), NotificationType.SUBMIT_HOMEWORK, homework.getTitle());
 
     }
 
@@ -112,7 +111,7 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         homework.getStatus().rejectHomework();
 
-        notificationService.sendNotification(userFactory.getUser(homework.getStudentEmail()), NotificationData.REJECT_HOMEWORK);
+        notificationService.sendNotification(userFactory.getUser(homework.getStudentEmail()), NotificationType.REJECT_HOMEWORK, homework.getTitle());
     }
 
     private List<MyHomeworkResponse> buildResponseList(List<Homework> homeworkList) {

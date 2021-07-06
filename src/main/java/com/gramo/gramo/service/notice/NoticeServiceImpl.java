@@ -10,7 +10,7 @@ import com.gramo.gramo.payload.response.NoticeDetailResponse;
 import com.gramo.gramo.payload.response.NoticeListResponse;
 import com.gramo.gramo.payload.response.NoticeResponse;
 import com.gramo.gramo.service.notification.NotificationService;
-import com.gramo.gramo.service.notification.enums.NotificationData;
+import com.gramo.gramo.service.notification.enums.NotificationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +34,7 @@ public class NoticeServiceImpl implements NoticeService {
     public void createNotice(CreateNoticeRequest request) {
 
         notificationService.sendMultipleUser(userRepository.findAllByTokenNotNull(),
-                NotificationData.NOTICE);
+                NotificationType.NOTICE, request.getTitle());
 
         noticeRepository.save(
                 Notice.builder()

@@ -5,10 +5,9 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
 import com.gramo.gramo.entity.user.User;
-import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.SendNotificationFailed;
 import com.gramo.gramo.factory.UserFactory;
-import com.gramo.gramo.service.notification.enums.NotificationData;
+import com.gramo.gramo.service.notification.enums.NotificationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -46,11 +45,11 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendMultipleUser(List<User> users, NotificationData data) {
+    public void sendMultipleUser(List<User> users, NotificationType data, String content) {
         var fcm = MulticastMessage.builder()
                 .setAndroidConfig(AndroidConfig.builder()
-                        .putData("title", "Gramo Notification")
-                        .putData("content", data.getMessage())
+                        .putData("title", data.getTitle())
+                        .putData("content", content)
                         .putData("click_action", data.getType())
                         .build())
                 .addAllTokens(users.stream().filter(user -> !userFactory.getAuthUser().equals(user)).map(User::getToken).collect(Collectors.toList()))
@@ -59,13 +58,13 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendNotification(User user, NotificationData data) {
+    public void sendNotification(User user, NotificationType data, String content) {
         try {
             Message message = Message.builder()
                     .setToken(user.getToken())
                     .setAndroidConfig(AndroidConfig.builder()
-                            .putData("title", "Gramo Notification")
-                            .putData("content", data.getMessage())
+                            .putData("title", data.getTitle())
+                            .putData("content", content)
                             .putData("click_action", data.getType())
                             .build())
                     .build();

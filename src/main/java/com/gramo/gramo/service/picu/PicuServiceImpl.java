@@ -4,7 +4,6 @@ import com.gramo.gramo.entity.picu.Picu;
 import com.gramo.gramo.entity.picu.PicuRepository;
 import com.gramo.gramo.entity.user.UserRepository;
 import com.gramo.gramo.exception.InvalidCalendarAccessException;
-import com.gramo.gramo.exception.PermissionMismatchException;
 import com.gramo.gramo.exception.PicuNotFoundException;
 import com.gramo.gramo.factory.UserFactory;
 import com.gramo.gramo.mapper.PicuMapper;
@@ -13,7 +12,7 @@ import com.gramo.gramo.payload.response.PicuContentResponse;
 import com.gramo.gramo.payload.response.PicuListResponse;
 import com.gramo.gramo.security.auth.AuthenticationFacade;
 import com.gramo.gramo.service.notification.NotificationService;
-import com.gramo.gramo.service.notification.enums.NotificationData;
+import com.gramo.gramo.service.notification.enums.NotificationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,7 @@ public class PicuServiceImpl implements PicuService {
     @Override
     @Transactional
     public void createPicu(PicuRequest request) {
-        notificationService.sendMultipleUser(userRepository.findAllByTokenNotNull(), NotificationData.CREATE_PICU);
+        notificationService.sendMultipleUser(userRepository.findAllByTokenNotNull(), NotificationType.CREATE_PICU, request.getDescription());
         picuRepository.save(picuMapper.toPicu(request, userFactory.getAuthUser().getEmail()));
     }
 
