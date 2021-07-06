@@ -49,7 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
         var fcm = MulticastMessage.builder()
                 .setAndroidConfig(AndroidConfig.builder()
                         .putData("title", data.getTitle())
-                        .putData("content", content)
+                        .putData("body", content)
                         .putData("click_action", data.getType())
                         .build())
                 .addAllTokens(users.stream().filter(user -> !userFactory.getAuthUser().equals(user)).map(User::getToken).collect(Collectors.toList()))
@@ -64,7 +64,7 @@ public class NotificationServiceImpl implements NotificationService {
                     .setToken(user.getToken())
                     .setAndroidConfig(AndroidConfig.builder()
                             .putData("title", data.getTitle())
-                            .putData("content", content)
+                            .putData("body", content)
                             .putData("click_action", data.getType())
                             .build())
                     .build();
