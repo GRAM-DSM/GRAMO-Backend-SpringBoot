@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     @Override
@@ -41,6 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .antMatchers("/sendemail").permitAll()
                 .antMatchers("/checkcode").permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .httpBasic()
+                .authenticationEntryPoint(customAuthenticationEntryPoint)
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }
