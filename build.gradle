@@ -30,7 +30,7 @@ dependencies {
 
     // lombok and mapstruct
     implementation "org.mapstruct:mapstruct:1.4.2.Final"
-    implementation "org.projectlombok:lombok:1.18.20"F
+    implementation "org.projectlombok:lombok:1.18.20"
     implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
     annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
