@@ -52,6 +52,10 @@ public class NotificationServiceImpl implements NotificationService {
                         .putData("body", content)
                         .putData("click_action", data.getType())
                         .build())
+                .setNotification(Notification.builder()
+                        .setTitle(data.getTitle())
+                        .setBody(content)
+                        .build())
                 .addAllTokens(users.stream().filter(user -> !userFactory.getAuthUser().equals(user)).map(User::getToken).collect(Collectors.toList()))
                 .build();
         FirebaseMessaging.getInstance().sendMulticastAsync(fcm);
@@ -67,6 +71,9 @@ public class NotificationServiceImpl implements NotificationService {
                             .putData("body", content)
                             .putData("click_action", data.getType())
                             .build())
+                    .setNotification(Notification.builder()
+                            .setTitle(data.getTitle())
+                            .setBody(content)
                     .build();
             FirebaseMessaging.getInstance().sendAsync(message);
         } catch (Exception e) {
