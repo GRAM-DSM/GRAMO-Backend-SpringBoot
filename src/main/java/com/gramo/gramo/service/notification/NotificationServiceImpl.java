@@ -74,6 +74,7 @@ public class NotificationServiceImpl implements NotificationService {
                     .setNotification(Notification.builder()
                             .setTitle(data.getTitle())
                             .setBody(content)
+                            .build())
                     .build();
             FirebaseMessaging.getInstance().sendAsync(message);
         } catch (Exception e) {
