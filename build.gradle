@@ -20,7 +20,7 @@ repositories {
 
 ext {        // 변수같은 개념
     mapstructVersion = "1.4.0.Beta2"
-    lombokVersion = "1.18.12"
+    lombokVersion = "1.18.20"
 }
 
 dependencies {
